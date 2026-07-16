@@ -139,7 +139,8 @@ function renderError(msg) {
 /* ── Main ── */
 async function init() {
   try {
-    const data = await fetch('data.json').then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); });
+    const build = document.documentElement.dataset.build || '0';
+    const data = await fetch(`data.json?v=${build}`).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); });
     renderProfile(data.profile);
     renderRepos(data.repos);
   } catch (err) {

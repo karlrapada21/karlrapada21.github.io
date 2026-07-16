@@ -67,7 +67,12 @@ async function main() {
   const fs = await import('node:fs');
   fs.writeFileSync('data.json', JSON.stringify(data, null, 2), 'utf-8');
 
-  console.log(`Done — ${featured.length} featured repos written to data.json`);
+  const buildTimestamp = data.updated_at;
+  let html = fs.readFileSync('index.html', 'utf-8');
+  html = html.replace(/data-build="[^"]*"/, `data-build="${buildTimestamp}"`);
+  fs.writeFileSync('index.html', html, 'utf-8');
+
+  console.log(`Done — ${featured.length} featured repos written to data.json (build: ${buildTimestamp})`);
 }
 
 main().catch(err => {
