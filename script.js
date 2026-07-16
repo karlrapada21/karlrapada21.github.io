@@ -1,5 +1,5 @@
 /* ── Configuration ── */
-const GITHUB_USERNAME = 'JoeMama'; // Change this to your GitHub username
+const GITHUB_USERNAME = 'karlrapada21'; // Change this to your GitHub username
 
 /* ── Theme ── */
 (function initTheme() {
