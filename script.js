@@ -51,8 +51,9 @@ function esc(str) {
 
 /* ── Render ── */
 function renderProfile(p) {
-  document.getElementById('profile').innerHTML = `
-    <div class="profile-card fade-in visible">
+  const section = document.getElementById('profile');
+  section.innerHTML = `
+    <div class="profile-card">
       <a href="${p.html_url}" target="_blank" rel="noopener">
         <img class="profile-avatar" src="${p.avatar_url}&s=240" alt="${p.login}" loading="lazy" width="120" height="120">
       </a>
@@ -75,6 +76,7 @@ function renderProfile(p) {
       </div>
     </div>
   `;
+  section.classList.add('visible');
 }
 
 function renderRepos(repos) {
@@ -144,5 +146,10 @@ async function init() {
     renderError(err.message);
   }
 }
+
+/* ── Reveal elements when they enter viewport ── */
+new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 }).observe(document.querySelector('.section-title'));
 
 init();
