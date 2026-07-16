@@ -1,283 +1,257 @@
-/* ═══════════════════════════════════════════
-   THEME — dark/light (professional page)
-   ═══════════════════════════════════════════ */
-(function initTheme() {
-  const root = document.documentElement;
-  const toggle = document.getElementById('theme-toggle');
-  if (!toggle) return;
+document.addEventListener("DOMContentLoaded", () => {
+  gsap.registerPlugin(ScrollTrigger, EasePack);
 
-  const saved = localStorage.getItem('theme');
-  if (saved) {
-    root.setAttribute('data-theme', saved);
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    root.setAttribute('data-theme', 'dark');
+  initTypewriter();
+  initParticles();
+  initCounters();
+  initScrollReveal();
+  initNavScroll();
+  initRoughGlitches();
+  initFormGlitch();
+});
+
+/* ===== Typewriter Effect ===== */
+function initTypewriter() {
+  const el = document.querySelector(".typewriter");
+  const phrases = [
+    "> Web Developer",
+    "> AI Enthusiast",
+    "> Problem Solver",
+    "> Code Architect",
+    "> Pixel Perfectionist"
+  ];
+  let phraseIdx = 0;
+  let charIdx = 0;
+  let isDeleting = false;
+
+  function tick() {
+    const current = phrases[phraseIdx];
+    if (!isDeleting) {
+      el.textContent = current.substring(0, charIdx + 1);
+      charIdx++;
+      if (charIdx === current.length) {
+        setTimeout(() => { isDeleting = true; tick(); }, 2000);
+        return;
+      }
+    } else {
+      el.textContent = current.substring(0, charIdx - 1);
+      charIdx--;
+      if (charIdx === 0) {
+        isDeleting = false;
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+        setTimeout(tick, 400);
+        return;
+      }
+    }
+    const speed = isDeleting ? 40 : 80;
+    setTimeout(tick, speed);
   }
 
-  toggle.addEventListener('click', () => {
-    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-  });
-})();
-
-/* ═══════════════════════════════════════════
-   UTILS
-   ═══════════════════════════════════════════ */
-function esc(str) {
-  if (!str) return '';
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
+  setTimeout(tick, 500);
 }
 
-function formatDate(iso) {
-  if (!iso) return '';
-  const diff = Date.now() - new Date(iso).getTime();
-  const s = Math.floor(diff / 1000);
-  if (s < 60) return 'just now';
-  const m = Math.floor(s / 60);
-  if (m < 60) return `${m}m ago`;
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h}h ago`;
-  const d = Math.floor(h / 24);
-  if (d < 30) return `${d}d ago`;
-  const mo = Math.floor(d / 30);
-  if (mo < 12) return `${mo}mo ago`;
-  return `${Math.floor(d / 365)}y ago`;
+/* ===== Particle Background ===== */
+function initParticles() {
+  const canvas = document.getElementById("bg-canvas");
+  const ctx = canvas.getContext("2d");
+  let w, h;
+  const particles = [];
+  const MAX = 80;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  class Particle {
+    constructor() {
+      this.reset(true);
+    }
+
+    reset(init) {
+      this.x = init ? Math.random() * w : Math.random() * w;
+      this.y = init ? Math.random() * h : h + 10;
+      this.size = Math.random() * 1.5 + 0.5;
+      this.speedY = Math.random() * 0.4 + 0.1;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.opacity = Math.random() * 0.5 + 0.1;
+      this.hue = Math.random() < 0.5 ? "5accf5" : "f55a6b";
+    }
+
+    update() {
+      this.y -= this.speedY;
+      this.x += this.speedX + Math.sin(this.y * 0.01) * 0.2;
+      if (this.y < -10) { this.y = h + 10; this.x = Math.random() * w; }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `#${this.hue}`;
+      ctx.globalAlpha = this.opacity;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < MAX; i++) particles.push(new Particle());
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => { p.update(); p.draw(); });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(animate);
+  }
+  animate();
 }
 
-const langColors = {
-  JavaScript:'#f1e05a',TypeScript:'#3178c6',Python:'#3572A5',
-  Java:'#b07219','C#':'#178600','C++':'#f34b7d',C:'#555555',
-  Go:'#00ADD8',Rust:'#dea584',Ruby:'#701516',PHP:'#4F5D95',
-  Swift:'#F05138',Kotlin:'#A97BFF',Dart:'#00B4AB',
-  HTML:'#e34c26',CSS:'#563d7c',Shell:'#89e051',
-  Vue:'#41b883',Svelte:'#ff3e00',Blade:'#fb503b',
-};
+/* ===== Counter Animation ===== */
+function initCounters() {
+  const counters = document.querySelectorAll(".stat-number");
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = +el.dataset.target;
+        const suffix = el.textContent.includes("%") ? "%" : "";
+        const duration = 1500;
+        const start = performance.now();
 
-function langColor(l) { return langColors[l] || '#8b949e'; }
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.round(eased * target);
+          el.textContent = current + suffix;
+          if (progress < 1) requestAnimationFrame(update);
+        }
 
-/* ═══════════════════════════════════════════
-   SCROLL REVEAL
-   ═══════════════════════════════════════════ */
-(function initReveal() {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('visible');
+        requestAnimationFrame(update);
+        observer.unobserve(el);
+      }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-})();
+  }, { threshold: 0.5 });
 
-/* ═══════════════════════════════════════════
-   HEADER SCROLL + ACTIVE LINK
-   ═══════════════════════════════════════════ */
-(function initHeader() {
-  const header = document.getElementById('header');
-  const navLinks = document.querySelectorAll('.nav a[href^="#"]');
-  const sections = document.querySelectorAll('section[id]');
+  counters.forEach(c => observer.observe(c));
+}
 
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 20);
-    let current = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+/* ===== Scroll Reveal ===== */
+function initScrollReveal() {
+  const revealElements = document.querySelectorAll(
+    ".section-title, .terminal-box, .stat-card, .cert-card, .project-card, .timeline-item, .tag"
+  );
+
+  revealElements.forEach(el => el.classList.add("reveal"));
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
     });
-    navLinks.forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === `#${current}`);
+  }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+
+  revealElements.forEach(el => observer.observe(el));
+}
+
+/* ===== Active Nav Link on Scroll ===== */
+function initNavScroll() {
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.style.color = link.getAttribute("href") === `#${entry.target.id}`
+            ? "#5accf5"
+            : "";
+          link.style.textShadow = link.getAttribute("href") === `#${entry.target.id}`
+            ? "0 0 10px #5accf5, 0 0 40px rgba(90,204,245,0.25)"
+            : "";
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+
+  sections.forEach(s => observer.observe(s));
+}
+
+/* ===== Random Glitch Bursts ===== */
+function initRoughGlitches() {
+  const glitchTargets = document.querySelectorAll(".glitch, .section-title, .cert-card");
+
+  function randomGlitch() {
+    const el = glitchTargets[Math.floor(Math.random() * glitchTargets.length)];
+    if (!el) return;
+
+    const original = el.style.transform;
+    const shakeX = (Math.random() - 0.5) * 8;
+    const shakeY = (Math.random() - 0.5) * 4;
+
+    gsap.to(el, {
+      x: shakeX,
+      y: shakeY,
+      duration: 0.05,
+      repeat: 3,
+      yoyo: true,
+      ease: "power4.inOut",
+      onComplete: () => { gsap.set(el, { x: 0, y: 0 }); }
+    });
+
+    gsap.to(el, {
+      textShadow: () => {
+        const h = Math.random() * 360;
+        return `3px 0 rgba(255,0,0,0.6), -3px 0 rgba(0,255,255,0.6)`;
+      },
+      duration: 0.1,
+      yoyo: true,
+      repeat: 1
+    });
+
+    setTimeout(randomGlitch, Math.random() * 6000 + 3000);
+  }
+
+  setTimeout(randomGlitch, 3000);
+}
+
+/* ===== Form Submit Glitch Effect ===== */
+function initFormGlitch() {
+  const form = document.querySelector(".contact-form");
+  if (!form) return;
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const btn = form.querySelector(".btn");
+    const originalText = btn.textContent;
+    const garbled = ["S3ND1NG", "SEND_M3SS4GE", "TRANSMITTING", "UPLOADING..."];
+
+    let i = 0;
+    const interval = setInterval(() => {
+      btn.textContent = garbled[i % garbled.length];
+      i++;
+    }, 100);
+
+    gsap.to(btn, {
+      x: () => (Math.random() - 0.5) * 12,
+      y: () => (Math.random() - 0.5) * 6,
+      duration: 0.05,
+      repeat: 8,
+      yoyo: true,
+      onComplete: () => {
+        clearInterval(interval);
+        btn.textContent = "MESSAGE_SENT // OK";
+        btn.style.borderColor = "#39ff14";
+        btn.style.color = "#39ff14";
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.borderColor = "";
+          btn.style.color = "";
+          form.reset();
+        }, 3000);
+      }
     });
   });
-})();
-
-/* ═══════════════════════════════════════════
-   MOBILE MENU
-   ═══════════════════════════════════════════ */
-(function initMenu() {
-  const btn = document.getElementById('menu-btn');
-  const nav = document.getElementById('nav');
-  if (!btn || !nav) return;
-  btn.addEventListener('click', () => {
-    btn.classList.toggle('open');
-    nav.classList.toggle('open');
-  });
-  nav.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      btn.classList.remove('open');
-      nav.classList.remove('open');
-    });
-  });
-})();
-
-/* ═══════════════════════════════════════════
-   SAKURA PETALS (Japan page only)
-   ═══════════════════════════════════════════ */
-(function initPetals() {
-  const field = document.getElementById('petal-field');
-  if (!field) return;
-  for (let i = 0; i < 35; i++) {
-    const petal = document.createElement('div');
-    petal.className = 'petal';
-    petal.style.setProperty('--sz', `${Math.random() * 10 + 6}px`);
-    petal.style.setProperty('--dur', `${Math.random() * 8 + 7}s`);
-    petal.style.setProperty('--delay', `${Math.random() * 12}s`);
-    petal.style.setProperty('--drift', `${(Math.random() - 0.5) * 120}px`);
-    petal.style.setProperty('--spin', `${Math.random() * 720}deg`);
-    petal.style.left = `${Math.random() * 100}%`;
-    field.appendChild(petal);
-  }
-})();
-
-/* ═══════════════════════════════════════════
-   DATA FETCH + RENDER
-   ═══════════════════════════════════════════ */
-async function fetchData() {
-  const build = document.documentElement.dataset.build || '0';
-  const res = await fetch(`data.json?v=${build}`);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.json();
 }
-
-function renderHeroAvatar(profile) {
-  const frame = document.getElementById('hero-avatar');
-  if (!frame) return;
-  const isJapan = document.querySelector('.avatar-round') !== null;
-  if (isJapan) {
-    frame.innerHTML = `<img src="${profile.avatar_url}&s=300" alt="${profile.login}" width="130" height="130">`;
-  } else {
-    frame.innerHTML = `<img src="${profile.avatar_url}&s=400" alt="${profile.login}" width="260" height="260">`;
-  }
-}
-
-function renderRepoCount(count) {
-  const el = document.getElementById('gh-repos-count');
-  if (el) el.textContent = `${count} public repos`;
-}
-
-function renderProjects(repos) {
-  const grid = document.getElementById('projects-grid');
-  if (!grid) return;
-  if (!repos.length) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:48px 0;">No featured projects yet. Add the <strong>featured</strong> topic to a public repository and run <code style="font-family:var(--font-mono);background:var(--tag-bg);padding:2px 6px;border-radius:4px;">node build.js</code></div>`;
-    return;
-  }
-
-  grid.innerHTML = '';
-  repos.forEach((r, i) => {
-    const card = document.createElement('div');
-    card.className = 'project-card';
-    card.style.transitionDelay = `${i * 0.06}s`;
-
-    card.innerHTML = `<div class="proj-name">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 010-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 11-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8z"/></svg>
-      <a href="${r.html_url}" target="_blank" rel="noopener">${esc(r.name)}</a>
-    </div>
-    <p class="proj-desc">${esc(r.description || 'No description.')}</p>
-    <div class="proj-meta">
-      ${r.language ? `<span class="proj-lang"><span class="proj-lang-dot" style="background:${langColor(r.language)}"></span>${esc(r.language)}</span>` : ''}
-      <span class="proj-stars">
-        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.751.751 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
-        ${r.stargazers_count}
-      </span>
-      <span class="proj-updated">${formatDate(r.updated_at)}</span>
-    </div>
-    <div class="proj-topics">${(r.topics||[]).map(t => `<span class="proj-topic">${esc(t)}</span>`).join('')}</div>
-    <div class="proj-actions">
-      <a href="${r.html_url}" target="_blank" rel="noopener" class="proj-btn proj-btn-fill">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        GitHub
-      </a>
-      ${r.homepage ? `<a href="${r.homepage}" target="_blank" rel="noopener" class="proj-btn proj-btn-ghost">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Live Demo
-      </a>` : ''}
-    </div>`;
-
-    grid.appendChild(card);
-    requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('visible')));
-  });
-}
-
-/* ═══════════════════════════════════════════
-   RESUME MODAL
-   ═══════════════════════════════════════════ */
-(function initResumeModal() {
-  const overlay = document.getElementById('resume-modal');
-  if (!overlay) return;
-  const content = document.getElementById('modal-content');
-  const triggers = ['resume-btn', 'footer-resume-btn'];
-
-  const resumeHTML = `
-    <h2>Karl Lynuz B. Rapada</h2>
-    <p class="modal-sub">
-      Web Developer &middot; Marikina City, Philippines<br>
-      <a href="mailto:karlrapada@gmail.com">karlrapada@gmail.com</a> &middot; +63 921 746 8502<br>
-      <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" rel="noopener">LinkedIn</a> &middot; <a href="https://github.com/karlrapada21" target="_blank" rel="noopener">GitHub</a>
-    </p>
-
-    <h3>Education</h3>
-    <p><strong>BS Information Technology</strong> — IETI College of Science and Technology, Marikina</p>
-    <p>Graduated June 2026 &middot; Dean's Lister</p>
-    <p style="margin-top:8px"><em>Relevant Coursework:</em> Web Development, Mobile App Development, Database Systems, Software Engineering, UI/UX Design, Machine Learning</p>
-    <p><em>Capstone:</em> Skin Lesions Detection App Using AI and CNNs</p>
-
-    <h3>Experience</h3>
-    <p><strong>IT Intern (Web Developer)</strong> — Knowles Training Institute, Singapore <em>(Jan – Apr 2026)</em></p>
-    <ul>
-      <li>Built and maintained responsive web applications using HTML, CSS, JavaScript, and SQL</li>
-      <li>Applied UI/UX principles to improve internal tools and user workflows</li>
-      <li>Integrated CNN-based image classification into a web prototype for skin lesion analysis</li>
-      <li>Recognized for clean code, deadlines, and positive feedback from IT lead</li>
-    </ul>
-    <p style="margin-top:12px"><strong>Freelance Web Developer</strong> — Self-Employed <em>(2024 – Present)</em></p>
-    <ul>
-      <li>Built custom responsive websites for small businesses and individuals on commission</li>
-      <li>Ensured cross-browser compatibility and mobile responsiveness within tight deadlines</li>
-      <li>Maintained post-launch support and updates based on client feedback</li>
-    </ul>
-
-    <h3>Projects</h3>
-    <p><strong>SkinLesionAI</strong> — Flask, PyTorch, SQLite, Bootstrap, OpenCV, Grad-CAM++</p>
-    <ul><li>Medical-grade web app classifying 8 skin lesion types using ResNeXt50 (85% accuracy), with Grad-CAM++ visual explanations and clinical reports</li></ul>
-    <p style="margin-top:8px"><strong>BITSI Dispatch</strong> — Laravel 12, Livewire 3, Tailwind CSS, MySQL, Semaphore API</p>
-    <ul><li>Live dispatch board with auto-refresh, driver attendance tracking, SMS alerts, and vehicle PMS alerts</li></ul>
-    <p style="margin-top:8px"><strong>Intern Management System</strong> — React, Vite, Tailwind CSS</p>
-    <ul><li>All-in-one intern tracking platform with attendance, task management, and role-based access</li></ul>
-
-    <h3>Certifications</h3>
-    <p>CCNA 1–3 &middot; TOPCIT Level 3 &middot; NCII CSS & ICT &middot; Python Essentials 1–2 &middot; CompTIA A+</p>
-  `;
-
-  function open() {
-    content.innerHTML = resumeHTML;
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function close() {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  triggers.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('click', e => { e.preventDefault(); open(); });
-  });
-  document.getElementById('modal-close').addEventListener('click', close);
-  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) close(); });
-})();
-
-/* ═══════════════════════════════════════════
-   INIT
-   ═══════════════════════════════════════════ */
-async function init() {
-  try {
-    const data = await fetchData();
-    renderHeroAvatar(data.profile);
-    renderRepoCount(data.profile.public_repos);
-    renderProjects(data.repos);
-  } catch (err) {
-    console.error('Failed to load portfolio data:', err);
-  }
-}
-
-init();

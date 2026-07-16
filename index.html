@@ -1,258 +1,244 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" data-build="2026-07-16T13:09:08.056Z">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Karl Rapada — Web Developer</title>
-  <link rel="preload" href="data.json" as="fetch" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
+  <title>Karl Lynuz B. Rapada | Web Developer</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Kode+Mono:wght@400..700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <header class="header" id="header">
-    <div class="header-inner">
-      <a href="#hero" class="logo">Karl Rapada</a>
-      <nav class="nav" id="nav">
-        <a href="#about">About</a>
-        <a href="#experience">Experience</a>
-        <a href="#projects">Projects</a>
-        <a href="#education">Education</a>
-        <a href="#contact">Contact</a>
-        <a href="#" class="nav-cta" id="resume-btn">Resume</a>
-      </nav>
-      <a href="japan.html" class="theme-switch-btn" title="Switch to Japan theme">&#10038;</a>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-      <button class="menu-btn" id="menu-btn" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+  <div class="scanlines"></div>
+  <div class="noise"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <header>
+    <nav id="navbar">
+      <a href="#hero" class="nav-link glitch-hover" data-text="HOME">HOME</a>
+      <a href="#about" class="nav-link glitch-hover" data-text="ABOUT">ABOUT</a>
+      <a href="#experience" class="nav-link glitch-hover" data-text="XP">XP</a>
+      <a href="#projects" class="nav-link glitch-hover" data-text="PROJECTS">PROJECTS</a>
+      <a href="#certificates" class="nav-link glitch-hover" data-text="CERTS">CERTS</a>
+      <a href="#contact" class="nav-link glitch-hover" data-text="CONTACT">CONTACT</a>
+    </nav>
   </header>
 
-  <!-- Hero -->
-  <section id="hero" class="hero">
-    <div class="hero-grid">
-      <div class="hero-text">
-        <p class="hero-eyebrow reveal">Web Developer</p>
-        <h1 class="hero-heading reveal">Karl Lynuz B. Rapada</h1>
-        <p class="hero-desc reveal">I build performant, accessible web applications. Based in Marikina City, Philippines — recently graduated with a BS in Information Technology and hands-on experience in full-stack development, AI integration, and UI/UX.</p>
-        <div class="hero-actions reveal">
-          <a href="#projects" class="btn btn-fill">View Projects</a>
-          <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+  <main>
+    <section id="hero">
+      <div class="hero-content">
+        <div class="glitch-wrapper">
+          <h1 class="glitch" data-text="KARL LYNUZ B. RAPADA">KARL LYNUZ B. RAPADA</h1>
+        </div>
+        <div class="typewriter-container">
+          <span class="typewriter"></span><span class="cursor">_</span>
+        </div>
+        <p class="hero-subtitle">&gt;&gt; FULL-STACK WEB DEVELOPER // AI &amp; SYSTEMS ENTHUSIAST</p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn btn-primary glitch-hover" data-text="GET_IN_TOUCH">GET_IN_TOUCH</a>
+          <a href="#projects" class="btn btn-secondary glitch-hover" data-text="VIEW_WORK">VIEW_WORK</a>
         </div>
       </div>
-      <div class="hero-visual reveal">
-        <div class="avatar-frame" id="hero-avatar">
-          <div class="avatar-placeholder"></div>
-        </div>
+      <div class="scroll-indicator">
+        <span class="arrow"></span>
+        <span class="arrow"></span>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- About -->
-  <section id="about" class="section">
-    <div class="container">
-      <div class="section-label reveal">About</div>
-      <h2 class="section-title reveal">Turning complex problems into simple, elegant solutions.</h2>
-      <div class="about-grid reveal">
-        <div class="about-text">
-          <p>I specialize in building responsive, user-centric web applications using modern tools and frameworks. My approach combines clean architecture with thoughtful design — every project starts with understanding the people who will use it.</p>
-          <p>During my internship at <strong>Knowles Training Institute, Singapore</strong>, I integrated CNN-based image classification into a production web prototype and earned recognition for clean code and consistent delivery.</p>
-          <p>Outside of work, I'm either pushing commits, exploring ML models, or studying for my next certification.</p>
+    <section id="about">
+      <h2 class="section-title"><span class="bracket">[</span> ABOUT_ME <span class="bracket">]</span></h2>
+      <div class="about-grid">
+        <div class="about-text terminal-box">
+          <p><span class="prompt">&gt;</span> I'm a <strong class="highlight">BSIT graduate</strong> from IETI College of Science and Technology, Marikina — a Dean's Lister with hands-on experience in web development, machine learning, and software engineering.</p>
+          <p><span class="prompt">&gt;</span> My capstone project, <strong class="highlight">Skin Lesions Detection App</strong>, uses CNN-based AI to classify skin lesions from images — bridging healthcare and deep learning.</p>
+          <p><span class="prompt">&gt;</span> I thrive at the intersection of <strong class="highlight">clean code</strong>, <strong class="highlight">UI/UX design</strong>, and <strong class="highlight">emerging tech</strong>. Currently building robust web apps and exploring AI integration.</p>
         </div>
-        <div class="about-meta">
-          <div class="meta-item">
-            <span class="meta-label">Location</span>
-            <span class="meta-value">Marikina City, Philippines</span>
+        <div class="about-stats">
+          <div class="stat-card">
+            <span class="stat-number" data-target="85">0</span>
+            <span class="stat-label">% Model Accuracy</span>
           </div>
-          <div class="meta-item">
-            <span class="meta-label">Degree</span>
-            <span class="meta-value">BS Information Technology</span>
+          <div class="stat-card">
+            <span class="stat-number" data-target="3">0</span>
+            <span class="stat-label">Years Coding</span>
           </div>
-          <div class="meta-item">
-            <span class="meta-label">Status</span>
-            <span class="meta-value">Open to opportunities</span>
+          <div class="stat-card">
+            <span class="stat-number" data-target="4">0</span>
+            <span class="stat-label">Major Projects</span>
           </div>
-          <div class="meta-item">
-            <span class="meta-label">GitHub</span>
-            <span class="meta-value" id="gh-repos-count">—</span>
+          <div class="stat-card">
+            <span class="stat-number" data-target="8">0</span>
+            <span class="stat-label">Tech Stacks</span>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+      <div class="tech-stack">
+        <h3 class="sub-title">&lt; TECH_STACK /&gt;</h3>
+        <div class="tags">
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">React</span>
+          <span class="tag">Vite</span>
+          <span class="tag">Laravel</span>
+          <span class="tag">Livewire</span>
+          <span class="tag">Tailwind</span>
+          <span class="tag">Flask</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">SQL</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">OpenCV</span>
+          <span class="tag">Git</span>
+        </div>
+      </div>
+    </section>
 
-  <!-- Experience -->
-  <section id="experience" class="section section-alt">
-    <div class="container">
-      <div class="section-label reveal">Experience</div>
-      <h2 class="section-title reveal">Where I've worked.</h2>
-      <div class="exp-list">
-        <div class="exp-card reveal">
-          <div class="exp-period">Jan — Apr 2026</div>
-          <div class="exp-body">
-            <h3>IT Intern (Web Developer) <span class="exp-at">@ Knowles Training Institute</span></h3>
-            <p class="exp-loc">Singapore</p>
-            <ul>
+    <section id="experience">
+      <h2 class="section-title"><span class="bracket">[</span> EXPERIENCE <span class="bracket">]</span></h2>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content terminal-box">
+            <div class="timeline-header">
+              <h3>IT Intern — Web Developer</h3>
+              <span class="timeline-date">Jan – Apr 2026</span>
+            </div>
+            <p class="timeline-place">Knowles Training Institute, Singapore</p>
+            <ul class="timeline-details">
               <li>Built and maintained responsive web applications using HTML, CSS, JavaScript, and SQL.</li>
               <li>Applied UI/UX principles to improve internal tools and user workflows.</li>
-              <li>Integrated a CNN-based image classification feature into a web prototype for skin lesion analysis.</li>
-              <li>Recognized for clean code, meeting deadlines, and consistently positive feedback.</li>
+              <li>Integrated CNN-based image classification into a web prototype for skin lesion analysis.</li>
+              <li>Recognized for clean code, deadlines, and positive IT lead feedback.</li>
             </ul>
-            <div class="exp-tags">
-              <span>HTML</span><span>CSS</span><span>JavaScript</span><span>SQL</span><span>UI/UX</span><span>CNN</span>
-            </div>
           </div>
         </div>
-        <div class="exp-card reveal">
-          <div class="exp-period">2024 — Present</div>
-          <div class="exp-body">
-            <h3>Freelance Web Developer <span class="exp-at">@ Self-Employed</span></h3>
-            <ul>
-              <li>Built custom responsive websites for small businesses and individuals on commission.</li>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content terminal-box">
+            <div class="timeline-header">
+              <h3>Freelance Web Developer</h3>
+              <span class="timeline-date">2024 – Present</span>
+            </div>
+            <p class="timeline-place">Self-Employed</p>
+            <ul class="timeline-details">
+              <li>Built custom responsive websites for small businesses and individuals.</li>
               <li>Ensured cross-browser compatibility and mobile responsiveness.</li>
-              <li>Maintained post-launch support and updates based on client feedback.</li>
+              <li>Provided post-launch support and updates based on client feedback.</li>
             </ul>
-            <div class="exp-tags">
-              <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Responsive</span>
-            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Projects -->
-  <section id="projects" class="section">
-    <div class="container">
-      <div class="section-label reveal">Projects</div>
-      <h2 class="section-title reveal">Featured work.</h2>
-      <div class="projects-grid" id="projects-grid">
-        <div class="project-card skeleton">
-          <div class="sk-block" style="height:20px;width:60%"></div>
-          <div class="sk-block" style="height:14px;width:90%;margin-top:10px"></div>
-          <div class="sk-block" style="height:14px;width:40%;margin-top:8px"></div>
-          <div class="sk-block" style="height:14px;width:25%;margin-top:16px"></div>
-        </div>
-        <div class="project-card skeleton">
-          <div class="sk-block" style="height:20px;width:55%"></div>
-          <div class="sk-block" style="height:14px;width:85%;margin-top:10px"></div>
-          <div class="sk-block" style="height:14px;width:45%;margin-top:8px"></div>
-          <div class="sk-block" style="height:14px;width:30%;margin-top:16px"></div>
-        </div>
-        <div class="project-card skeleton">
-          <div class="sk-block" style="height:20px;width:65%"></div>
-          <div class="sk-block" style="height:14px;width:88%;margin-top:10px"></div>
-          <div class="sk-block" style="height:14px;width:35%;margin-top:8px"></div>
-          <div class="sk-block" style="height:14px;width:28%;margin-top:16px"></div>
-        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Education -->
-  <section id="education" class="section section-alt">
-    <div class="container">
-      <div class="section-label reveal">Education</div>
-      <h2 class="section-title reveal">Academic background.</h2>
-      <div class="edu-card reveal">
-        <div class="edu-top">
-          <h3>Bachelor of Science in Information Technology</h3>
-          <span class="edu-badge">Dean's Lister</span>
-        </div>
-        <p class="edu-school">IETI College of Science and Technology, Marikina &middot; Graduated June 2026</p>
-        <div class="edu-sections">
-          <div>
-            <h4>Relevant Coursework</h4>
-            <div class="tag-cluster">
-              <span>Web Development</span><span>Mobile App Development</span><span>Database Systems</span><span>Software Engineering</span><span>UI/UX Design</span><span>Machine Learning</span>
-            </div>
-          </div>
-          <div>
-            <h4>Capstone Project</h4>
-            <p class="edu-capstone">Skin Lesions Detection App Using Artificial Intelligence and Convolutional Neural Networks — a mobile app that classifies skin lesions from images using a trained CNN model.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section id="projects">
+      <h2 class="section-title"><span class="bracket">[</span> PROJECTS <span class="bracket">]</span></h2>
+      <div class="projects-grid">
 
-  <!-- Skills & Certs -->
-  <section id="skills" class="section">
-    <div class="container">
-      <div class="section-label reveal">Skills &amp; Certifications</div>
-      <h2 class="section-title reveal">Technologies and credentials.</h2>
-      <div class="skills-grid reveal">
-        <div class="skill-block">
-          <h3>Frontend</h3>
-          <div class="tag-cluster">
-            <span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span><span>Vite</span><span>Tailwind CSS</span><span>Bootstrap</span><span>Livewire</span>
+        <div class="project-card terminal-box">
+          <div class="project-header">
+            <span class="project-icon">&#9670;</span>
+            <h3>SkinLesionAI</h3>
           </div>
-        </div>
-        <div class="skill-block">
-          <h3>Backend</h3>
-          <div class="tag-cluster">
-            <span>Laravel</span><span>Flask</span><span>Python</span><span>SQL</span><span>MySQL</span><span>SQLite</span>
+          <p class="project-desc">Medical-grade web app classifying 8 skin lesion types using ResNeXt50 (85% accuracy). Implements Grad-CAM++ visual explanations, batch processing, and exportable clinical reports.</p>
+          <div class="project-tech">
+            <span class="tag">Flask</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">SQLite</span>
+            <span class="tag">Bootstrap</span>
+            <span class="tag">OpenCV</span>
+            <span class="tag">Grad-CAM++</span>
           </div>
+          <a href="https://github.com/karlrapada21/skin-lesion-detection" target="_blank" class="project-link">&gt; view_repo</a>
         </div>
-        <div class="skill-block">
-          <h3>AI / ML &amp; Tools</h3>
-          <div class="tag-cluster">
-            <span>PyTorch</span><span>OpenCV</span><span>CNN</span><span>Grad-CAM++</span><span>Git</span><span>UI/UX Design</span>
-          </div>
-        </div>
-      </div>
-      <h3 class="certs-heading reveal">Certifications</h3>
-      <div class="certs-row reveal">
-        <div class="cert-item">CCNA 1–3</div>
-        <div class="cert-item">TOPCIT Level 3</div>
-        <div class="cert-item">NCII CSS &amp; ICT</div>
-        <div class="cert-item">Python Essentials 1–2</div>
-        <div class="cert-item">CompTIA A+</div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Contact -->
-  <section id="contact" class="section section-alt">
-    <div class="container">
-      <div class="section-label reveal">Contact</div>
-      <h2 class="section-title reveal">Let's work together.</h2>
-      <p class="contact-desc reveal">I'm currently open to new opportunities. Whether you have a project in mind, a question, or just want to connect — reach out anytime.</p>
-      <div class="contact-row reveal">
-        <a href="mailto:karlrapada@gmail.com" class="contact-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-          karlrapada@gmail.com
-        </a>
-        <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" rel="noopener" class="contact-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
-        <a href="https://github.com/karlrapada21" target="_blank" rel="noopener" class="contact-link">
-          <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
-      </div>
-    </div>
-  </section>
+        <div class="project-card terminal-box">
+          <div class="project-header">
+            <span class="project-icon">&#9670;</span>
+            <h3>BITSI Dispatch</h3>
+          </div>
+          <p class="project-desc">Real-time bus dispatch management system with live dispatch board, driver attendance tracking, late/absent alerts, SMS notifications, and vehicle PMS alerts.</p>
+          <div class="project-tech">
+            <span class="tag">Laravel 12</span>
+            <span class="tag">Livewire 3</span>
+            <span class="tag">Tailwind CSS</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">Semaphore API</span>
+          </div>
+          <a href="https://github.com/IAmKhirvie/bitsi-dispatch" target="_blank" class="project-link">&gt; view_repo</a>
+        </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 Karl Lynuz B. Rapada &middot; Marikina City, Philippines &middot; <a href="#" id="footer-resume-btn">Resume</a></p>
-    </div>
+        <div class="project-card terminal-box">
+          <div class="project-header">
+            <span class="project-icon">&#9670;</span>
+            <h3>Intern Management System</h3>
+          </div>
+          <p class="project-desc">React-based all-in-one intern tracking platform integrating attendance, task management, and role-based access for interns, team leads, and monitoring staff.</p>
+          <div class="project-tech">
+            <span class="tag">React</span>
+            <span class="tag">Vite</span>
+            <span class="tag">Tailwind CSS</span>
+          </div>
+          <a href="https://github.com/bigbusbeluga/umonics-attendance-reporting-system" target="_blank" class="project-link">&gt; view_repo</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="certificates">
+      <h2 class="section-title"><span class="bracket">[</span> CERTIFICATES <span class="bracket">]</span></h2>
+      <div class="certs-grid">
+        <div class="cert-card terminal-box">CCNA 1 – 3</div>
+        <div class="cert-card terminal-box">TOPCIT Level 3</div>
+        <div class="cert-card terminal-box">NCII CSS &amp; ICT</div>
+        <div class="cert-card terminal-box">Python Essentials 1 – 2</div>
+        <div class="cert-card terminal-box">Comptia A+</div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="section-title"><span class="bracket">[</span> CONTACT <span class="bracket">]</span></h2>
+      <div class="contact-grid">
+        <div class="contact-info terminal-box">
+          <p><span class="label">EMAIL:</span> karlrapada@gmail.com</p>
+          <p><span class="label">PHONE:</span> +63 921 746 8502</p>
+          <p><span class="label">LOCATION:</span> Marikina City, Philippines</p>
+          <div class="contact-links">
+            <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" class="btn btn-secondary">&gt; LINKEDIN</a>
+            <a href="https://github.com/karlrapada21" target="_blank" class="btn btn-secondary">&gt; GITHUB</a>
+          </div>
+        </div>
+        <form class="contact-form terminal-box" onsubmit="return false;">
+          <div class="input-group">
+            <label for="name">&gt; NAME:</label>
+            <input type="text" id="name" placeholder="enter_your_name">
+          </div>
+          <div class="input-group">
+            <label for="email">&gt; EMAIL:</label>
+            <input type="email" id="email" placeholder="enter_your_email">
+          </div>
+          <div class="input-group">
+            <label for="message">&gt; MESSAGE:</label>
+            <textarea id="message" rows="4" placeholder="type_your_message"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary glitch-hover" data-text="SEND_MESSAGE">SEND_MESSAGE</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Karl Lynuz B. Rapada | <span class="footer-glitch">SYSTEM ONLINE</span></p>
   </footer>
 
-  <!-- Resume Modal -->
-  <div class="modal-overlay" id="resume-modal">
-    <div class="modal">
-      <button class="modal-close" id="modal-close">&times;</button>
-      <div class="modal-body" id="modal-content"></div>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/EasePack.min.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
