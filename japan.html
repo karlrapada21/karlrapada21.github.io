@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" data-build="2026-07-16T09:40:59.408Z">
+<html lang="en" data-theme="light" data-build="2026-07-16T12:11:39.797Z">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,35 +11,155 @@
 
   <!-- Sakura tree -->
   <div class="sakura-tree-container" aria-hidden="true">
-    <svg viewBox="0 0 400 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- trunk -->
-      <path d="M200 800V480C190 440 160 390 120 350C80 310 50 270 30 230C15 200 15 170 35 150L70 130L110 100L130 70L110 40C90 25 70 20 60 30C30 50 20 80 10 110C-5 150 -5 190 20 230C40 260 60 280 80 300C100 320 120 330 140 340" fill="#5c3d2e" opacity="0.9"/>
-      <path d="M200 480C210 440 220 400 240 360C270 310 280 270 290 230C300 200 310 160 300 120C295 90 275 70 250 60L230 70L240 50C245 35 260 25 275 35C295 50 310 70 330 80C355 95 370 115 365 145C355 185 330 230 300 270C270 310 240 340 220 380" fill="#6b4433" opacity="0.85"/>
-      <path d="M200 500C190 460 170 420 140 390C100 350 70 310 40 280C10 250 -5 210 5 180C10 160 30 140 50 135L70 140L55 120C45 105 50 85 65 80C90 75 115 95 130 120L140 150L160 170" fill="#4a3124" opacity="0.6"/>
-      <!-- blossoms -->
-      <circle cx="70" cy="130" r="18" fill="#fcc4d4" opacity=".8"/>
-      <circle cx="95" cy="105" r="14" fill="#f9bcc8" opacity=".85"/>
-      <circle cx="45" cy="155" r="15" fill="#fcd0de" opacity=".7"/>
-      <circle cx="120" cy="90" r="13" fill="#fab8c6" opacity=".8"/>
-      <circle cx="140" cy="115" r="11" fill="#fbc8d8" opacity=".75"/>
-      <circle cx="155" cy="85" r="10" fill="#fdd4e5" opacity=".8"/>
-      <circle cx="30" cy="180" r="12" fill="#fcc8d8" opacity=".7"/>
-      <circle cx="85" cy="160" r="9" fill="#fab4c0" opacity=".75"/>
-      <circle cx="175" cy="150" r="14" fill="#f9b4c2" opacity=".8"/>
-      <circle cx="200" cy="130" r="12" fill="#fcc8d8" opacity=".85"/>
-      <circle cx="210" cy="105" r="10" fill="#fab8c6" opacity=".75"/>
-      <circle cx="250" cy="60" r="13" fill="#f9c8d4" opacity=".8"/>
-      <circle cx="275" cy="70" r="11" fill="#fbc5d5" opacity=".75"/>
-      <circle cx="295" cy="85" r="14" fill="#fcc4d4" opacity=".7"/>
-      <circle cx="325" cy="105" r="12" fill="#fab8c6" opacity=".8"/>
-      <circle cx="340" cy="130" r="10" fill="#fcd0de" opacity=".75"/>
-      <circle cx="360" cy="115" r="8" fill="#f9bcc8" opacity=".85"/>
-      <circle cx="315" cy="145" r="11" fill="#fdd4e5" opacity=".7"/>
-      <circle cx="380" cy="140" r="9" fill="#fbc8d8" opacity=".75"/>
-      <circle cx="230" cy="145" r="10" fill="#fab8c6" opacity=".8"/>
-      <circle cx="195" cy="170" r="8" fill="#f9c4d0" opacity=".7"/>
-      <circle cx="135" cy="45" r="9" fill="#fcc8d8" opacity=".8"/>
-      <circle cx="165" cy="55" r="7" fill="#fab4c0" opacity=".85"/>
+    <svg viewBox="0 0 500 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="blossomGrad1" cx="35%" cy="30%"><stop offset="0%" stop-color="#fde0ea"/><stop offset="100%" stop-color="#f4a4b8"/></radialGradient>
+        <radialGradient id="blossomGrad2" cx="40%" cy="25%"><stop offset="0%" stop-color="#fef0f4"/><stop offset="100%" stop-color="#f8b8c8"/></radialGradient>
+        <radialGradient id="blossomGrad3" cx="30%" cy="35%"><stop offset="0%" stop-color="#fdd8e4"/><stop offset="100%" stop-color="#f09aaa"/></radialGradient>
+      </defs>
+
+      <!-- Ground -->
+      <ellipse cx="240" cy="870" rx="180" ry="20" fill="#3d2e1e" opacity="0.3"/>
+
+      <!-- Main trunk - thick, textured, slightly curved -->
+      <path d="M230 870 C228 820 226 760 224 700 C222 640 218 580 215 520 C213 480 210 440 208 400 L204 360 C200 320 195 280 190 250" stroke="#4a3222" stroke-width="42" stroke-linecap="round" fill="none" opacity="0.95"/>
+      <path d="M230 870 C228 820 226 760 224 700 C222 640 218 580 215 520 C213 480 210 440 208 400 L204 360 C200 320 195 280 190 250" stroke="#5c3e2a" stroke-width="34" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+      <!-- Trunk texture lines -->
+      <path d="M220 860 C218 800 216 740 214 680 C212 620 208 560 205 500" stroke="#3d2818" stroke-width="3" fill="none" opacity="0.5"/>
+      <path d="M240 865 C238 810 236 750 234 680 C232 630 228 570 225 510" stroke="#3d2818" stroke-width="2" fill="none" opacity="0.4"/>
+
+      <!-- Branch 1: major left branch -->
+      <path d="M215 520 C200 480 180 440 155 400 C130 360 110 320 85 280 C65 250 50 220 35 200" stroke="#4a3222" stroke-width="16" stroke-linecap="round" fill="none" opacity="0.95"/>
+      <path d="M215 520 C200 480 180 440 155 400 C130 360 110 320 85 280 C65 250 50 220 35 200" stroke="#5c3e2a" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+      <!-- Branch 1a: sub from left branch going up-left -->
+      <path d="M155 400 C140 370 125 340 115 310 C105 280 100 250 95 220" stroke="#4a3222" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.95"/>
+      <path d="M155 400 C140 370 125 340 115 310 C105 280 100 250 95 220" stroke="#5c3e2a" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+      <!-- Branch 1b: sub from branch 1a going further left -->
+      <path d="M120 340 C105 320 85 300 65 285 C50 275 35 260 25 250" stroke="#4a3222" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.9"/>
+      <path d="M85 280 C70 260 55 245 40 235" stroke="#4a3222" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.95"/>
+
+      <!-- Branch 1c: sub from left branch going right -->
+      <path d="M130 360 C135 335 140 310 150 285 C160 260 165 240 170 220" stroke="#4a3222" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+      <!-- Branch 2: major right branch -->
+      <path d="M210 440 C230 410 250 380 275 350 C300 320 320 290 340 260 C355 240 365 215 375 190" stroke="#4a3222" stroke-width="15" stroke-linecap="round" fill="none" opacity="0.95"/>
+      <path d="M210 440 C230 410 250 380 275 350 C300 320 320 290 340 260 C355 240 365 215 375 190" stroke="#5c3e2a" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+      <!-- Branch 2a: sub right going up-right -->
+      <path d="M275 350 C295 330 315 310 340 290 C360 270 380 255 400 240" stroke="#4a3222" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.9"/>
+      <path d="M340 260 C355 245 370 230 385 215" stroke="#4a3222" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+      <!-- Branch 2b: sub right going up -->
+      <path d="M300 320 C310 295 320 270 330 245 C340 220 345 195 350 175" stroke="#4a3222" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+      <!-- Branch 3: center-left upper branch -->
+      <path d="M208 400 C200 370 192 340 185 310 C178 280 170 250 165 225" stroke="#4a3222" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.95"/>
+      <path d="M208 400 C200 370 192 340 185 310 C178 280 170 250 165 225" stroke="#5c3e2a" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+      <!-- Small twigs -->
+      <path d="M165 225 C160 210 155 195 150 185" stroke="#4a3222" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.85"/>
+      <path d="M185 310 C175 295 165 280 155 270" stroke="#4a3222" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.85"/>
+      <path d="M350 175 C355 160 358 145 360 135" stroke="#4a3222" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.85"/>
+      <path d="M375 190 C382 175 388 160 392 145" stroke="#4a3222" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.8"/>
+      <path d="M95 220 C88 205 80 190 75 178" stroke="#4a3222" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.85"/>
+      <path d="M35 200 C28 188 20 175 15 165" stroke="#4a3222" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.85"/>
+
+      <!-- ── Blossom Clusters ── -->
+
+      <!-- Top-left canopy cluster -->
+      <circle cx="35" cy="190" r="25" fill="url(#blossomGrad1)" opacity="0.88"/>
+      <circle cx="25" cy="170" r="22" fill="url(#blossomGrad2)" opacity="0.85"/>
+      <circle cx="50" cy="168" r="24" fill="url(#blossomGrad3)" opacity="0.82"/>
+      <circle cx="15" cy="155" r="20" fill="url(#blossomGrad1)" opacity="0.8"/>
+      <circle cx="55" cy="140" r="18" fill="url(#blossomGrad2)" opacity="0.85"/>
+      <circle cx="40" cy="210" r="22" fill="url(#blossomGrad3)" opacity="0.84"/>
+      <circle cx="70" cy="155" r="19" fill="url(#blossomGrad1)" opacity="0.82"/>
+      <circle cx="45" cy="130" r="16" fill="url(#blossomGrad2)" opacity="0.78"/>
+      <circle cx="70" cy="180" r="17" fill="url(#blossomGrad3)" opacity="0.83"/>
+
+      <!-- Left-side cluster -->
+      <circle cx="95" cy="210" r="26" fill="url(#blossomGrad2)" opacity="0.88"/>
+      <circle cx="80" cy="230" r="24" fill="url(#blossomGrad1)" opacity="0.85"/>
+      <circle cx="110" cy="195" r="22" fill="url(#blossomGrad3)" opacity="0.82"/>
+      <circle cx="75" cy="170" r="20" fill="url(#blossomGrad2)" opacity="0.84"/>
+      <circle cx="120" cy="240" r="19" fill="url(#blossomGrad1)" opacity="0.83"/>
+      <circle cx="100" cy="245" r="18" fill="url(#blossomGrad3)" opacity="0.8"/>
+      <circle cx="85" cy="185" r="17" fill="url(#blossomGrad1)" opacity="0.86"/>
+
+      <!-- Mid-left canopy -->
+      <circle cx="150" cy="270" r="23" fill="url(#blossomGrad1)" opacity="0.88"/>
+      <circle cx="165" cy="218" r="25" fill="url(#blossomGrad2)" opacity="0.86"/>
+      <circle cx="130" cy="255" r="21" fill="url(#blossomGrad3)" opacity="0.84"/>
+      <circle cx="155" cy="240" r="20" fill="url(#blossomGrad1)" opacity="0.82"/>
+      <circle cx="145" cy="210" r="18" fill="url(#blossomGrad2)" opacity="0.85"/>
+      <circle cx="170" cy="250" r="19" fill="url(#blossomGrad3)" opacity="0.83"/>
+      <circle cx="125" cy="235" r="17" fill="url(#blossomGrad1)" opacity="0.81"/>
+
+      <!-- Center canopy cluster -->
+      <circle cx="170" cy="180" r="24" fill="url(#blossomGrad2)" opacity="0.88"/>
+      <circle cx="190" cy="160" r="26" fill="url(#blossomGrad1)" opacity="0.86"/>
+      <circle cx="150" cy="175" r="22" fill="url(#blossomGrad3)" opacity="0.84"/>
+      <circle cx="180" cy="140" r="20" fill="url(#blossomGrad2)" opacity="0.83"/>
+      <circle cx="205" cy="145" r="21" fill="url(#blossomGrad1)" opacity="0.85"/>
+      <circle cx="165" cy="155" r="18" fill="url(#blossomGrad3)" opacity="0.82"/>
+      <circle cx="200" cy="180" r="19" fill="url(#blossomGrad2)" opacity="0.86"/>
+
+      <!-- Right canopy cluster -->
+      <circle cx="340" cy="250" r="25" fill="url(#blossomGrad1)" opacity="0.88"/>
+      <circle cx="370" cy="230" r="23" fill="url(#blossomGrad2)" opacity="0.86"/>
+      <circle cx="360" cy="185" r="24" fill="url(#blossomGrad3)" opacity="0.84"/>
+      <circle cx="385" cy="210" r="21" fill="url(#blossomGrad1)" opacity="0.85"/>
+      <circle cx="350" cy="170" r="22" fill="url(#blossomGrad2)" opacity="0.83"/>
+      <circle cx="375" cy="160" r="20" fill="url(#blossomGrad3)" opacity="0.82"/>
+      <circle cx="395" cy="235" r="19" fill="url(#blossomGrad1)" opacity="0.84"/>
+      <circle cx="330" cy="215" r="18" fill="url(#blossomGrad2)" opacity="0.83"/>
+
+      <!-- Top-right cluster -->
+      <circle cx="390" cy="140" r="22" fill="url(#blossomGrad1)" opacity="0.87"/>
+      <circle cx="400" cy="160" r="20" fill="url(#blossomGrad2)" opacity="0.85"/>
+      <circle cx="380" cy="125" r="18" fill="url(#blossomGrad3)" opacity="0.83"/>
+      <circle cx="410" cy="145" r="17" fill="url(#blossomGrad1)" opacity="0.84"/>
+      <circle cx="360" cy="130" r="21" fill="url(#blossomGrad2)" opacity="0.86"/>
+
+      <!-- Inner / fill blossoms (smaller, scattered along branches) -->
+      <circle cx="100" cy="300" r="16" fill="url(#blossomGrad3)" opacity="0.78"/>
+      <circle cx="120" cy="320" r="15" fill="url(#blossomGrad1)" opacity="0.76"/>
+      <circle cx="140" cy="350" r="14" fill="url(#blossomGrad2)" opacity="0.8"/>
+      <circle cx="200" cy="380" r="15" fill="url(#blossomGrad3)" opacity="0.75"/>
+      <circle cx="175" cy="340" r="14" fill="url(#blossomGrad1)" opacity="0.78"/>
+      <circle cx="230" cy="420" r="15" fill="url(#blossomGrad2)" opacity="0.77"/>
+      <circle cx="260" cy="370" r="14" fill="url(#blossomGrad3)" opacity="0.8"/>
+      <circle cx="280" cy="340" r="16" fill="url(#blossomGrad1)" opacity="0.76"/>
+      <circle cx="310" cy="310" r="15" fill="url(#blossomGrad2)" opacity="0.79"/>
+      <circle cx="290" cy="280" r="14" fill="url(#blossomGrad3)" opacity="0.82"/>
+      <circle cx="250" cy="300" r="13" fill="url(#blossomGrad1)" opacity="0.78"/>
+      <circle cx="210" cy="260" r="15" fill="url(#blossomGrad2)" opacity="0.81"/>
+      <circle cx="195" cy="290" r="13" fill="url(#blossomGrad3)" opacity="0.76"/>
+      <circle cx="160" cy="310" r="14" fill="url(#blossomGrad1)" opacity="0.79"/>
+      <circle cx="320" cy="240" r="15" fill="url(#blossomGrad2)" opacity="0.81"/>
+
+      <!-- Scattered falling petals -->
+      <ellipse cx="70" cy="340" rx="5" ry="3" fill="#fcc4d4" opacity="0.6" transform="rotate(15 70 340)"/>
+      <ellipse cx="280" cy="460" rx="6" ry="3.5" fill="#f9bcc8" opacity="0.5" transform="rotate(-20 280 460)"/>
+      <ellipse cx="150" cy="500" rx="5" ry="3" fill="#fcd0de" opacity="0.55" transform="rotate(35 150 500)"/>
+      <ellipse cx="320" cy="530" rx="4" ry="2.5" fill="#fab8c6" opacity="0.5" transform="rotate(-10 320 530)"/>
+      <ellipse cx="90" cy="580" rx="5" ry="3" fill="#fbc5d5" opacity="0.45" transform="rotate(25 90 580)"/>
+      <ellipse cx="350" cy="620" rx="4" ry="2.5" fill="#fcc8d8" opacity="0.4" transform="rotate(-30 350 620)"/>
+      <ellipse cx="180" cy="660" rx="5" ry="3" fill="#fad4df" opacity="0.4" transform="rotate(18 180 660)"/>
+      <ellipse cx="260" cy="700" rx="4" ry="2" fill="#f9b4c2" opacity="0.35" transform="rotate(-15 260 700)"/>
+
+      <!-- Small dot blossoms high up -->
+      <circle cx="45" cy="148" r="5" fill="#fde0ea" opacity="0.75"/>
+      <circle cx="100" cy="175" r="6" fill="#fef0f4" opacity="0.78"/>
+      <circle cx="210" cy="130" r="5" fill="#fdd8e4" opacity="0.8"/>
+      <circle cx="370" cy="140" r="5" fill="#fde0ea" opacity="0.76"/>
+      <circle cx="400" cy="155" r="6" fill="#fef0f4" opacity="0.74"/>
+      <circle cx="155" cy="165" r="5" fill="#fdd8e4" opacity="0.78"/>
+      <circle cx="335" cy="200" r="5" fill="#fde0ea" opacity="0.8"/>
+      <circle cx="60" cy="200" r="6" fill="#fef0f4" opacity="0.75"/>
     </svg>
   </div>
 
