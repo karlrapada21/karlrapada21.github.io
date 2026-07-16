@@ -1,0 +1,231 @@
+<h1>Glitchy Navigation with GSAP</h1>
+<nav id="nav-1">
+  <a href="#!">
+    <svg width="350px" height="50px" viewBox="0 0 350 50">
+      <defs>
+        <filter id="displace" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+          <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0" />
+          <feFlood flood-color="#888800" y="5%" height="5%" result="s1" />
+          <feFlood flood-color="#8888FF" y="10%" height="5%" result="s2" />
+          <feFlood flood-color="#888800" y="15%" height="5%" result="s3" />
+          <feFlood flood-color="#8888FF" y="20%" height="5%" result="s4" />
+          <feFlood flood-color="#888800" y="25%" height="5%" result="s5" />
+          <feFlood flood-color="#8888FF" y="30%" height="5%" result="s6" />
+          <feFlood flood-color="#888800" y="35%" height="5%" result="s7" />
+          <feFlood flood-color="#8888FF" y="40%" height="5%" result="s8" />
+          <feFlood flood-color="#888800" y="45%" height="5%" result="s9" />
+          <feFlood flood-color="#8888FF" y="50%" height="5%" result="s10" />
+          <feFlood flood-color="#888800" y="55%" height="5%" result="s11" />
+          <feFlood flood-color="#8888FF" y="60%" height="5%" result="s12" />
+          <feFlood flood-color="#888800" y="65%" height="5%" result="s13" />
+          <feFlood flood-color="#8888FF" y="70%" height="5%" result="s14" />
+          <feFlood flood-color="#888800" y="75%" height="5%" result="s15" />
+          <feFlood flood-color="#8888FF" y="80%" height="5%" result="s16" />
+          <feFlood flood-color="#888800" y="85%" height="5%" result="s17" />
+          <feFlood flood-color="#8888FF" y="90%" height="5%" result="s18" />
+          <feFlood flood-color="#888800" y="95%" height="5%" result="s19" />
+
+          <feMerge result="bands">
+            <feMergeNode in="s0" />
+            <feMergeNode in="s1" />
+            <feMergeNode in="s2" />
+            <feMergeNode in="s3" />
+            <feMergeNode in="s4" />
+            <feMergeNode in="s5" />
+            <feMergeNode in="s6" />
+            <feMergeNode in="s7" />
+            <feMergeNode in="s8" />
+            <feMergeNode in="s9" />
+            <feMergeNode in="s10" />
+            <feMergeNode in="s11" />
+            <feMergeNode in="s12" />
+            <feMergeNode in="s13" />
+            <feMergeNode in="s14" />
+            <feMergeNode in="s15" />
+            <feMergeNode in="s16" />
+            <feMergeNode in="s17" />
+            <feMergeNode in="s18" />
+            <feMergeNode in="s19" />
+          </feMerge>
+
+          <feDisplacementMap class="displace" in="SourceGraphic" in2="bands" scale="0" xChannelSelector="B" yChannelSelector="R" />
+        </filter>
+
+        <pattern id="scanline-pattern" class="scanline-pattern" patternUnits="userSpaceOnUse" width="5" height="10">
+          <rect class="scanline" x="0" y="0" width="5" height="1" fill="#221314" />
+          <rect x="0" y="1" width="5" height="9" fill="#0f0b0b" />
+        </pattern>
+
+        <radialGradient id="fade" gradientUnits="userSpaceOnUse" cx="175" cy="25" r="50" gradientTransform="translate(175 25) scale(3 1) translate(-175 -25)">
+          <stop offset="0%" stop-color="#0f0b0b" stop-opacity="0" />
+          <stop offset="60%" stop-color="#0f0b0b" stop-opacity="0" />
+          <stop offset="100%" stop-color="#0f0b0b" stop-opacity="1" />
+        </radialGradient>
+      </defs>
+
+      <rect x="0" y="0" width="100%" height="50" fill="url(#scanline-pattern)" />
+      <rect width="350" height="50" fill="url(#fade)" />
+
+      <g filter="url(#displace)">
+        <text x="15" y="25" class="blue" dominant-baseline="middle">About Me</text>
+        <text x="15" y="25" class="red" dominant-baseline="middle">About Me</text>
+      </g>
+
+      <rect x="0" y="0" width="12" height="0" fill="#5accf5" class="fill" filter="url(#displace)" />
+      <rect x="0" y="0" width="12" height="0" fill="#f55a6b" class="fill" filter="url(#displace)" />
+      <rect x="0" y="0" width="100%" height="50" fill="none" stroke="#f55a6b" stroke-width="4" />
+    </svg>
+  </a>
+  <a href="#!">
+    <svg width="350px" height="50px" viewBox="0 0 350 50">
+      <defs>
+        <filter id="displace-2" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+          <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0" />
+          <feFlood flood-color="#888800" y="5%" height="5%" result="s1" />
+          <feFlood flood-color="#8888FF" y="10%" height="5%" result="s2" />
+          <feFlood flood-color="#888800" y="15%" height="5%" result="s3" />
+          <feFlood flood-color="#8888FF" y="20%" height="5%" result="s4" />
+          <feFlood flood-color="#888800" y="25%" height="5%" result="s5" />
+          <feFlood flood-color="#8888FF" y="30%" height="5%" result="s6" />
+          <feFlood flood-color="#888800" y="35%" height="5%" result="s7" />
+          <feFlood flood-color="#8888FF" y="40%" height="5%" result="s8" />
+          <feFlood flood-color="#888800" y="45%" height="5%" result="s9" />
+          <feFlood flood-color="#8888FF" y="50%" height="5%" result="s10" />
+          <feFlood flood-color="#888800" y="55%" height="5%" result="s11" />
+          <feFlood flood-color="#8888FF" y="60%" height="5%" result="s12" />
+          <feFlood flood-color="#888800" y="65%" height="5%" result="s13" />
+          <feFlood flood-color="#8888FF" y="70%" height="5%" result="s14" />
+          <feFlood flood-color="#888800" y="75%" height="5%" result="s15" />
+          <feFlood flood-color="#8888FF" y="80%" height="5%" result="s16" />
+          <feFlood flood-color="#888800" y="85%" height="5%" result="s17" />
+          <feFlood flood-color="#8888FF" y="90%" height="5%" result="s18" />
+          <feFlood flood-color="#888800" y="95%" height="5%" result="s19" />
+
+          <feMerge result="bands">
+            <feMergeNode in="s0" />
+            <feMergeNode in="s1" />
+            <feMergeNode in="s2" />
+            <feMergeNode in="s3" />
+            <feMergeNode in="s4" />
+            <feMergeNode in="s5" />
+            <feMergeNode in="s6" />
+            <feMergeNode in="s7" />
+            <feMergeNode in="s8" />
+            <feMergeNode in="s9" />
+            <feMergeNode in="s10" />
+            <feMergeNode in="s11" />
+            <feMergeNode in="s12" />
+            <feMergeNode in="s13" />
+            <feMergeNode in="s14" />
+            <feMergeNode in="s15" />
+            <feMergeNode in="s16" />
+            <feMergeNode in="s17" />
+            <feMergeNode in="s18" />
+            <feMergeNode in="s19" />
+          </feMerge>
+
+          <feDisplacementMap class="displace" in="SourceGraphic" in2="bands" scale="0" xChannelSelector="B" yChannelSelector="R" />
+        </filter>
+
+        <pattern id="scanline-pattern-2" class="scanline-pattern" patternUnits="userSpaceOnUse" width="5" height="10">
+          <rect class="scanline" x="0" y="0" width="5" height="1" fill="#221314" />
+          <rect x="0" y="1" width="5" height="9" fill="#0f0b0b" />
+        </pattern>
+
+        <radialGradient id="fade-2" gradientUnits="userSpaceOnUse" cx="175" cy="25" r="50" gradientTransform="translate(175 25) scale(3 1) translate(-175 -25)">
+          <stop offset="0%" stop-color="#0f0b0b" stop-opacity="0" />
+          <stop offset="60%" stop-color="#0f0b0b" stop-opacity="0" />
+          <stop offset="100%" stop-color="#0f0b0b" stop-opacity="1" />
+        </radialGradient>
+      </defs>
+
+      <rect x="0" y="0" width="100%" height="50" fill="url(#scanline-pattern-2)" />
+      <rect width="350" height="50" fill="url(#fade-2)" />
+
+      <g filter="url(#displace-2)">
+        <text x="15" y="25" class="blue" dominant-baseline="middle">My Work</text>
+        <text x="15" y="25" class="red" dominant-baseline="middle">My Work</text>
+      </g>
+
+      <rect x="0" y="0" width="12" height="0" fill="#5accf5" class="fill" filter="url(#displace-2)" />
+      <rect x="0" y="0" width="12" height="0" fill="#f55a6b" class="fill" filter="url(#displace-2)" />
+      <rect x="0" y="0" width="100%" height="50" fill="none" stroke="#f55a6b" stroke-width="4" />
+    </svg>
+  </a>
+  <a href="#!">
+    <svg width="350px" height="50px" viewBox="0 0 350 50">
+      <defs>
+        <filter id="displace-3" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+          <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0" />
+          <feFlood flood-color="#888800" y="5%" height="5%" result="s1" />
+          <feFlood flood-color="#8888FF" y="10%" height="5%" result="s2" />
+          <feFlood flood-color="#888800" y="15%" height="5%" result="s3" />
+          <feFlood flood-color="#8888FF" y="20%" height="5%" result="s4" />
+          <feFlood flood-color="#888800" y="25%" height="5%" result="s5" />
+          <feFlood flood-color="#8888FF" y="30%" height="5%" result="s6" />
+          <feFlood flood-color="#888800" y="35%" height="5%" result="s7" />
+          <feFlood flood-color="#8888FF" y="40%" height="5%" result="s8" />
+          <feFlood flood-color="#888800" y="45%" height="5%" result="s9" />
+          <feFlood flood-color="#8888FF" y="50%" height="5%" result="s10" />
+          <feFlood flood-color="#888800" y="55%" height="5%" result="s11" />
+          <feFlood flood-color="#8888FF" y="60%" height="5%" result="s12" />
+          <feFlood flood-color="#888800" y="65%" height="5%" result="s13" />
+          <feFlood flood-color="#8888FF" y="70%" height="5%" result="s14" />
+          <feFlood flood-color="#888800" y="75%" height="5%" result="s15" />
+          <feFlood flood-color="#8888FF" y="80%" height="5%" result="s16" />
+          <feFlood flood-color="#888800" y="85%" height="5%" result="s17" />
+          <feFlood flood-color="#8888FF" y="90%" height="5%" result="s18" />
+          <feFlood flood-color="#888800" y="95%" height="5%" result="s19" />
+
+          <feMerge result="bands">
+            <feMergeNode in="s0" />
+            <feMergeNode in="s1" />
+            <feMergeNode in="s2" />
+            <feMergeNode in="s3" />
+            <feMergeNode in="s4" />
+            <feMergeNode in="s5" />
+            <feMergeNode in="s6" />
+            <feMergeNode in="s7" />
+            <feMergeNode in="s8" />
+            <feMergeNode in="s9" />
+            <feMergeNode in="s10" />
+            <feMergeNode in="s11" />
+            <feMergeNode in="s12" />
+            <feMergeNode in="s13" />
+            <feMergeNode in="s14" />
+            <feMergeNode in="s15" />
+            <feMergeNode in="s16" />
+            <feMergeNode in="s17" />
+            <feMergeNode in="s18" />
+            <feMergeNode in="s19" />
+          </feMerge>
+
+          <feDisplacementMap class="displace" in="SourceGraphic" in2="bands" scale="0" xChannelSelector="B" yChannelSelector="R" />
+        </filter>
+
+        <pattern id="scanline-pattern-3" class="scanline-pattern" patternUnits="userSpaceOnUse" width="5" height="10">
+          <rect class="scanline" x="0" y="0" width="5" height="1" fill="#221314" />
+          <rect x="0" y="1" width="5" height="9" fill="#0f0b0b" />
+        </pattern>
+
+        <radialGradient id="fade-3" gradientUnits="userSpaceOnUse" cx="175" cy="25" r="50" gradientTransform="translate(175 25) scale(3 1) translate(-175 -25)">
+          <stop offset="0%" stop-color="#0f0b0b" stop-opacity="0" />
+          <stop offset="60%" stop-color="#0f0b0b" stop-opacity="0" />
+          <stop offset="100%" stop-color="#0f0b0b" stop-opacity="1" />
+        </radialGradient>
+      </defs>
+
+      <rect x="0" y="0" width="100%" height="50" fill="url(#scanline-pattern-3)" />
+      <rect width="350" height="50" fill="url(#fade-3)" />
+
+      <g filter="url(#displace-3)">
+        <text x="15" y="25" class="blue" dominant-baseline="middle">Services</text>
+        <text x="15" y="25" class="red" dominant-baseline="middle">Services</text>
+      </g>
+
+      <rect x="0" y="0" width="12" height="0" fill="#5accf5" class="fill" filter="url(#displace-3)" />
+      <rect x="0" y="0" width="12" height="0" fill="#f55a6b" class="fill" filter="url(#displace-3)" />
+      <rect x="0" y="0" width="100%" height="50" fill="none" stroke="#f55a6b" stroke-width="4" />
+    </svg>
+  </a>
+</nav>
