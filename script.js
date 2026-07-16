@@ -1,8 +1,11 @@
 /* ═══════════════════════════════════════════
-   THEME — dark/light
+   THEME — dark/light (professional page)
    ═══════════════════════════════════════════ */
 (function initTheme() {
   const root = document.documentElement;
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) return;
+
   const saved = localStorage.getItem('theme');
   if (saved) {
     root.setAttribute('data-theme', saved);
@@ -10,7 +13,7 @@
     root.setAttribute('data-theme', 'dark');
   }
 
-  document.getElementById('theme-toggle').addEventListener('click', () => {
+  toggle.addEventListener('click', () => {
     const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
@@ -92,6 +95,7 @@ function langColor(l) { return langColors[l] || '#8b949e'; }
 (function initMenu() {
   const btn = document.getElementById('menu-btn');
   const nav = document.getElementById('nav');
+  if (!btn || !nav) return;
   btn.addEventListener('click', () => {
     btn.classList.toggle('open');
     nav.classList.toggle('open');
