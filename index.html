@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" data-build="2026-07-16T09:07:56.842Z">
+<html lang="en" data-ui="professional" data-theme="light" data-build="2026-07-16T09:27:09.225Z">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,31 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Cherry Blossom Decor (Japan theme only) -->
+  <div class="sakura-decor" id="sakura-decor">
+    <svg class="sakura-tree" viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M200 600V350C180 310 120 270 80 220C40 170 20 130 20 90C20 60 40 40 70 40L130 60L110 20C100 0 85 0 70 20C55 40 50 55 30 60C10 65 0 80 0 90C0 120 60 180 100 220C140 260 180 280 200 290" fill="#5c3d2e"/>
+      <path d="M200 350C210 300 230 250 260 200C300 140 310 100 310 70C310 40 290 30 270 30L250 50L270 15C280 5 295 10 300 30C310 50 320 70 340 70C360 70 380 80 380 100C380 140 350 190 310 230C270 270 220 300 200 330" fill="#6b4433"/>
+      <circle cx="100" cy="60" r="16" fill="#f9b4c2" opacity="0.8"/>
+      <circle cx="130" cy="45" r="12" fill="#f9c8d4" opacity="0.85"/>
+      <circle cx="80" cy="85" r="14" fill="#fab8c6" opacity="0.75"/>
+      <circle cx="140" cy="75" r="10" fill="#fbc5d5" opacity="0.8"/>
+      <circle cx="170" cy="55" r="13" fill="#f9bcc8" opacity="0.7"/>
+      <circle cx="60" cy="110" r="11" fill="#fcc8d8" opacity="0.75"/>
+      <circle cx="115" cy="30" r="9" fill="#fad4df" opacity="0.8"/>
+      <circle cx="275" cy="45" r="14" fill="#f9b4c2" opacity="0.8"/>
+      <circle cx="255" cy="60" r="12" fill="#fcc8d8" opacity="0.75"/>
+      <circle cx="295" cy="40" r="10" fill="#fab8c6" opacity="0.85"/>
+      <circle cx="310" cy="70" r="13" fill="#fad4df" opacity="0.7"/>
+      <circle cx="340" cy="55" r="11" fill="#f9c8d4" opacity="0.8"/>
+      <circle cx="230" cy="85" r="12" fill="#fbc5d5" opacity="0.75"/>
+      <circle cx="250" cy="30" r="8" fill="#f9bcc8" opacity="0.8"/>
+    </svg>
+  </div>
+
+  <!-- Falling petals container (Japan theme only) -->
+  <div class="petal-container" id="petal-container" aria-hidden="true"></div>
 
   <header class="header" id="header">
     <div class="header-inner">
@@ -20,6 +45,10 @@
         <a href="#contact">Contact</a>
         <a href="#" class="nav-cta" id="resume-btn">Resume</a>
       </nav>
+      <div class="theme-selector" id="theme-selector">
+        <button class="theme-opt active" data-ui="professional" title="Professional">&#9678;</button>
+        <button class="theme-opt" data-ui="japan" title="Japan">&#10038;</button>
+      </div>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
         <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>

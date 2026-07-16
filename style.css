@@ -45,6 +45,48 @@
 }
 
 /* ═══════════════════════════════════════════
+   JAPAN THEME
+   ═══════════════════════════════════════════ */
+[data-ui="japan"] {
+  --bg: #fef9f4;
+  --bg-alt: #fdf3ea;
+  --surface: #ffffff;
+  --border: #e8d5c4;
+  --border-hover: #c4a890;
+  --text: #3d2e2a;
+  --text-secondary: #7a6a60;
+  --text-tertiary: #b8a89a;
+  --accent: #d4726a;
+  --accent-light: #fff0ed;
+  --accent-hover: #c4625a;
+  --tag-bg: #fef2ef;
+  --tag-text: #a06058;
+  --shadow-sm: 0 1px 3px rgba(120,80,60,.06);
+  --shadow-md: 0 4px 16px rgba(120,80,60,.08);
+  --shadow-lg: 0 8px 32px rgba(120,80,60,.1);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+[data-ui="japan"][data-theme="dark"] {
+  --bg: #1a1412;
+  --bg-alt: #221a16;
+  --surface: #2a201a;
+  --border: #3d3028;
+  --border-hover: #5a4838;
+  --text: #f0e6dd;
+  --text-secondary: #bcae9e;
+  --text-tertiary: #7d6e62;
+  --accent: #e8837a;
+  --accent-light: #3d2020;
+  --accent-hover: #f0a098;
+  --tag-bg: #3d2820;
+  --tag-text: #d4a898;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.2);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.3);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.4);
+}
+
+/* ═══════════════════════════════════════════
    RESET & BASE
    ═══════════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -117,6 +159,24 @@ img{max-width:100%;display:block;}
 }
 .theme-toggle:hover{color:var(--text);border-color:var(--text-tertiary);}
 [data-theme="light"] .icon-moon,[data-theme="dark"] .icon-sun{display:none;}
+
+.theme-selector{
+  display:flex;align-items:center;gap:4px;
+  padding:3px;border:1px solid var(--border);
+  border-radius:8px;background:var(--bg-alt);
+}
+.theme-opt{
+  width:30px;height:30px;border-radius:6px;
+  border:none;background:transparent;
+  font-size:.95rem;cursor:pointer;
+  color:var(--text-tertiary);
+  transition:all var(--transition);
+  display:flex;align-items:center;justify-content:center;
+  line-height:1;
+}
+.theme-opt:hover{color:var(--text);}
+.theme-opt.active{background:var(--surface);color:var(--accent);box-shadow:var(--shadow-sm);}
+[data-ui="japan"] .theme-opt.active{color:#d4726a;}
 
 .menu-btn{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:101;}
 .menu-btn span{display:block;width:20px;height:2px;background:var(--text);border-radius:1px;transition:var(--transition);}
@@ -515,6 +575,48 @@ img{max-width:100%;display:block;}
   background:linear-gradient(90deg,var(--border) 25%,var(--bg-alt) 50%,var(--border) 75%);
   background-size:800px 100%;
   animation:skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════
+   SAKURA TREE (Japan theme)
+   ═══════════════════════════════════════════ */
+.sakura-decor{
+  display:none;position:fixed;right:0;top:0;bottom:0;
+  width:320px;z-index:0;pointer-events:none;opacity:.55;
+}
+[data-ui="japan"] .sakura-decor{display:block;}
+.sakura-tree{width:100%;height:100%;}
+
+/* ═══════════════════════════════════════════
+   FALLING PETALS (Japan theme)
+   ═══════════════════════════════════════════ */
+.petal-container{
+  display:none;position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+[data-ui="japan"] .petal-container{display:block;}
+
+@keyframes petal-fall{
+  0%{transform:translateY(-10vh) rotate(0deg) translateX(0);opacity:0;}
+  5%{opacity:0.7;}
+  80%{opacity:0.6;}
+  100%{transform:translateY(110vh) rotate(720deg) translateX(var(--drift));opacity:0;}
+}
+
+.petal{
+  position:absolute;top:-20px;
+  width:var(--size);height:var(--size);
+  background:radial-gradient(circle at 30% 30%,#fcc8d8,#f9b4c2);
+  border-radius:50% 0 50% 0;
+  animation:petal-fall var(--duration) var(--delay) linear infinite;
+  --drift:60px;
+}
+.petal:nth-child(even){
+  background:radial-gradient(circle at 30% 30%,#fad4df,#f9bcc8);
+  border-radius:0 50% 0 50%;
+  --drift:-50px;
+}
+.petal:nth-child(3n){
+  background:radial-gradient(circle at 40% 30%,#fbc5d5,#fab8c6);
 }
 
 /* ═══════════════════════════════════════════

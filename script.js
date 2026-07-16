@@ -1,21 +1,65 @@
 /* ═══════════════════════════════════════════
-   THEME
+   THEME — dark/light + UI skins
    ═══════════════════════════════════════════ */
 (function initTheme() {
-  const saved = localStorage.getItem('theme');
-  if (saved) {
-    document.documentElement.setAttribute('data-theme', saved);
+  const root = document.documentElement;
+
+  const savedUI = localStorage.getItem('ui-theme');
+  if (savedUI) root.setAttribute('data-ui', savedUI);
+
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    root.setAttribute('data-theme', savedTheme);
   } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.documentElement.setAttribute('data-theme', 'dark');
+    root.setAttribute('data-theme', 'dark');
   }
+
+  document.querySelectorAll('.theme-opt').forEach(btn => {
+    if (btn.dataset.ui === root.getAttribute('data-ui')) btn.classList.add('active');
+    btn.addEventListener('click', () => {
+      const ui = btn.dataset.ui;
+      root.setAttribute('data-ui', ui);
+      localStorage.setItem('ui-theme', ui);
+      document.querySelectorAll('.theme-opt').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      initPetals();
+    });
+  });
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
 })();
 
-document.getElementById('theme-toggle').addEventListener('click', () => {
-  const root = document.documentElement;
-  const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  root.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-});
+/* ═══════════════════════════════════════════
+   SAKURA PETALS
+   ═══════════════════════════════════════════ */
+function spawnPetals() {
+  const container = document.getElementById('petal-container');
+  if (!container) return;
+  container.innerHTML = '';
+  const count = 35;
+  for (let i = 0; i < count; i++) {
+    const petal = document.createElement('div');
+    petal.className = 'petal';
+    const size = Math.random() * 10 + 6;
+    petal.style.setProperty('--size', `${size}px`);
+    petal.style.setProperty('--duration', `${Math.random() * 8 + 7}s`);
+    petal.style.setProperty('--delay', `${Math.random() * 12}s`);
+    petal.style.left = `${Math.random() * 100}%`;
+    container.appendChild(petal);
+  }
+}
+
+function initPetals() {
+  if (document.documentElement.getAttribute('data-ui') === 'japan') {
+    spawnPetals();
+  }
+}
+
+initPetals();
 
 /* ═══════════════════════════════════════════
    UTILS
