@@ -1,30 +1,14 @@
 /* ═══════════════════════════════════════════
-   THEME — dark/light + UI skins
+   THEME — dark/light
    ═══════════════════════════════════════════ */
 (function initTheme() {
   const root = document.documentElement;
-
-  const savedUI = localStorage.getItem('ui-theme');
-  if (savedUI) root.setAttribute('data-ui', savedUI);
-
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    root.setAttribute('data-theme', savedTheme);
+  const saved = localStorage.getItem('theme');
+  if (saved) {
+    root.setAttribute('data-theme', saved);
   } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
     root.setAttribute('data-theme', 'dark');
   }
-
-  document.querySelectorAll('.theme-opt').forEach(btn => {
-    if (btn.dataset.ui === root.getAttribute('data-ui')) btn.classList.add('active');
-    btn.addEventListener('click', () => {
-      const ui = btn.dataset.ui;
-      root.setAttribute('data-ui', ui);
-      localStorage.setItem('ui-theme', ui);
-      document.querySelectorAll('.theme-opt').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      initPetals();
-    });
-  });
 
   document.getElementById('theme-toggle').addEventListener('click', () => {
     const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -32,34 +16,6 @@
     localStorage.setItem('theme', next);
   });
 })();
-
-/* ═══════════════════════════════════════════
-   SAKURA PETALS
-   ═══════════════════════════════════════════ */
-function spawnPetals() {
-  const container = document.getElementById('petal-container');
-  if (!container) return;
-  container.innerHTML = '';
-  const count = 35;
-  for (let i = 0; i < count; i++) {
-    const petal = document.createElement('div');
-    petal.className = 'petal';
-    const size = Math.random() * 10 + 6;
-    petal.style.setProperty('--size', `${size}px`);
-    petal.style.setProperty('--duration', `${Math.random() * 8 + 7}s`);
-    petal.style.setProperty('--delay', `${Math.random() * 12}s`);
-    petal.style.left = `${Math.random() * 100}%`;
-    container.appendChild(petal);
-  }
-}
-
-function initPetals() {
-  if (document.documentElement.getAttribute('data-ui') === 'japan') {
-    spawnPetals();
-  }
-}
-
-initPetals();
 
 /* ═══════════════════════════════════════════
    UTILS
@@ -149,6 +105,25 @@ function langColor(l) { return langColors[l] || '#8b949e'; }
 })();
 
 /* ═══════════════════════════════════════════
+   SAKURA PETALS (Japan page only)
+   ═══════════════════════════════════════════ */
+(function initPetals() {
+  const field = document.getElementById('petal-field');
+  if (!field) return;
+  for (let i = 0; i < 35; i++) {
+    const petal = document.createElement('div');
+    petal.className = 'petal';
+    petal.style.setProperty('--sz', `${Math.random() * 10 + 6}px`);
+    petal.style.setProperty('--dur', `${Math.random() * 8 + 7}s`);
+    petal.style.setProperty('--delay', `${Math.random() * 12}s`);
+    petal.style.setProperty('--drift', `${(Math.random() - 0.5) * 120}px`);
+    petal.style.setProperty('--spin', `${Math.random() * 720}deg`);
+    petal.style.left = `${Math.random() * 100}%`;
+    field.appendChild(petal);
+  }
+})();
+
+/* ═══════════════════════════════════════════
    DATA FETCH + RENDER
    ═══════════════════════════════════════════ */
 async function fetchData() {
@@ -160,7 +135,13 @@ async function fetchData() {
 
 function renderHeroAvatar(profile) {
   const frame = document.getElementById('hero-avatar');
-  frame.innerHTML = `<img src="${profile.avatar_url}&s=400" alt="${profile.login}" width="260" height="260">`;
+  if (!frame) return;
+  const isJapan = document.querySelector('.avatar-round') !== null;
+  if (isJapan) {
+    frame.innerHTML = `<img src="${profile.avatar_url}&s=300" alt="${profile.login}" width="130" height="130">`;
+  } else {
+    frame.innerHTML = `<img src="${profile.avatar_url}&s=400" alt="${profile.login}" width="260" height="260">`;
+  }
 }
 
 function renderRepoCount(count) {
@@ -170,6 +151,7 @@ function renderRepoCount(count) {
 
 function renderProjects(repos) {
   const grid = document.getElementById('projects-grid');
+  if (!grid) return;
   if (!repos.length) {
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:48px 0;">No featured projects yet. Add the <strong>featured</strong> topic to a public repository and run <code style="font-family:var(--font-mono);background:var(--tag-bg);padding:2px 6px;border-radius:4px;">node build.js</code></div>`;
     return;
@@ -216,6 +198,7 @@ function renderProjects(repos) {
    ═══════════════════════════════════════════ */
 (function initResumeModal() {
   const overlay = document.getElementById('resume-modal');
+  if (!overlay) return;
   const content = document.getElementById('modal-content');
   const triggers = ['resume-btn', 'footer-resume-btn'];
 
