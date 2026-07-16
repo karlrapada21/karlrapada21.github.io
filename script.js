@@ -1,4 +1,6 @@
-/* ── Theme ── */
+/* ═══════════════════════════════════════════
+   THEME
+   ═══════════════════════════════════════════ */
 (function initTheme() {
   const saved = localStorage.getItem('theme');
   if (saved) {
@@ -15,7 +17,163 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
   localStorage.setItem('theme', next);
 });
 
-/* ── Helpers ── */
+/* ═══════════════════════════════════════════
+   PARTICLES
+   ═══════════════════════════════════════════ */
+(function initParticles() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [];
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const max = 60;
+  for (let i = 0; i < max; i++) {
+    particles.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: Math.random() * 2 + 0.6,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      opacity: Math.random() * 0.5 + 0.2,
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    const color = isLight ? '108, 92, 231' : '168, 139, 250';
+
+    particles.forEach((p, i) => {
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${color}, ${p.opacity})`;
+      ctx.fill();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const q = particles[j];
+        const dx = p.x - q.x, dy = p.y - q.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = `rgba(${color}, ${0.08 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ═══════════════════════════════════════════
+   TYPEWRITER
+   ═══════════════════════════════════════════ */
+(function initTypewriter() {
+  const el = document.getElementById('typewriter');
+  const phrases = [
+    'Web Developer',
+    'UI/UX Enthusiast',
+    'AI + ML Explorer',
+    'Problem Solver',
+  ];
+  let phraseIdx = 0, charIdx = 0, isDeleting = false;
+
+  function type() {
+    const current = phrases[phraseIdx];
+    if (!isDeleting) {
+      el.textContent = current.substring(0, charIdx + 1);
+      charIdx++;
+      if (charIdx === current.length) {
+        setTimeout(() => { isDeleting = true; type(); }, 2000);
+        return;
+      }
+    } else {
+      el.textContent = current.substring(0, charIdx - 1);
+      charIdx--;
+      if (charIdx === 0) {
+        isDeleting = false;
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+      }
+    }
+    setTimeout(type, isDeleting ? 50 : 80);
+  }
+  type();
+})();
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+   ═══════════════════════════════════════════ */
+(function initReveal() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+
+/* ═══════════════════════════════════════════
+   NAVBAR SCROLL + ACTIVE LINK
+   ═══════════════════════════════════════════ */
+(function initNavbar() {
+  const navbar = document.getElementById('navbar');
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a[href^="#"]');
+
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+
+    let current = '';
+    sections.forEach(s => {
+      const top = s.offsetTop - 120;
+      if (window.scrollY >= top) current = s.getAttribute('id');
+    });
+    links.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === `#${current}`);
+    });
+  });
+})();
+
+/* ═══════════════════════════════════════════
+   HAMBURGER
+   ═══════════════════════════════════════════ */
+(function initHamburger() {
+  const btn = document.getElementById('hamburger');
+  const nav = document.querySelector('.nav-links');
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    nav.classList.toggle('open');
+  });
+  nav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      btn.classList.remove('open');
+      nav.classList.remove('open');
+    });
+  });
+})();
+
+/* ═══════════════════════════════════════════
+   HELPERS
+   ═══════════════════════════════════════════ */
 function formatDate(iso) {
   if (!iso) return '';
   const diff = Date.now() - new Date(iso).getTime();
@@ -38,67 +196,62 @@ const langColors = {
   Go: '#00ADD8', Rust: '#dea584', Ruby: '#701516', PHP: '#4F5D95',
   Swift: '#F05138', Kotlin: '#A97BFF', Dart: '#00B4AB',
   HTML: '#e34c26', CSS: '#563d7c', Shell: '#89e051',
-  Vue: '#41b883', Svelte: '#ff3e00', Lua: '#000080',
+  Vue: '#41b883', Svelte: '#ff3e00', Blade: '#fb503b',
 };
 
 function langColor(lang) { return langColors[lang] || '#8b949e'; }
 
 function esc(str) {
+  if (!str) return '';
   const div = document.createElement('div');
-  div.textContent = str || '';
+  div.textContent = str;
   return div.innerHTML;
 }
 
-/* ── Render ── */
-function renderProfile(p) {
-  const section = document.getElementById('profile');
-  section.innerHTML = `
-    <div class="profile-card">
+/* ═══════════════════════════════════════════
+   FETCH & RENDER PROFILE + REPOS
+   ═══════════════════════════════════════════ */
+async function fetchData() {
+  const build = document.documentElement.dataset.build || '0';
+  const res = await fetch(`data.json?v=${build}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+function renderProfileCard(p) {
+  const card = document.getElementById('about-profile-card');
+  document.getElementById('about-skeleton').style.display = 'none';
+  card.innerHTML = `
+    <div class="profile-info">
       <a href="${p.html_url}" target="_blank" rel="noopener">
-        <img class="profile-avatar" src="${p.avatar_url}&s=240" alt="${p.login}" loading="lazy" width="120" height="120">
+        <img class="profile-pic" src="${p.avatar_url}&s=200" alt="${p.login}" loading="lazy" width="100" height="100">
       </a>
-      <div class="profile-name">${esc(p.name || p.login)}</div>
-      <div class="profile-login">@${p.login}</div>
-      ${p.bio ? `<p class="profile-bio">${esc(p.bio)}</p>` : ''}
-      <div class="profile-stats">
-        <div class="stat-item">
-          <span class="stat-value">${p.public_repos}</span>
-          <span class="stat-label">Repos</span>
-        </div>
-        <a href="${p.html_url}?tab=followers" target="_blank" rel="noopener" class="stat-item">
-          <span class="stat-value">${p.followers}</span>
-          <span class="stat-label">Followers</span>
-        </a>
-        <a href="${p.html_url}?tab=following" target="_blank" rel="noopener" class="stat-item">
-          <span class="stat-value">${p.following}</span>
-          <span class="stat-label">Following</span>
-        </a>
+      <div class="pi-name">${esc(p.name || p.login)}</div>
+      <div class="pi-login">@${p.login}</div>
+      <div class="profile-stats-row">
+        <div><span>${p.public_repos}</span> Repos</div>
+        <div><span>${p.followers}</span> Followers</div>
+        <div><span>${p.following}</span> Following</div>
       </div>
     </div>
   `;
-  section.classList.add('visible');
 }
 
 function renderRepos(repos) {
-  const grid = document.querySelector('.repos-grid');
-  const title = document.querySelector('.section-title');
+  const grid = document.getElementById('repos-grid');
 
   if (!repos.length) {
-    title.textContent = 'Featured Projects';
-    grid.innerHTML = `<div class="empty-state">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-      <p>No featured projects yet. Add the <strong>featured</strong> topic to a public repository, then run <code>node build.js</code>.</p>
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:40px;">
+      No featured projects yet. Add the <strong>featured</strong> topic to a public repository, then run <code>node build.js</code>.
     </div>`;
     return;
   }
 
-  title.textContent = `Featured Projects (${repos.length})`;
   grid.innerHTML = '';
-
   repos.forEach((r, i) => {
     const card = document.createElement('div');
     card.className = 'repo-card';
-    card.style.transitionDelay = `${i * 0.04}s`;
+    card.style.transitionDelay = `${i * 0.05}s`;
 
     card.innerHTML = `<div class="repo-name">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 010-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 11-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8z"/></svg>
@@ -130,27 +283,88 @@ function renderRepos(repos) {
   });
 }
 
-function renderError(msg) {
-  document.getElementById('profile').innerHTML = `<div class="error-message"><h3>Something went wrong</h3><p>${esc(msg)}</p></div>`;
-  document.querySelector('.repos-grid').innerHTML = '';
-  document.querySelector('.section-title').textContent = 'Featured Projects';
-}
+/* ═══════════════════════════════════════════
+   RESUME MODAL
+   ═══════════════════════════════════════════ */
+(function initResumeModal() {
+  const overlay = document.getElementById('resume-modal');
+  const content = document.getElementById('modal-content');
+  const triggers = ['resume-btn', 'footer-resume-btn'];
 
-/* ── Main ── */
+  const resumeHTML = `
+    <h2>Karl Lynuz B. Rapada</h2>
+    <p class="modal-sub">
+      Web Developer &middot; Marikina City, Philippines<br>
+      <a href="mailto:karlrapada@gmail.com">karlrapada@gmail.com</a> &middot; +63 921 746 8502<br>
+      <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" rel="noopener">LinkedIn</a> &middot; <a href="https://github.com/karlrapada21" target="_blank" rel="noopener">GitHub</a>
+    </p>
+
+    <h3>Education</h3>
+    <p><strong>BS Information Technology</strong> — IETI College of Science and Technology, Marikina<br>Graduated June 2026 &middot; Dean's Lister</p>
+    <div class="modal-tag-row">
+      <span class="tag">Web Development</span><span class="tag">Mobile App Development</span><span class="tag">Database Systems</span><span class="tag">Software Engineering</span><span class="tag">UI/UX Design</span><span class="tag">Machine Learning</span>
+    </div>
+    <p><em>Capstone:</em> Skin Lesions Detection App Using AI and CNNs</p>
+
+    <h3>Experience</h3>
+    <p><strong>IT Intern (Web Developer)</strong> — Knowles Training Institute, Singapore<br><em>Jan – Apr 2026</em></p>
+    <ul>
+      <li>Built and maintained responsive web apps (HTML, CSS, JavaScript, SQL)</li>
+      <li>Applied UI/UX principles to improve internal tools and user workflows</li>
+      <li>Integrated CNN-based image classification into a web prototype</li>
+      <li>Recognized for clean code, deadlines, and positive feedback from IT lead</li>
+    </ul>
+    <p><strong>Freelance Web Developer</strong> — Self-Employed<br><em>2024 – Present</em></p>
+    <ul>
+      <li>Built custom responsive websites for small businesses and individuals</li>
+      <li>Ensured cross-browser compatibility and mobile responsiveness</li>
+      <li>Delivered projects within tight deadlines with post-launch support</li>
+    </ul>
+
+    <h3>Projects</h3>
+    <p><strong>SkinLesionAI</strong> — Flask, PyTorch, SQLite, Bootstrap, OpenCV, Grad-CAM++</p>
+    <ul><li>Medical-grade web app classifying 8 skin lesion types (ResNeXt50, 85% accuracy)</li></ul>
+    <p><strong>BITSI Dispatch</strong> — Laravel 12, Livewire 3, Tailwind CSS, MySQL, Semaphore API</p>
+    <ul><li>Live dispatch board with auto-refresh, driver attendance, SMS alerts, PMS alerts</li></ul>
+    <p><strong>Intern Management System</strong> — React, Vite, Tailwind CSS</p>
+    <ul><li>All-in-one intern tracking with attendance, tasks, and role-based access</li></ul>
+
+    <h3>Certificates</h3>
+    <p>CCNA 1–3 &middot; TOPCIT Level 3 &middot; NCII CSS & ICT &middot; Python Essentials 1–2 &middot; CompTIA A+</p>
+  `;
+
+  function open() {
+    content.innerHTML = resumeHTML;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  triggers.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', e => { e.preventDefault(); open(); });
+  });
+
+  document.getElementById('modal-close').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) close(); });
+})();
+
+/* ═══════════════════════════════════════════
+   MAIN
+   ═══════════════════════════════════════════ */
 async function init() {
   try {
-    const build = document.documentElement.dataset.build || '0';
-    const data = await fetch(`data.json?v=${build}`).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); });
-    renderProfile(data.profile);
+    const data = await fetchData();
+    renderProfileCard(data.profile);
     renderRepos(data.repos);
   } catch (err) {
-    renderError(err.message);
+    console.error('Failed to load portfolio data:', err);
   }
 }
-
-/* ── Reveal elements when they enter viewport ── */
-new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 }).observe(document.querySelector('.section-title'));
 
 init();

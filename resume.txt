@@ -1,0 +1,48 @@
+Karl Lynuz B. Rapada 
+Web Developer 
+Marikina City, Philippines | karlrapada@gmail.com | +63 921 746 8502 
+www.linkedin.com/in/karl-rapada-88310316a/ | github.com/karlrapada21  
+Education 
+Bachelor of Science in Information Technology 
+IETI College of Science and Technology, Marikina | Graduated June 2026 
+• Relevant Coursework: Web Development, Mobile Application Development, Database 
+Systems, Software Engineering, UI/UX Design, Machine Learning 
+• Honors/Awards: Dean’s Lister  
+• Capstone Project: Skin Lesions Detection App Using Artificial Intelligence and 
+Convolutional Neural Networks – Developed a mobile app that classifies skin lesions from 
+images using a trained CNN model 
+Experience 
+IT Intern (Web Developer) 
+Knowles Training Institute, Singapore | Jan. 13 – April 28, 2026 
+• Built and maintained responsive web applications using HTML, CSS, JavaScript, and SQL 
+databases. 
+• Applied UI/UX principles to improve internal tools and user workflows. 
+• Integrated a CNN-based image classification feature into a web prototype for skin lesion 
+analysis. 
+• Recognized for clean code, deadlines, and positive feedback from IT lead. 
+Freelance Web Developer 
+Self-Employed | 2024 – Present 
+• Built custom responsive websites for small businesses and individuals on a commission basis. 
+• Ensured cross-browser compatibility and mobile responsiveness, delivering projects within 
+tight deadlines. 
+• Maintained post-launch support and updates based on client feedback. 
+Projects 
+SkinLesionAI – AI-Powered Skin Lesion Analysis Platform 
+https://github.com/karlrapada21/skin-lesion-detection | Flask, PyTorch, SQLite, Bootstrap, OpenCV, 
+Grad-CAM++ 
+• Built a medical-grade web app classifying 8 skin lesion types using ResNeXt50 (85% 
+accuracy) 
+• Implemented Grad-CAM++ visual explanations, batch processing, and exportable clinical 
+reports 
+BITSI Dispatch – Real-Time Bus Dispatch Management System 
+https://github.com/IAmKhirvie/bitsi-dispatch | Laravel 12, Livewire 3, Tailwind CSS, MySQL, 
+Semaphore API 
+• Developed live dispatch board with auto-refresh for fleet and driver management 
+• Added driver attendance tracking with late/absent alerts, SMS notifications, and vehicle PMS 
+alerts 
+Intern Management System 
+https://github.com/bigbusbeluga/umonics-attendance-reporting-system | React, Vite, Tailwind CSS 
+• Built a React-based all-in-one intern tracking platform integrating attendance, task 
+management, and role-based access for interns, team leads, and monitoring staff. 
+Certificates 
+CCNA 1 – 3 | TOPCIT Level 3 | NCII CSS & ICT | Python Essentials 1 – 2 | Comptia A+ 
