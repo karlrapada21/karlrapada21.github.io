@@ -3,237 +3,263 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Karl Lynuz B. Rapada | Web Developer</title>
+  <title>KARL LYNUZ B. RAPADA // WEB DEVELOPER</title>
   <link rel="stylesheet" href="./style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Kode+Mono:wght@400..700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <div class="scanlines"></div>
-  <div class="noise"></div>
+  <div class="scanlines-overlay"></div>
+  <div class="noise-overlay"></div>
+  <div class="halftone-overlay"></div>
+  <div class="crt-vignette"></div>
   <canvas id="bg-canvas"></canvas>
 
-  <header>
-    <nav id="navbar">
-      <a href="#hero" class="nav-link glitch-hover" data-text="HOME">HOME</a>
-      <a href="#about" class="nav-link glitch-hover" data-text="ABOUT">ABOUT</a>
-      <a href="#experience" class="nav-link glitch-hover" data-text="XP">XP</a>
-      <a href="#projects" class="nav-link glitch-hover" data-text="PROJECTS">PROJECTS</a>
-      <a href="#certificates" class="nav-link glitch-hover" data-text="CERTS">CERTS</a>
-      <a href="#contact" class="nav-link glitch-hover" data-text="CONTACT">CONTACT</a>
-    </nav>
-  </header>
+  <!-- video-game loading screen boot overlay -->
+  <div id="boot-screen" class="boot-screen">
+    <div class="boot-inner">
+      <div class="boot-title glitch-brand" data-text="KLR">KLR</div>
+      <div class="boot-sub">RAPADA.SYS // BOOTING</div>
+      <div class="boot-bar"><div class="boot-bar-fill"></div></div>
+      <div class="boot-status">&gt; <span id="boot-log">INITIALIZING SYSTEM</span><span class="cursor">_</span></div>
+      <div class="boot-pct"><span id="boot-pct">0</span>%</div>
+    </div>
+  </div>
+
+  <!-- mobile sidebar toggle -->
+  <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+    <span class="toggle-bar"></span>
+    <span class="toggle-bar"></span>
+    <span class="toggle-bar"></span>
+  </button>
+  <div id="scrim" class="scrim"></div>
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-title glitch-brand" data-text="KLR">KLR</div>
+      <div class="brand-sub">RAPADA.SYS</div>
+    </div>
+    <nav id="nav-1"></nav>
+    <div class="sidebar-footer">
+      <div class="status-line">
+        <span class="status-dot"></span>
+        <span class="status-text">SYS::ONLINE</span>
+      </div>
+      <div class="sys-bar"><div class="sys-bar-fill"></div></div>
+      <div class="version">v2.0.26 // BUILD_0716</div>
+    </div>
+  </aside>
 
   <main>
     <section id="hero">
       <div class="hero-content">
-        <div class="glitch-wrapper">
-          <h1 class="glitch" data-text="KARL LYNUZ B. RAPADA">KARL LYNUZ B. RAPADA</h1>
+        <div class="glitch-title-wrapper">
+          <h1 class="glitch-title" data-text="KARL LYNUZ B. RAPADA">KARL LYNUZ B. RAPADA</h1>
+          <h1 class="glitch-title-layer cyan-layer" aria-hidden="true">KARL LYNUZ B. RAPADA</h1>
+          <h1 class="glitch-title-layer red-layer" aria-hidden="true">KARL LYNUZ B. RAPADA</h1>
         </div>
         <div class="typewriter-container">
           <span class="typewriter"></span><span class="cursor">_</span>
         </div>
-        <p class="hero-subtitle">&gt;&gt; FULL-STACK WEB DEVELOPER // AI &amp; SYSTEMS ENTHUSIAST</p>
+        <p class="hero-subtitle">&#9612; FULL-STACK WEB DEVELOPER &nbsp;//&nbsp; AI &amp; SYSTEMS ENTHUSIAST</p>
         <div class="hero-cta">
-          <a href="#contact" class="btn btn-primary glitch-hover" data-text="GET_IN_TOUCH">GET_IN_TOUCH</a>
-          <a href="#projects" class="btn btn-secondary glitch-hover" data-text="VIEW_WORK">VIEW_WORK</a>
+          <a href="#contact" class="btn btn-primary glitch-btn" data-text="GET_IN_TOUCH">GET_IN_TOUCH</a>
+          <a href="#projects" class="btn btn-secondary glitch-btn" data-text="VIEW_WORK">VIEW_WORK</a>
         </div>
       </div>
       <div class="scroll-indicator">
         <span class="arrow"></span>
         <span class="arrow"></span>
+        <span class="scroll-text">SCROLL</span>
       </div>
     </section>
 
     <section id="about">
-      <h2 class="section-title"><span class="bracket">[</span> ABOUT_ME <span class="bracket">]</span></h2>
+      <h2 class="section-title">
+        <span class="title-chroma" data-text="[ ABOUT_ME ]">
+          <span class="chroma-cyan">[ ABOUT_ME ]</span>
+          <span class="chroma-red">[ ABOUT_ME ]</span>
+        </span>
+      </h2>
       <div class="about-grid">
         <div class="about-text terminal-box">
-          <p><span class="prompt">&gt;</span> I'm a <strong class="highlight">BSIT graduate</strong> from IETI College of Science and Technology, Marikina — a Dean's Lister with hands-on experience in web development, machine learning, and software engineering.</p>
-          <p><span class="prompt">&gt;</span> My capstone project, <strong class="highlight">Skin Lesions Detection App</strong>, uses CNN-based AI to classify skin lesions from images — bridging healthcare and deep learning.</p>
-          <p><span class="prompt">&gt;</span> I thrive at the intersection of <strong class="highlight">clean code</strong>, <strong class="highlight">UI/UX design</strong>, and <strong class="highlight">emerging tech</strong>. Currently building robust web apps and exploring AI integration.</p>
+          <p class="terminal-line"><span class="prompt">&gt;</span> BSIT graduate from <strong class="highlight">IETI College of Science and Technology</strong> &mdash; Dean's Lister with hands-on experience in web dev, machine learning, and software engineering.</p>
+          <p class="terminal-line"><span class="prompt">&gt;</span> Capstone: <strong class="highlight">Skin Lesions Detection App</strong> &mdash; CNN-based AI classifying skin lesions from images, bridging healthcare and deep learning.</p>
+          <p class="terminal-line"><span class="prompt">&gt;</span> I build at the intersection of <strong class="highlight">clean code</strong>, <strong class="highlight">UI/UX design</strong>, and <strong class="highlight">emerging tech</strong>.</p>
         </div>
         <div class="about-stats">
           <div class="stat-card">
-            <span class="stat-number" data-target="85">0</span>
-            <span class="stat-label">% Model Accuracy</span>
+            <span class="stat-number" data-target="85" data-suffix="%">0</span>
+            <span class="stat-label">Model Accuracy</span>
           </div>
           <div class="stat-card">
-            <span class="stat-number" data-target="3">0</span>
+            <span class="stat-number" data-target="3" data-suffix="+">0</span>
             <span class="stat-label">Years Coding</span>
           </div>
           <div class="stat-card">
-            <span class="stat-number" data-target="4">0</span>
+            <span class="stat-number" data-target="4" data-suffix="">0</span>
             <span class="stat-label">Major Projects</span>
           </div>
           <div class="stat-card">
-            <span class="stat-number" data-target="8">0</span>
+            <span class="stat-number" data-target="15" data-suffix="">0</span>
             <span class="stat-label">Tech Stacks</span>
           </div>
         </div>
       </div>
       <div class="tech-stack">
-        <h3 class="sub-title">&lt; TECH_STACK /&gt;</h3>
+        <h3 class="sub-title">&lt; STACK /&gt;</h3>
         <div class="tags">
-          <span class="tag">HTML5</span>
-          <span class="tag">CSS3</span>
-          <span class="tag">JavaScript</span>
-          <span class="tag">React</span>
-          <span class="tag">Vite</span>
-          <span class="tag">Laravel</span>
-          <span class="tag">Livewire</span>
-          <span class="tag">Tailwind</span>
-          <span class="tag">Flask</span>
-          <span class="tag">PyTorch</span>
-          <span class="tag">SQL</span>
-          <span class="tag">MySQL</span>
-          <span class="tag">SQLite</span>
-          <span class="tag">OpenCV</span>
-          <span class="tag">Git</span>
+          <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span>
+          <span class="tag">React</span><span class="tag">Vite</span><span class="tag">Laravel</span>
+          <span class="tag">Livewire</span><span class="tag">Tailwind</span><span class="tag">Flask</span>
+          <span class="tag">PyTorch</span><span class="tag">SQL</span><span class="tag">MySQL</span>
+          <span class="tag">SQLite</span><span class="tag">OpenCV</span><span class="tag">Git</span>
         </div>
       </div>
     </section>
 
     <section id="experience">
-      <h2 class="section-title"><span class="bracket">[</span> EXPERIENCE <span class="bracket">]</span></h2>
+      <h2 class="section-title">
+        <span class="title-chroma" data-text="[ EXPERIENCE ]">
+          <span class="chroma-cyan">[ EXPERIENCE ]</span>
+          <span class="chroma-red">[ EXPERIENCE ]</span>
+        </span>
+      </h2>
       <div class="timeline">
-
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-content terminal-box">
             <div class="timeline-header">
-              <h3>IT Intern — Web Developer</h3>
-              <span class="timeline-date">Jan – Apr 2026</span>
+              <h3>IT Intern &mdash; Web Developer</h3>
+              <span class="timeline-date">JAN - APR 2026</span>
             </div>
             <p class="timeline-place">Knowles Training Institute, Singapore</p>
             <ul class="timeline-details">
-              <li>Built and maintained responsive web applications using HTML, CSS, JavaScript, and SQL.</li>
-              <li>Applied UI/UX principles to improve internal tools and user workflows.</li>
-              <li>Integrated CNN-based image classification into a web prototype for skin lesion analysis.</li>
+              <li>Built responsive web apps with HTML, CSS, JavaScript, and SQL databases.</li>
+              <li>Applied UI/UX principles to improve internal tools and workflows.</li>
+              <li>Integrated CNN-based image classification into a skin lesion analysis prototype.</li>
               <li>Recognized for clean code, deadlines, and positive IT lead feedback.</li>
             </ul>
           </div>
         </div>
-
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-content terminal-box">
             <div class="timeline-header">
               <h3>Freelance Web Developer</h3>
-              <span class="timeline-date">2024 – Present</span>
+              <span class="timeline-date">2024 - PRESENT</span>
             </div>
             <p class="timeline-place">Self-Employed</p>
             <ul class="timeline-details">
-              <li>Built custom responsive websites for small businesses and individuals.</li>
+              <li>Built custom responsive websites for small businesses on commission.</li>
               <li>Ensured cross-browser compatibility and mobile responsiveness.</li>
-              <li>Provided post-launch support and updates based on client feedback.</li>
+              <li>Provided post-launch support and iterative updates.</li>
             </ul>
           </div>
         </div>
-
       </div>
     </section>
 
     <section id="projects">
-      <h2 class="section-title"><span class="bracket">[</span> PROJECTS <span class="bracket">]</span></h2>
+      <h2 class="section-title">
+        <span class="title-chroma" data-text="[ PROJECTS ]">
+          <span class="chroma-cyan">[ PROJECTS ]</span>
+          <span class="chroma-red">[ PROJECTS ]</span>
+        </span>
+      </h2>
       <div class="projects-grid">
-
         <div class="project-card terminal-box">
           <div class="project-header">
-            <span class="project-icon">&#9670;</span>
+            <span class="project-icon">&#9632;</span>
             <h3>SkinLesionAI</h3>
           </div>
-          <p class="project-desc">Medical-grade web app classifying 8 skin lesion types using ResNeXt50 (85% accuracy). Implements Grad-CAM++ visual explanations, batch processing, and exportable clinical reports.</p>
+          <p class="project-desc">Medical-grade web app classifying 8 skin lesion types using ResNeXt50 at 85% accuracy. Grad-CAM++ visualizations, batch processing, exportable clinical reports.</p>
           <div class="project-tech">
-            <span class="tag">Flask</span>
-            <span class="tag">PyTorch</span>
-            <span class="tag">SQLite</span>
-            <span class="tag">Bootstrap</span>
-            <span class="tag">OpenCV</span>
-            <span class="tag">Grad-CAM++</span>
+            <span class="tag">Flask</span><span class="tag">PyTorch</span><span class="tag">SQLite</span><span class="tag">Bootstrap</span><span class="tag">OpenCV</span><span class="tag">Grad-CAM++</span>
           </div>
-          <a href="https://github.com/karlrapada21/skin-lesion-detection" target="_blank" class="project-link">&gt; view_repo</a>
+          <a href="https://github.com/karlrapada21/skin-lesion-detection" target="_blank" class="project-link glitch-btn" data-text="&gt; view_repo">&gt; view_repo</a>
         </div>
-
         <div class="project-card terminal-box">
           <div class="project-header">
-            <span class="project-icon">&#9670;</span>
+            <span class="project-icon">&#9632;</span>
             <h3>BITSI Dispatch</h3>
           </div>
-          <p class="project-desc">Real-time bus dispatch management system with live dispatch board, driver attendance tracking, late/absent alerts, SMS notifications, and vehicle PMS alerts.</p>
+          <p class="project-desc">Real-time bus dispatch system with live dispatch board, driver attendance tracking, late/absent SMS alerts, and vehicle PMS alerts.</p>
           <div class="project-tech">
-            <span class="tag">Laravel 12</span>
-            <span class="tag">Livewire 3</span>
-            <span class="tag">Tailwind CSS</span>
-            <span class="tag">MySQL</span>
-            <span class="tag">Semaphore API</span>
+            <span class="tag">Laravel 12</span><span class="tag">Livewire 3</span><span class="tag">Tailwind CSS</span><span class="tag">MySQL</span><span class="tag">Semaphore API</span>
           </div>
-          <a href="https://github.com/IAmKhirvie/bitsi-dispatch" target="_blank" class="project-link">&gt; view_repo</a>
+          <a href="https://github.com/IAmKhirvie/bitsi-dispatch" target="_blank" class="project-link glitch-btn" data-text="&gt; view_repo">&gt; view_repo</a>
         </div>
-
         <div class="project-card terminal-box">
           <div class="project-header">
-            <span class="project-icon">&#9670;</span>
-            <h3>Intern Management System</h3>
+            <span class="project-icon">&#9632;</span>
+            <h3>Intern Mgmt System</h3>
           </div>
-          <p class="project-desc">React-based all-in-one intern tracking platform integrating attendance, task management, and role-based access for interns, team leads, and monitoring staff.</p>
+          <p class="project-desc">React-based intern tracking platform with attendance, task management, and role-based access for interns, team leads, and monitoring staff.</p>
           <div class="project-tech">
-            <span class="tag">React</span>
-            <span class="tag">Vite</span>
-            <span class="tag">Tailwind CSS</span>
+            <span class="tag">React</span><span class="tag">Vite</span><span class="tag">Tailwind CSS</span>
           </div>
-          <a href="https://github.com/bigbusbeluga/umonics-attendance-reporting-system" target="_blank" class="project-link">&gt; view_repo</a>
+          <a href="https://github.com/bigbusbeluga/umonics-attendance-reporting-system" target="_blank" class="project-link glitch-btn" data-text="&gt; view_repo">&gt; view_repo</a>
         </div>
-
       </div>
     </section>
 
     <section id="certificates">
-      <h2 class="section-title"><span class="bracket">[</span> CERTIFICATES <span class="bracket">]</span></h2>
+      <h2 class="section-title">
+        <span class="title-chroma" data-text="[ CERTIFICATES ]">
+          <span class="chroma-cyan">[ CERTIFICATES ]</span>
+          <span class="chroma-red">[ CERTIFICATES ]</span>
+        </span>
+      </h2>
       <div class="certs-grid">
-        <div class="cert-card terminal-box">CCNA 1 – 3</div>
+        <div class="cert-card terminal-box">CCNA 1 &mdash; 3</div>
         <div class="cert-card terminal-box">TOPCIT Level 3</div>
         <div class="cert-card terminal-box">NCII CSS &amp; ICT</div>
-        <div class="cert-card terminal-box">Python Essentials 1 – 2</div>
+        <div class="cert-card terminal-box">Python Essentials 1 &mdash; 2</div>
         <div class="cert-card terminal-box">Comptia A+</div>
       </div>
     </section>
 
     <section id="contact">
-      <h2 class="section-title"><span class="bracket">[</span> CONTACT <span class="bracket">]</span></h2>
+      <h2 class="section-title">
+        <span class="title-chroma" data-text="[ CONTACT ]">
+          <span class="chroma-cyan">[ CONTACT ]</span>
+          <span class="chroma-red">[ CONTACT ]</span>
+        </span>
+      </h2>
       <div class="contact-grid">
         <div class="contact-info terminal-box">
-          <p><span class="label">EMAIL:</span> karlrapada@gmail.com</p>
-          <p><span class="label">PHONE:</span> +63 921 746 8502</p>
-          <p><span class="label">LOCATION:</span> Marikina City, Philippines</p>
+          <p><span class="label">EMAIL:</span><span class="label-val">karlrapada@gmail.com</span></p>
+          <p><span class="label">PHONE:</span><span class="label-val">+63 921 746 8502</span></p>
+          <p><span class="label">LOC:</span><span class="label-val">Marikina City, Philippines</span></p>
           <div class="contact-links">
-            <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" class="btn btn-secondary">&gt; LINKEDIN</a>
-            <a href="https://github.com/karlrapada21" target="_blank" class="btn btn-secondary">&gt; GITHUB</a>
+            <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" class="btn btn-secondary glitch-btn" data-text="LINKEDIN">LINKEDIN</a>
+            <a href="https://github.com/karlrapada21" target="_blank" class="btn btn-secondary glitch-btn" data-text="GITHUB">GITHUB</a>
           </div>
         </div>
         <form class="contact-form terminal-box" onsubmit="return false;">
           <div class="input-group">
-            <label for="name">&gt; NAME:</label>
-            <input type="text" id="name" placeholder="enter_your_name">
+            <label for="name">&gt; NAME_</label>
+            <input type="text" id="name" placeholder="enter_name">
           </div>
           <div class="input-group">
-            <label for="email">&gt; EMAIL:</label>
-            <input type="email" id="email" placeholder="enter_your_email">
+            <label for="email">&gt; EMAIL_</label>
+            <input type="email" id="email" placeholder="enter_email">
           </div>
           <div class="input-group">
-            <label for="message">&gt; MESSAGE:</label>
-            <textarea id="message" rows="4" placeholder="type_your_message"></textarea>
+            <label for="message">&gt; MSG_</label>
+            <textarea id="message" rows="4" placeholder="type_message"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary glitch-hover" data-text="SEND_MESSAGE">SEND_MESSAGE</button>
+          <button type="submit" class="btn btn-primary glitch-btn" data-text="SEND_MESSAGE">SEND_MESSAGE</button>
         </form>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2026 Karl Lynuz B. Rapada | <span class="footer-glitch">SYSTEM ONLINE</span></p>
+    <p>&copy; 2026 <span class="highlight">Karl Lynuz B. Rapada</span> &nbsp;|&nbsp; <span class="footer-glitch">SYS::ONLINE</span> &nbsp;|&nbsp; <span class="footer-glitch-2">READY</span></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
