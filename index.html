@@ -1,269 +1,237 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" data-build="2026-07-16T08:58:40.216Z">
+<html lang="en" data-theme="light" data-build="2026-07-16T09:07:56.842Z">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Karl Rapada | Web Developer</title>
+  <title>Karl Rapada — Web Developer</title>
   <link rel="preload" href="data.json" as="fetch" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Particle Canvas -->
-  <canvas id="particles"></canvas>
-
-  <!-- Navbar -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-logo">&lt;KR/&gt;</a>
-      <ul class="nav-links">
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="#" id="resume-btn" class="nav-resume">Resume</a></li>
-      </ul>
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="#hero" class="logo">Karl Rapada</a>
+      <nav class="nav" id="nav">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#education">Education</a>
+        <a href="#contact">Contact</a>
+        <a href="#" class="nav-cta" id="resume-btn">Resume</a>
+      </nav>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
+      <button class="menu-btn" id="menu-btn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </div>
-  </nav>
+  </header>
 
   <!-- Hero -->
   <section id="hero" class="hero">
-    <div class="hero-content">
-      <div class="hero-greeting reveal">Hello, I'm</div>
-      <h1 class="hero-name reveal">Karl Lynuz B. Rapada</h1>
-      <div class="hero-title reveal">
-        <span class="typewriter" id="typewriter"></span><span class="cursor">|</span>
+    <div class="hero-grid">
+      <div class="hero-text">
+        <p class="hero-eyebrow reveal">Web Developer</p>
+        <h1 class="hero-heading reveal">Karl Lynuz B. Rapada</h1>
+        <p class="hero-desc reveal">I build performant, accessible web applications. Based in Marikina City, Philippines — recently graduated with a BS in Information Technology and hands-on experience in full-stack development, AI integration, and UI/UX.</p>
+        <div class="hero-actions reveal">
+          <a href="#projects" class="btn btn-fill">View Projects</a>
+          <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+        </div>
       </div>
-      <p class="hero-sub reveal">Building clean, performant web experiences from Marikina City, Philippines</p>
-      <div class="hero-cta reveal">
-        <a href="#projects" class="btn-glow">View My Work</a>
-        <a href="#contact" class="btn-outline-glow">Get In Touch</a>
-      </div>
-      <div class="hero-scroll reveal">
-        <span>Scroll</span>
-        <div class="scroll-indicator"></div>
+      <div class="hero-visual reveal">
+        <div class="avatar-frame" id="hero-avatar">
+          <div class="avatar-placeholder"></div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- About -->
   <section id="about" class="section">
-    <h2 class="section-heading reveal"><span class="heading-num">01.</span> About Me</h2>
-    <div class="about-grid reveal">
-      <div class="about-text">
-        <p>I'm a <strong>Web Developer</strong> with a BS in Information Technology from IETI College of Science and Technology. I specialize in building responsive, user-centric applications using modern web technologies.</p>
-        <p>Currently based in Marikina City, I combine clean code with thoughtful UI/UX to craft tools that solve real problems — from AI-powered medical analysis to fleet management systems.</p>
-        <p>When I'm not coding, I'm exploring machine learning, contributing to open-source, or leveling up my infrastructure skills.</p>
-        <div class="about-highlights">
-          <div class="highlight-item">
-            <span class="highlight-icon">&#9733;</span>
-            <span>Dean's Lister</span>
-          </div>
-          <div class="highlight-item">
-            <span class="highlight-icon">&#9889;</span>
-            <span>Graduated June 2026</span>
-          </div>
-          <div class="highlight-item">
-            <span class="highlight-icon">&#127758;</span>
-            <span>IT Intern at Knowles Training Institute, Singapore</span>
-          </div>
+    <div class="container">
+      <div class="section-label reveal">About</div>
+      <h2 class="section-title reveal">Turning complex problems into simple, elegant solutions.</h2>
+      <div class="about-grid reveal">
+        <div class="about-text">
+          <p>I specialize in building responsive, user-centric web applications using modern tools and frameworks. My approach combines clean architecture with thoughtful design — every project starts with understanding the people who will use it.</p>
+          <p>During my internship at <strong>Knowles Training Institute, Singapore</strong>, I integrated CNN-based image classification into a production web prototype and earned recognition for clean code and consistent delivery.</p>
+          <p>Outside of work, I'm either pushing commits, exploring ML models, or studying for my next certification.</p>
         </div>
-      </div>
-      <div class="about-card glass reveal" id="about-profile-card">
-        <div class="about-card-skeleton skeleton-pulse" id="about-skeleton">
-          <div class="sk-avatar"></div>
-          <div class="sk-line w-60"></div>
-          <div class="sk-line w-40"></div>
-          <div class="sk-line w-80"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Education -->
-  <section id="education" class="section alt-bg">
-    <h2 class="section-heading reveal"><span class="heading-num">02.</span> Education</h2>
-    <div class="edu-card glass reveal">
-      <div class="edu-header">
-        <span class="edu-badge">BSIT</span>
-        <span class="edu-date">Graduated June 2026</span>
-      </div>
-      <h3>Bachelor of Science in Information Technology</h3>
-      <p class="edu-school">IETI College of Science and Technology, Marikina</p>
-      <div class="edu-details">
-        <div class="edu-section">
-          <h4>Relevant Coursework</h4>
-          <div class="tag-row">
-            <span class="tag">Web Development</span><span class="tag">Mobile App Development</span><span class="tag">Database Systems</span><span class="tag">Software Engineering</span><span class="tag">UI/UX Design</span><span class="tag">Machine Learning</span>
+        <div class="about-meta">
+          <div class="meta-item">
+            <span class="meta-label">Location</span>
+            <span class="meta-value">Marikina City, Philippines</span>
           </div>
-        </div>
-        <div class="edu-section">
-          <h4>Capstone Project</h4>
-          <p>Skin Lesions Detection App Using AI and Convolutional Neural Networks — mobile app that classifies skin lesions from images using a trained CNN model.</p>
+          <div class="meta-item">
+            <span class="meta-label">Degree</span>
+            <span class="meta-value">BS Information Technology</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Status</span>
+            <span class="meta-value">Open to opportunities</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">GitHub</span>
+            <span class="meta-value" id="gh-repos-count">—</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Experience -->
-  <section id="experience" class="section">
-    <h2 class="section-heading reveal"><span class="heading-num">03.</span> Experience</h2>
-    <div class="timeline">
-      <div class="timeline-line"></div>
-
-      <div class="timeline-item reveal">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card glass">
-          <div class="timeline-header">
-            <h3>IT Intern (Web Developer)</h3>
-            <span class="timeline-date">Jan – Apr 2026</span>
+  <section id="experience" class="section section-alt">
+    <div class="container">
+      <div class="section-label reveal">Experience</div>
+      <h2 class="section-title reveal">Where I've worked.</h2>
+      <div class="exp-list">
+        <div class="exp-card reveal" data-reveal>
+          <div class="exp-period">Jan — Apr 2026</div>
+          <div class="exp-body">
+            <h3>IT Intern (Web Developer) <span class="exp-at">@ Knowles Training Institute</span></h3>
+            <p class="exp-loc">Singapore</p>
+            <ul>
+              <li>Built and maintained responsive web applications using HTML, CSS, JavaScript, and SQL.</li>
+              <li>Applied UI/UX principles to improve internal tools and user workflows.</li>
+              <li>Integrated a CNN-based image classification feature into a web prototype for skin lesion analysis.</li>
+              <li>Recognized for clean code, meeting deadlines, and consistently positive feedback.</li>
+            </ul>
+            <div class="exp-tags">
+              <span>HTML</span><span>CSS</span><span>JavaScript</span><span>SQL</span><span>UI/UX</span><span>CNN</span>
+            </div>
           </div>
-          <p class="timeline-place">Knowles Training Institute, Singapore</p>
-          <ul class="timeline-list">
-            <li>Built and maintained responsive web applications using HTML, CSS, JavaScript, and SQL</li>
-            <li>Applied UI/UX principles to improve internal tools and user workflows</li>
-            <li>Integrated CNN-based image classification into a web prototype for skin lesion analysis</li>
-            <li>Recognized for clean code, deadlines, and positive feedback from IT lead</li>
-          </ul>
         </div>
-      </div>
-
-      <div class="timeline-item reveal">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card glass">
-          <div class="timeline-header">
-            <h3>Freelance Web Developer</h3>
-            <span class="timeline-date">2024 – Present</span>
+        <div class="exp-card reveal" data-reveal>
+          <div class="exp-period">2024 — Present</div>
+          <div class="exp-body">
+            <h3>Freelance Web Developer <span class="exp-at">@ Self-Employed</span></h3>
+            <ul>
+              <li>Built custom responsive websites for small businesses and individuals on commission.</li>
+              <li>Ensured cross-browser compatibility and mobile responsiveness.</li>
+              <li>Maintained post-launch support and updates based on client feedback.</li>
+            </ul>
+            <div class="exp-tags">
+              <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Responsive</span>
+            </div>
           </div>
-          <p class="timeline-place">Self-Employed</p>
-          <ul class="timeline-list">
-            <li>Built custom responsive websites for small businesses and individuals</li>
-            <li>Ensured cross-browser compatibility and mobile responsiveness</li>
-            <li>Delivered projects within tight deadlines with post-launch support</li>
-          </ul>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Projects -->
-  <section id="projects" class="section alt-bg">
-    <h2 class="section-heading reveal"><span class="heading-num">04.</span> Projects</h2>
-    <div class="repos-grid" id="repos-grid">
-      <div class="repo-card skeleton-pulse"><div class="sk-line w-60"></div><div class="sk-line w-90"></div><div class="sk-line w-50"></div><div class="sk-line w-40"></div></div>
-      <div class="repo-card skeleton-pulse"><div class="sk-line w-60"></div><div class="sk-line w-90"></div><div class="sk-line w-50"></div><div class="sk-line w-40"></div></div>
-      <div class="repo-card skeleton-pulse"><div class="sk-line w-60"></div><div class="sk-line w-90"></div><div class="sk-line w-50"></div><div class="sk-line w-40"></div></div>
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="section-label reveal">Projects</div>
+      <h2 class="section-title reveal">Featured work.</h2>
+      <div class="projects-grid" id="projects-grid">
+        <div class="project-card skeleton">
+          <div class="sk-block" style="height:20px;width:60%"></div>
+          <div class="sk-block" style="height:14px;width:90%;margin-top:10px"></div>
+          <div class="sk-block" style="height:14px;width:40%;margin-top:8px"></div>
+          <div class="sk-block" style="height:14px;width:25%;margin-top:16px"></div>
+        </div>
+        <div class="project-card skeleton">
+          <div class="sk-block" style="height:20px;width:55%"></div>
+          <div class="sk-block" style="height:14px;width:85%;margin-top:10px"></div>
+          <div class="sk-block" style="height:14px;width:45%;margin-top:8px"></div>
+          <div class="sk-block" style="height:14px;width:30%;margin-top:16px"></div>
+        </div>
+        <div class="project-card skeleton">
+          <div class="sk-block" style="height:20px;width:65%"></div>
+          <div class="sk-block" style="height:14px;width:88%;margin-top:10px"></div>
+          <div class="sk-block" style="height:14px;width:35%;margin-top:8px"></div>
+          <div class="sk-block" style="height:14px;width:28%;margin-top:16px"></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Skills -->
+  <!-- Education -->
+  <section id="education" class="section section-alt">
+    <div class="container">
+      <div class="section-label reveal">Education</div>
+      <h2 class="section-title reveal">Academic background.</h2>
+      <div class="edu-card reveal" data-reveal>
+        <div class="edu-top">
+          <h3>Bachelor of Science in Information Technology</h3>
+          <span class="edu-badge">Dean's Lister</span>
+        </div>
+        <p class="edu-school">IETI College of Science and Technology, Marikina &middot; Graduated June 2026</p>
+        <div class="edu-sections">
+          <div>
+            <h4>Relevant Coursework</h4>
+            <div class="tag-cluster">
+              <span>Web Development</span><span>Mobile App Development</span><span>Database Systems</span><span>Software Engineering</span><span>UI/UX Design</span><span>Machine Learning</span>
+            </div>
+          </div>
+          <div>
+            <h4>Capstone Project</h4>
+            <p class="edu-capstone">Skin Lesions Detection App Using Artificial Intelligence and Convolutional Neural Networks — a mobile app that classifies skin lesions from images using a trained CNN model.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills & Certs -->
   <section id="skills" class="section">
-    <h2 class="section-heading reveal"><span class="heading-num">05.</span> Skills &amp; Tools</h2>
-    <div class="skills-container">
-      <div class="skill-group reveal">
-        <h3 class="skill-cat">Frontend</h3>
-        <div class="skill-badges">
-          <span class="skill-badge" data-level="90">HTML</span>
-          <span class="skill-badge" data-level="90">CSS</span>
-          <span class="skill-badge" data-level="85">JavaScript</span>
-          <span class="skill-badge" data-level="80">React</span>
-          <span class="skill-badge" data-level="80">Vite</span>
-          <span class="skill-badge" data-level="85">Tailwind CSS</span>
-          <span class="skill-badge" data-level="75">Bootstrap</span>
-          <span class="skill-badge" data-level="75">Livewire</span>
+    <div class="container">
+      <div class="section-label reveal">Skills &amp; Certifications</div>
+      <h2 class="section-title reveal">Technologies and credentials.</h2>
+      <div class="skills-grid reveal">
+        <div class="skill-block">
+          <h3>Frontend</h3>
+          <div class="tag-cluster">
+            <span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span><span>Vite</span><span>Tailwind CSS</span><span>Bootstrap</span><span>Livewire</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h3>Backend</h3>
+          <div class="tag-cluster">
+            <span>Laravel</span><span>Flask</span><span>Python</span><span>SQL</span><span>MySQL</span><span>SQLite</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h3>AI / ML &amp; Tools</h3>
+          <div class="tag-cluster">
+            <span>PyTorch</span><span>OpenCV</span><span>CNN</span><span>Grad-CAM++</span><span>Git</span><span>UI/UX Design</span>
+          </div>
         </div>
       </div>
-      <div class="skill-group reveal">
-        <h3 class="skill-cat">Backend</h3>
-        <div class="skill-badges">
-          <span class="skill-badge" data-level="80">Laravel</span>
-          <span class="skill-badge" data-level="75">Flask</span>
-          <span class="skill-badge" data-level="70">Python</span>
-          <span class="skill-badge" data-level="80">SQL</span>
-          <span class="skill-badge" data-level="70">MySQL</span>
-          <span class="skill-badge" data-level="65">SQLite</span>
-        </div>
-      </div>
-      <div class="skill-group reveal">
-        <h3 class="skill-cat">AI / ML &amp; Other</h3>
-        <div class="skill-badges">
-          <span class="skill-badge" data-level="70">PyTorch</span>
-          <span class="skill-badge" data-level="65">OpenCV</span>
-          <span class="skill-badge" data-level="65">CNN</span>
-          <span class="skill-badge" data-level="60">Grad-CAM++</span>
-          <span class="skill-badge" data-level="75">Git</span>
-          <span class="skill-badge" data-level="70">UI/UX Design</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Certificates -->
-  <section id="certs" class="section alt-bg">
-    <h2 class="section-heading reveal"><span class="heading-num">06.</span> Certificates</h2>
-    <div class="certs-grid reveal">
-      <div class="cert-card glass">
-        <div class="cert-icon">&#127891;</div>
-        <h4>CCNA 1 – 3</h4>
-        <p>Cisco Certified Network Associate</p>
-      </div>
-      <div class="cert-card glass">
-        <div class="cert-icon">&#128218;</div>
-        <h4>TOPCIT Level 3</h4>
-        <p>ICT Competency Certification</p>
-      </div>
-      <div class="cert-card glass">
-        <div class="cert-icon">&#128187;</div>
-        <h4>NCII CSS &amp; ICT</h4>
-        <p>Computer Systems Servicing &amp; ICT</p>
-      </div>
-      <div class="cert-card glass">
-        <div class="cert-icon">&#128013;</div>
-        <h4>Python Essentials 1 – 2</h4>
-        <p>Cisco Networking Academy</p>
-      </div>
-      <div class="cert-card glass">
-        <div class="cert-icon">&#128295;</div>
-        <h4>CompTIA A+</h4>
-        <p>IT Technical Support Certification</p>
+      <h3 class="certs-heading reveal">Certifications</h3>
+      <div class="certs-row reveal">
+        <div class="cert-item">CCNA 1–3</div>
+        <div class="cert-item">TOPCIT Level 3</div>
+        <div class="cert-item">NCII CSS &amp; ICT</div>
+        <div class="cert-item">Python Essentials 1–2</div>
+        <div class="cert-item">CompTIA A+</div>
       </div>
     </div>
   </section>
 
   <!-- Contact -->
-  <section id="contact" class="section">
-    <h2 class="section-heading reveal"><span class="heading-num">07.</span> Get In Touch</h2>
-    <div class="contact-content reveal">
-      <p class="contact-intro">I'm currently open to opportunities. Whether you have a project, a question, or just want to say hi — my inbox is always open.</p>
-      <div class="contact-links">
-        <a href="mailto:karlrapada@gmail.com" class="contact-card glass">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-          <span>karlrapada@gmail.com</span>
+  <section id="contact" class="section section-alt">
+    <div class="container">
+      <div class="section-label reveal">Contact</div>
+      <h2 class="section-title reveal">Let's work together.</h2>
+      <p class="contact-desc reveal">I'm currently open to new opportunities. Whether you have a project in mind, a question, or just want to connect — reach out anytime.</p>
+      <div class="contact-row reveal">
+        <a href="mailto:karlrapada@gmail.com" class="contact-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+          karlrapada@gmail.com
         </a>
-        <a href="tel:+639217468502" class="contact-card glass">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-          <span>+63 921 746 8502</span>
+        <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" rel="noopener" class="contact-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
         </a>
-        <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" rel="noopener" class="contact-card glass">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          <span>LinkedIn</span>
-        </a>
-        <a href="https://github.com/karlrapada21" target="_blank" rel="noopener" class="contact-card glass">
-          <svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          <span>GitHub</span>
+        <a href="https://github.com/karlrapada21" target="_blank" rel="noopener" class="contact-link">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
         </a>
       </div>
     </div>
@@ -271,17 +239,16 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <p>Built with passion &amp; JavaScript &middot; <a href="#" id="footer-resume-btn">Resume</a> &middot; Run <code>node build.js</code> to refresh</p>
-    <p class="footer-credit">&copy; 2026 Karl Lynuz B. Rapada</p>
+    <div class="container">
+      <p>&copy; 2026 Karl Lynuz B. Rapada &middot; Marikina City, Philippines &middot; <a href="#" id="footer-resume-btn">Resume</a></p>
+    </div>
   </footer>
 
   <!-- Resume Modal -->
   <div class="modal-overlay" id="resume-modal">
-    <div class="modal glass">
+    <div class="modal">
       <button class="modal-close" id="modal-close">&times;</button>
-      <div class="modal-body" id="modal-content">
-        <!-- Filled by JS -->
-      </div>
+      <div class="modal-body" id="modal-content"></div>
     </div>
   </div>
 
