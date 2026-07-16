@@ -57,7 +57,7 @@ img{max-width:100%;display:block;}
 /* ═══════════════════════════════════════════
    SAKURA TREE (fixed background)
    ═══════════════════════════════════════════ */
-.sakura-tree-container{position:fixed;right:0;top:0;bottom:0;width:340px;z-index:0;pointer-events:none;opacity:.5;}
+.sakura-tree-container{position:fixed;right:-20px;top:-60px;bottom:-60px;width:380px;z-index:0;pointer-events:none;opacity:.48;}
 .sakura-tree-container svg{width:100%;height:100%;}
 
 /* ═══════════════════════════════════════════
@@ -324,7 +324,7 @@ img{max-width:100%;display:block;}
    RESPONSIVE
    ═══════════════════════════════════════════ */
 @media(max-width:768px){
-  .sakura-tree-container{width:180px;opacity:.35;}
+  .sakura-tree-container{width:200px;right:-40px;opacity:.32;}
   .section{padding:64px 20px;}
   .hero{padding:100px 20px 60px;}
   .modal{padding:28px 20px;margin:0 8px;}
