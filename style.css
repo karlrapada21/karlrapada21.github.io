@@ -284,11 +284,13 @@ body.nav-open .nav-toggle .toggle-bar:nth-child(3) { transform: translateY(-7px)
 .sidebar-footer {
   padding: 1rem 1.2rem 1.5rem;
   border-top: 2px solid var(--border);
+  text-align: center;
 }
 
 .status-line {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -406,7 +408,12 @@ section {
   display: inline-block;
   cursor: default;
 }
-.chroma-cyan, .chroma-red {
+.chroma-cyan {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+.chroma-red {
   position: absolute;
   top: 0; left: 0;
   width: 100%;
