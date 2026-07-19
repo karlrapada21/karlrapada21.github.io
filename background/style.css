@@ -1,0 +1,121 @@
+:root {
+  --wall: #120e0c;
+  --ink: #8d8178;
+  --ink-dim: #4f4741;
+  --ember: #ff7a33;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--wall);
+  background-image: radial-gradient(
+    ellipse 70% 55% at 50% 42%,
+    rgba(255, 122, 51, 0.055),
+    transparent 70%
+  );
+  color: var(--ink);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 28px 20px;
+}
+
+header {
+  width: min(920px, 94vw);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+}
+
+h1 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+h1 em {
+  font-style: normal;
+  color: var(--ember);
+}
+
+header span {
+  color: var(--ink-dim);
+}
+
+.frame {
+  width: min(920px, 94vw);
+  aspect-ratio: 16 / 10;
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 200, 160, 0.09);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    0 4px 18px rgba(0, 0, 0, 0.4);
+  background: #000;
+}
+
+canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.caption {
+  width: min(920px, 94vw);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  color: var(--ink-dim);
+}
+
+.caption #res::after {
+  content: " · ";
+}
+
+footer {
+  width: min(920px, 94vw);
+  margin-top: 26px;
+  color: var(--ink-dim);
+  font-size: 10px;
+}
+
+footer kbd {
+  font-family: inherit;
+  color: var(--ink);
+}
+
+/* nudge dat.gui toward the room's palette */
+.dg.ac {
+  z-index: 10 !important;
+}
+.dg .cr.number input[type="text"] {
+  color: var(--ember) !important;
+}
+
+@media (max-width: 640px) {
+  header {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

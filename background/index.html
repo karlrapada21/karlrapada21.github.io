@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clay Field — infinite block terrain</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='2' y='6' width='5' height='8' rx='1' fill='%23ff7a33'/%3E%3Crect x='9' y='2' width='5' height='12' rx='1' fill='%23cf4a24'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="./style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <header>
+      <h1>
+        Clay
+        <em>Field</em>
+      </h1>
+      <span>live raymarch — no meshes - shader only</span>
+    </header>
+
+    <div class="frame">
+      <canvas
+        id="view"
+        role="img"
+        aria-label="Animated infinite field of clay blocks rising and falling under glowing fog"
+      ></canvas>
+    </div>
+
+    <div class="caption">
+      <span id="scene-name">ember</span>
+      <span>
+        <span id="res">—</span>
+        <span id="status">warming up</span>
+      </span>
+    </div>
+
+    <footer>
+      <kbd>space</kbd>
+      pause · controls top right
+    </footer>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"
+      integrity="sha384-zOgzwcqJCw3LA7qLVjBW4y516VfyarJSUKMvU8tvMGZ+aAsDwtKnXHGLVU37VYcp"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="./shaders.js"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

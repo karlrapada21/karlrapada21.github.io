@@ -14,9 +14,10 @@ html { scroll-behavior: smooth; }
   --glow-pink: 0 0 10px #f55a6b, 0 0 30px #f55a6b44, 0 0 60px #f55a6b22;
   --glow-cyan: 0 0 10px #5accf5, 0 0 30px #5accf544, 0 0 60px #5accf522;
 }
-body { background-color: var(--dark); color: var(--text); font-family: "Kode Mono", "Share Tech Mono", monospace; min-height: 100vh; overflow-x: hidden; line-height: 1.6; }
+body { background-color: var(--dark); color: var(--text); font-family: "Kode Mono", "Share Tech Mono", monospace; min-height: 100vh; overflow-x: hidden; line-height: 1.6; position: relative; }
 body::after { content: ""; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, var(--scanline) 2px, var(--scanline) 4px); pointer-events: none; z-index: 9999; }
-body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.6) 100%); pointer-events: none; z-index: 9998; }
+body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.75) 100%); pointer-events: none; z-index: 9998; }
+#bg-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 @keyframes glitch1 { 0%,100% { transform: translate(0); } 20% { transform: translate(-2px,1px); } 40% { transform: translate(2px,-1px); } 60% { transform: translate(-1px,2px); } 80% { transform: translate(1px,-2px); } }
 @keyframes glitch2 { 0%,100% { transform: translate(0); } 20% { transform: translate(2px,-1px); } 40% { transform: translate(-2px,1px); } 60% { transform: translate(1px,-2px); } 80% { transform: translate(-1px,2px); } }
 .glitch { position: relative; display: inline-block; }
@@ -501,5 +502,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
+<script type="module" src="./shaders.js"></script>
+<script type="module" src="./bg-canvas.js"></script>
 </body>
 </html>
