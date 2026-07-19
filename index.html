@@ -91,10 +91,86 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
 @keyframes spin { to { transform: rotate(360deg); } }
 .hidden { display: none !important; }
 @media (max-width: 600px) { .navbar { padding: 6px 8px; gap: 2px; } .nav-logo { margin-right: 0; } .nav-links { gap: 1px; } .nav-link svg { width: 100px !important; height: 32px !important; } .nav-link text { font-size: 10px; } }
+
+/* ===== BG CONTROL PANEL ===== */
+.bg-panel-toggle { position: fixed; top: 62px; right: 10px; z-index: 10001; background: rgba(8,5,5,0.85); border: 1px solid var(--pink); color: var(--pink); padding: 6px 12px; cursor: pointer; font-family: "Kode Mono", monospace; font-size: 12px; transition: all 0.2s; }
+.bg-panel-toggle:hover { background: var(--pink); color: var(--darker); box-shadow: var(--glow-pink); }
+.bg-panel { position: fixed; top: 56px; right: 0; z-index: 10000; width: 300px; height: calc(100vh - 56px); overflow-y: auto; background: rgba(5,3,3,0.94); border-left: 1px solid var(--pink); font-family: "Kode Mono", monospace; font-size: 11px; color: var(--text); padding: 12px; transform: translateX(100%); transition: transform 0.3s; }
+.bg-panel.open { transform: translateX(0); }
+.bg-panel::-webkit-scrollbar { width: 3px; }
+.bg-panel::-webkit-scrollbar-thumb { background: var(--pink); }
+.bg-panel-group { margin-bottom: 14px; }
+.bg-panel-label { color: var(--cyan); font-size: 10px; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 1px; border-bottom: 1px solid rgba(90,204,245,0.3); padding-bottom: 3px; }
+.bg-panel-row { display: flex; align-items: center; justify-content: space-between; margin: 3px 0; }
+.bg-panel-row span { color: var(--text); font-size: 10px; width: 60px; flex-shrink: 0; }
+.bg-panel-row input[type=range] { flex: 1; height: 4px; -webkit-appearance: none; background: rgba(245,90,107,0.3); outline: none; cursor: pointer; margin: 0 4px; }
+.bg-panel-row input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; background: var(--pink); cursor: pointer; }
+.bg-panel-row input[type=color] { width: 28px; height: 18px; border: 1px solid var(--pink); background: transparent; cursor: pointer; padding: 0; margin-left: 4px; flex-shrink: 0; }
+.bg-panel-row .val { font-size: 9px; color: var(--cyan); width: 28px; text-align: right; flex-shrink: 0; }
+.bg-presets { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+.bg-preset-btn { background: rgba(15,11,11,0.7); border: 1px solid var(--cyan); color: var(--cyan); padding: 3px 8px; cursor: pointer; font-family: "Kode Mono", monospace; font-size: 10px; transition: all 0.15s; }
+.bg-preset-btn:hover, .bg-preset-btn.active { background: var(--cyan); color: var(--darker); }
 </style>
 </head>
 <body>
-<!-- PART1_DONE -->
+<button class="bg-panel-toggle" id="bg-panel-toggle" title="Background Controls">&#9881; BG</button>
+<div class="bg-panel" id="bg-panel">
+  <div class="bg-panel-group">
+    <div class="bg-panel-label">Presets</div>
+    <div class="bg-presets" id="bg-presets"></div>
+  </div>
+  <div class="bg-panel-group">
+    <div class="bg-panel-label">Colors</div>
+    <div class="bg-panel-row"><span>Shadow</span><input type="color" data-key="colBase"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Lit</span><input type="color" data-key="colMid"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Sun</span><input type="color" data-key="colHi"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Glow</span><input type="color" data-key="colGlow"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Sky</span><input type="color" data-key="colBg"><span class="val"></span></div>
+  </div>
+  <div class="bg-panel-group">
+    <div class="bg-panel-label">Blocks</div>
+    <div class="bg-panel-row"><span>Size</span><input type="range" min="0.5" max="2.5" step="0.01" data-key="cellSize"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Gap</span><input type="range" min="0" max="0.45" step="0.005" data-key="gap"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Round</span><input type="range" min="0" max="0.9" step="0.01" data-key="cornerRadius"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Height</span><input type="range" min="0" max="5" step="0.05" data-key="heightAmp"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Spread</span><input type="range" min="0" max="2.5" step="0.05" data-key="spreadAmp"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Terrace</span><input type="range" min="0" max="1" step="0.01" data-key="terrace"><span class="val"></span></div>
+  </div>
+  <div class="bg-panel-group">
+    <div class="bg-panel-label">Motion</div>
+    <div class="bg-panel-row"><span>Morph</span><input type="range" min="0" max="1.5" step="0.01" data-key="morphSpeed"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Drift</span><input type="range" min="0" max="2" step="0.01" data-key="driftSpeed"><span class="val"></span></div>
+  </div>
+  <div class="bg-panel-group">
+    <div class="bg-panel-label">Atmosphere</div>
+    <div class="bg-panel-row"><span>Fog</span><input type="range" min="0" max="1.2" step="0.01" data-key="fogDensity"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Falloff</span><input type="range" min="0.1" max="1.5" step="0.01" data-key="fogFalloff"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Glow</span><input type="range" min="0" max="3" step="0.05" data-key="glow"><span class="val"></span></div>
+  </div>
+  <div class="bg-panel-group">
+    <div class="bg-panel-label">Camera</div>
+    <div class="bg-panel-row"><span>Hover</span><input type="range" min="0.8" max="7" step="0.05" data-key="camHover"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Pitch</span><input type="range" min="-1.1" max="-0.15" step="0.01" data-key="camPitch"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Zoom</span><input type="range" min="1" max="4" step="0.05" data-key="zoom"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Sun Az</span><input type="range" min="0" max="360" step="1" data-key="sunAzimuth"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Sun El</span><input type="range" min="8" max="70" step="1" data-key="sunElevation"><span class="val"></span></div>
+  </div>
+  <div class="bg-panel-group">
+    <div class="bg-panel-label">Lens</div>
+    <div class="bg-panel-row"><span>Focus</span><input type="range" min="1" max="40" step="0.1" data-key="focusDistance"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Aperture</span><input type="range" min="0" max="40" step="0.5" data-key="aperture"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Blur</span><input type="range" min="2" max="24" step="0.5" data-key="maxBlur"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Tilt</span><input type="range" min="0" max="20" step="0.5" data-key="tiltShift"><span class="val"></span></div>
+  </div>
+  <div class="bg-panel-group">
+    <div class="bg-panel-label">Post</div>
+    <div class="bg-panel-row"><span>Exposure</span><input type="range" min="0.3" max="2.5" step="0.01" data-key="exposure"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Saturation</span><input type="range" min="0" max="2" step="0.01" data-key="saturation"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Vignette</span><input type="range" min="0" max="1" step="0.01" data-key="vignette"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Grain</span><input type="range" min="0" max="0.2" step="0.005" data-key="grain"><span class="val"></span></div>
+  </div>
+</div>
+<!-- PANEL_DONE -->
 <nav class="navbar" id="navbar">
   <a href="#home" class="nav-logo">
     <svg width="180px" height="36px" viewBox="0 0 180 36">
@@ -504,6 +580,74 @@ document.addEventListener("DOMContentLoaded", function() {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
+
+  // === BG CONTROL PANEL ===
+  var toggle = document.getElementById("bg-panel-toggle");
+  var panel = document.getElementById("bg-panel");
+  var open = false;
+  toggle.addEventListener("click", function() {
+    open = !open;
+    panel.classList.toggle("open", open);
+    toggle.textContent = open ? "\u2699 CLOSE" : "\u2699 BG";
+  });
+
+  function bindBgPanel() {
+    var presets = window.bgPresets;
+    var params = window.bgParams;
+    if (!presets || !params) { setTimeout(bindBgPanel, 100); return; }
+
+    var presetDiv = document.getElementById("bg-presets");
+    Object.keys(presets).forEach(function(name) {
+      var btn = document.createElement("button");
+      btn.className = "bg-preset-btn" + (params.palette === name ? " active" : "");
+      btn.textContent = name;
+      btn.addEventListener("click", function() {
+        window.applyBgPreset(name);
+        presetDiv.querySelectorAll("button").forEach(function(b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        syncPanelFromParams();
+      });
+      presetDiv.appendChild(btn);
+    });
+
+    var inputs = panel.querySelectorAll("input[data-key]");
+    function syncPanelFromParams() {
+      inputs.forEach(function(inp) {
+        var key = inp.getAttribute("data-key");
+        if (inp.type === "color") {
+          inp.value = params[key];
+          var valEl = inp.parentElement.querySelector(".val");
+          if (valEl) valEl.textContent = "";
+        } else {
+          inp.value = params[key];
+          var valEl = inp.parentElement.querySelector(".val");
+          if (valEl) valEl.textContent = parseFloat(params[key]).toFixed(2);
+        }
+      });
+      var activeName = params.palette;
+      presetDiv.querySelectorAll("button").forEach(function(b) {
+        b.classList.toggle("active", b.textContent === activeName);
+      });
+    }
+
+    inputs.forEach(function(inp) {
+      inp.addEventListener("input", function() {
+        var key = this.getAttribute("data-key");
+        var val = this.type === "color" ? this.value : parseFloat(this.value);
+        params[key] = val;
+        params.palette = "custom";
+        presetDiv.querySelectorAll("button").forEach(function(b) { b.classList.remove("active"); });
+        var valEl = this.parentElement.querySelector(".val");
+        if (valEl && this.type !== "color") valEl.textContent = val.toFixed(2);
+        if (key === "renderScale" && window.bgResize) window.bgResize();
+      });
+    });
+
+    syncPanelFromParams();
+    window.syncPanelFromParams = syncPanelFromParams;
+  }
+
+  bindBgPanel();
 });
 </script>
 <script type="module" src="./shaders.js"></script>
