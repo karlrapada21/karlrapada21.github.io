@@ -8,6 +8,33 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
+  <style>
+    .boot-screen {
+      animation: boot-auto-hide 0.3s 4s forwards;
+    }
+    @keyframes boot-auto-hide {
+      to { opacity: 0; visibility: hidden; pointer-events: none; }
+    }
+    .glitch-in {
+      opacity: 0;
+      animation: glitch-safe 0.01s 12s forwards;
+    }
+    @keyframes glitch-safe {
+      to { opacity: 1; }
+    }
+    .glitch-title,
+    .glitch-title-layer,
+    .typewriter-container,
+    .hero-subtitle,
+    .hero-cta,
+    .scroll-indicator {
+      opacity: 0;
+      animation: hero-safe 0.4s 5.5s forwards;
+    }
+    @keyframes hero-safe {
+      to { opacity: 1; }
+    }
+  </style>
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/EasePack.min.js"></script>
   <script defer src="./script.js"></script>

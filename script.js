@@ -1,4 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
+(function init() {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+    return;
+  }
+
   gsap.registerPlugin(EasePack);
 
   // Pre-hide hero elements so they don't flash before the loading screen lifts.
@@ -49,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
       screen.classList.add("is-done");
     }
   }, 8000);
-});
+})();
 
 /* ==================== NAV BUTTON DEFINITIONS ==================== */
 const NAV_ITEMS = [
