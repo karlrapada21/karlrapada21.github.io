@@ -1,296 +1,514 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KARL LYNUZ B. RAPADA // WEB DEVELOPER</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css">
-  <style>
-    .boot-screen {
-      animation: boot-auto-hide 0.3s 4s forwards;
-    }
-    @keyframes boot-auto-hide {
-      to { opacity: 0; visibility: hidden; pointer-events: none; }
-    }
-    .glitch-in {
-      opacity: 0;
-      animation: glitch-safe 0.01s 12s forwards;
-    }
-    @keyframes glitch-safe {
-      to { opacity: 1; }
-    }
-    .glitch-title,
-    .glitch-title-layer,
-    .typewriter-container,
-    .hero-subtitle,
-    .hero-cta,
-    .scroll-indicator {
-      opacity: 0;
-      animation: hero-safe 0.4s 5.5s forwards;
-    }
-    @keyframes hero-safe {
-      to { opacity: 1; }
-    }
-  </style>
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/EasePack.min.js"></script>
-  <script defer src="./script.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karl Lynuz B. Rapada | Web Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --pink: #f55a6b; --cyan: #5accf5; --yellow: #f5e65a; --green: #5af5a6; --purple: #b55af5;
+  --dark: #0f0b0b; --darker: #080505; --scanline: rgba(255,255,255,0.03); --text: #e0d0d0;
+  --glow-pink: 0 0 10px #f55a6b, 0 0 30px #f55a6b44, 0 0 60px #f55a6b22;
+  --glow-cyan: 0 0 10px #5accf5, 0 0 30px #5accf544, 0 0 60px #5accf522;
+}
+body { background-color: var(--dark); color: var(--text); font-family: "Kode Mono", "Share Tech Mono", monospace; min-height: 100vh; overflow-x: hidden; line-height: 1.6; }
+body::after { content: ""; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, var(--scanline) 2px, var(--scanline) 4px); pointer-events: none; z-index: 9999; }
+body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.6) 100%); pointer-events: none; z-index: 9998; }
+@keyframes glitch1 { 0%,100% { transform: translate(0); } 20% { transform: translate(-2px,1px); } 40% { transform: translate(2px,-1px); } 60% { transform: translate(-1px,2px); } 80% { transform: translate(1px,-2px); } }
+@keyframes glitch2 { 0%,100% { transform: translate(0); } 20% { transform: translate(2px,-1px); } 40% { transform: translate(-2px,1px); } 60% { transform: translate(1px,-2px); } 80% { transform: translate(-1px,2px); } }
+.glitch { position: relative; display: inline-block; }
+.glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.7; }
+.glitch::before { color: var(--cyan); animation: glitch1 0.3s infinite; clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%); }
+.glitch::after { color: var(--pink); animation: glitch2 0.3s infinite; clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); }
+::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--darker); } ::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 3px; }
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; justify-content: center; align-items: center; gap: 0; padding: 8px 16px; background: rgba(15,11,11,0.92); border-bottom: 2px solid var(--pink); backdrop-filter: blur(10px); flex-wrap: wrap; box-shadow: 0 4px 20px rgba(245,90,107,0.2); }
+.nav-logo { display: flex; align-items: center; margin-right: 24px; text-decoration: none; }
+.nav-logo text.blue { fill: var(--cyan); } .nav-logo text.red { fill: var(--pink); }
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-link { text-decoration: none; cursor: pointer; display: block; }
+.nav-link text { fill: var(--pink); font-family: "Kode Mono", monospace; font-size: 14px; }
+.nav-link text.blue { fill: var(--cyan); }
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 100px 20px 40px; position: relative; }
+.hero-title { font-size: clamp(2rem, 6vw, 4.5rem); font-family: "Kode Mono", monospace; color: var(--pink); text-shadow: var(--glow-pink); margin-bottom: 8px; letter-spacing: 2px; }
+.hero-subtitle { font-size: clamp(1rem, 3vw, 1.8rem); color: var(--cyan); text-shadow: var(--glow-cyan); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
+.hero-tagline { color: var(--text); font-size: 0.9rem; max-width: 600px; margin-bottom: 30px; opacity: 0.7; }
+.hero-links { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+.hero-link { color: var(--cyan); text-decoration: none; border: 1px solid var(--cyan); padding: 8px 20px; font-family: "Kode Mono", monospace; transition: all 0.3s; position: relative; overflow: hidden; }
+.hero-link:hover { background: var(--cyan); color: var(--darker); box-shadow: var(--glow-cyan); }
+.hero-link.pink { color: var(--pink); border-color: var(--pink); }
+.hero-link.pink:hover { background: var(--pink); color: var(--darker); box-shadow: var(--glow-pink); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); animation: bounce 2s infinite; }
+.scroll-indicator svg { stroke: var(--pink); fill: none; stroke-width: 2; }
+@keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+.section { padding: 80px 20px; max-width: 1000px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 50px; }
+.section-title { font-family: "Kode Mono", monospace; font-size: clamp(1.5rem, 4vw, 2.5rem); color: var(--pink); text-shadow: var(--glow-pink); margin-bottom: 8px; position: relative; display: inline-block; }
+.section-title::after { content: ""; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2px; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+@media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; } }
+.about-card { background: rgba(15,11,11,0.8); border: 1px solid var(--cyan); padding: 24px; position: relative; box-shadow: 0 0 15px rgba(90,204,245,0.1); }
+.about-card::before { content: ""; position: absolute; top: -1px; left: -1px; right: -1px; bottom: -1px; border: 1px solid var(--pink); box-shadow: 0 0 10px rgba(245,90,107,0.15); pointer-events: none; }
+.about-card h3 { color: var(--cyan); font-size: 1.1rem; margin-bottom: 12px; font-family: "Kode Mono", monospace; }
+.about-card p, .about-card li { font-size: 0.85rem; color: var(--text); opacity: 0.85; margin-bottom: 6px; }
+.about-card ul { list-style: none; } .about-card li::before { content: '\25B9 '; color: var(--pink); }
+.timeline { position: relative; padding-left: 30px; border-left: 2px solid var(--pink); }
+.timeline-item { margin-bottom: 36px; position: relative; }
+.timeline-item::before { content: ""; position: absolute; left: -38px; top: 4px; width: 12px; height: 12px; background: var(--cyan); border: 2px solid var(--pink); box-shadow: 0 0 8px var(--cyan); }
+.timeline-item h3 { color: var(--cyan); font-size: 1rem; font-family: "Kode Mono", monospace; }
+.timeline-item .meta { color: var(--pink); font-size: 0.78rem; margin: 4px 0 8px; opacity: 0.9; }
+.timeline-item li { font-size: 0.82rem; opacity: 0.8; margin-bottom: 3px; list-style: none; }
+.timeline-item li::before { content: '> '; color: var(--cyan); }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+.project-card { background: rgba(15,11,11,0.8); border: 1px solid var(--pink); padding: 20px; position: relative; transition: all 0.3s; overflow: hidden; }
+.project-card:hover { transform: translateY(-4px); box-shadow: 0 0 25px rgba(245,90,107,0.25); border-color: var(--cyan); }
+.project-card h3 { color: var(--cyan); font-family: "Kode Mono", monospace; font-size: 1rem; margin-bottom: 8px; }
+.project-card .tech { color: var(--pink); font-size: 0.72rem; margin-bottom: 10px; opacity: 0.85; }
+.project-card p { font-size: 0.8rem; opacity: 0.75; margin-bottom: 12px; line-height: 1.5; }
+.project-card .links { display: flex; gap: 12px; flex-wrap: wrap; }
+.project-card .links a { color: var(--cyan); text-decoration: none; font-size: 0.78rem; border-bottom: 1px dashed var(--cyan); transition: all 0.2s; }
+.project-card .links a:hover { color: var(--pink); border-color: var(--pink); }
+.project-card .repo-stats { display: flex; gap: 14px; font-size: 0.7rem; color: var(--text); opacity: 0.6; margin-bottom: 10px; }
+.project-card .repo-stats span { display: flex; align-items: center; gap: 4px; }
+.certs-grid { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+.cert-badge { background: rgba(15,11,11,0.8); border: 1px solid var(--yellow); padding: 10px 18px; color: var(--yellow); font-size: 0.82rem; text-shadow: 0 0 6px rgba(245,230,90,0.3); position: relative; }
+.cert-badge::after { content: ""; position: absolute; inset: 2px; border: 1px dashed var(--yellow); opacity: 0.3; }
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: center; }
+.contact-item { background: rgba(15,11,11,0.8); border: 1px solid var(--cyan); padding: 20px; transition: all 0.3s; text-decoration: none; color: var(--text); display: block; }
+.contact-item:hover { border-color: var(--pink); box-shadow: 0 0 20px rgba(245,90,107,0.2); }
+.contact-item .icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+.contact-item h3 { color: var(--cyan); font-size: 0.85rem; font-family: "Kode Mono", monospace; margin-bottom: 4px; }
+.contact-item span { font-size: 0.75rem; opacity: 0.7; }
+.footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--pink); opacity: 0.5; font-size: 0.75rem; }
+.repo-loader { text-align: center; padding: 40px; color: var(--cyan); font-family: "Kode Mono", monospace; }
+.repo-loader .spinner { display: inline-block; width: 30px; height: 30px; border: 2px solid var(--pink); border-top-color: var(--cyan); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hidden { display: none !important; }
+@media (max-width: 600px) { .navbar { padding: 6px 8px; gap: 2px; } .nav-logo { margin-right: 0; } .nav-links { gap: 1px; } .nav-link svg { width: 100px !important; height: 32px !important; } .nav-link text { font-size: 10px; } }
+</style>
 </head>
 <body>
+<!-- PART1_DONE -->
+<nav class="navbar" id="navbar">
+  <a href="#home" class="nav-logo">
+    <svg width="180px" height="36px" viewBox="0 0 180 36">
+      <defs>
+        <filter id="nd-0" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+          <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0"/><feFlood flood-color="#888800" y="5%" height="5%" result="s1"/>
+          <feFlood flood-color="#8888FF" y="10%" height="5%" result="s2"/><feFlood flood-color="#888800" y="15%" height="5%" result="s3"/>
+          <feFlood flood-color="#8888FF" y="20%" height="5%" result="s4"/><feFlood flood-color="#888800" y="25%" height="5%" result="s5"/>
+          <feFlood flood-color="#8888FF" y="30%" height="5%" result="s6"/><feFlood flood-color="#888800" y="35%" height="5%" result="s7"/>
+          <feFlood flood-color="#8888FF" y="40%" height="5%" result="s8"/><feFlood flood-color="#888800" y="45%" height="5%" result="s9"/>
+          <feFlood flood-color="#8888FF" y="50%" height="5%" result="s10"/><feFlood flood-color="#888800" y="55%" height="5%" result="s11"/>
+          <feFlood flood-color="#8888FF" y="60%" height="5%" result="s12"/><feFlood flood-color="#888800" y="65%" height="5%" result="s13"/>
+          <feFlood flood-color="#8888FF" y="70%" height="5%" result="s14"/><feFlood flood-color="#888800" y="75%" height="5%" result="s15"/>
+          <feFlood flood-color="#8888FF" y="80%" height="5%" result="s16"/><feFlood flood-color="#888800" y="85%" height="5%" result="s17"/>
+          <feFlood flood-color="#8888FF" y="90%" height="5%" result="s18"/><feFlood flood-color="#888800" y="95%" height="5%" result="s19"/>
+          <feMerge result="bands"><feMergeNode in="s0"/><feMergeNode in="s1"/><feMergeNode in="s2"/><feMergeNode in="s3"/><feMergeNode in="s4"/><feMergeNode in="s5"/><feMergeNode in="s6"/><feMergeNode in="s7"/><feMergeNode in="s8"/><feMergeNode in="s9"/><feMergeNode in="s10"/><feMergeNode in="s11"/><feMergeNode in="s12"/><feMergeNode in="s13"/><feMergeNode in="s14"/><feMergeNode in="s15"/><feMergeNode in="s16"/><feMergeNode in="s17"/><feMergeNode in="s18"/><feMergeNode in="s19"/></feMerge>
+          <feDisplacementMap class="displace" in="SourceGraphic" in2="bands" scale="0" xChannelSelector="B" yChannelSelector="R"/>
+        </filter>
+        <pattern id="sp-0" class="scanline-pattern" patternUnits="userSpaceOnUse" width="4" height="8">
+          <rect class="scanline" x="0" y="0" width="4" height="1" fill="#221314"/><rect x="0" y="1" width="4" height="7" fill="#0f0b0b"/>
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="100%" height="36" fill="url(#sp-0)"/>
+      <g filter="url(#nd-0)"><text x="6" y="18" class="blue" dominant-baseline="middle">KARL.RAPADA</text><text x="6" y="18" class="red" dominant-baseline="middle">KARL.RAPADA</text></g>
+      <rect x="0" y="0" width="10" height="0" fill="#5accf5" class="fill" filter="url(#nd-0)"/>
+      <rect x="0" y="0" width="10" height="0" fill="#f55a6b" class="fill" filter="url(#nd-0)"/>
+    </svg>
+  </a>
+  <div class="nav-links" id="nav-links">
+    <a href="#about" class="nav-link">
+      <svg width="100px" height="36px" viewBox="0 0 100 36">
+        <defs>
+          <filter id="nd-1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+            <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0"/><feFlood flood-color="#888800" y="5%" height="5%" result="s1"/>
+            <feFlood flood-color="#8888FF" y="10%" height="5%" result="s2"/><feFlood flood-color="#888800" y="15%" height="5%" result="s3"/>
+            <feFlood flood-color="#8888FF" y="20%" height="5%" result="s4"/><feFlood flood-color="#888800" y="25%" height="5%" result="s5"/>
+            <feFlood flood-color="#8888FF" y="30%" height="5%" result="s6"/><feFlood flood-color="#888800" y="35%" height="5%" result="s7"/>
+            <feFlood flood-color="#8888FF" y="40%" height="5%" result="s8"/><feFlood flood-color="#888800" y="45%" height="5%" result="s9"/>
+            <feFlood flood-color="#8888FF" y="50%" height="5%" result="s10"/><feFlood flood-color="#888800" y="55%" height="5%" result="s11"/>
+            <feFlood flood-color="#8888FF" y="60%" height="5%" result="s12"/><feFlood flood-color="#888800" y="65%" height="5%" result="s13"/>
+            <feFlood flood-color="#8888FF" y="70%" height="5%" result="s14"/><feFlood flood-color="#888800" y="75%" height="5%" result="s15"/>
+            <feFlood flood-color="#8888FF" y="80%" height="5%" result="s16"/><feFlood flood-color="#888800" y="85%" height="5%" result="s17"/>
+            <feFlood flood-color="#8888FF" y="90%" height="5%" result="s18"/><feFlood flood-color="#888800" y="95%" height="5%" result="s19"/>
+            <feMerge result="bands"><feMergeNode in="s0"/><feMergeNode in="s1"/><feMergeNode in="s2"/><feMergeNode in="s3"/><feMergeNode in="s4"/><feMergeNode in="s5"/><feMergeNode in="s6"/><feMergeNode in="s7"/><feMergeNode in="s8"/><feMergeNode in="s9"/><feMergeNode in="s10"/><feMergeNode in="s11"/><feMergeNode in="s12"/><feMergeNode in="s13"/><feMergeNode in="s14"/><feMergeNode in="s15"/><feMergeNode in="s16"/><feMergeNode in="s17"/><feMergeNode in="s18"/><feMergeNode in="s19"/></feMerge>
+            <feDisplacementMap class="displace" in="SourceGraphic" in2="bands" scale="0" xChannelSelector="B" yChannelSelector="R"/>
+          </filter>
+          <pattern id="sp-1" class="scanline-pattern" patternUnits="userSpaceOnUse" width="4" height="8">
+            <rect class="scanline" x="0" y="0" width="4" height="1" fill="#221314"/><rect x="0" y="1" width="4" height="7" fill="#0f0b0b"/>
+          </pattern>
+        </defs>
+        <rect x="0" y="0" width="100%" height="36" fill="url(#sp-1)"/>
+        <g filter="url(#nd-1)"><text x="6" y="18" class="blue" dominant-baseline="middle">About</text><text x="6" y="18" class="red" dominant-baseline="middle">About</text></g>
+        <rect x="0" y="0" width="8" height="0" fill="#5accf5" class="fill" filter="url(#nd-1)"/>
+        <rect x="0" y="0" width="8" height="0" fill="#f55a6b" class="fill" filter="url(#nd-1)"/>
+      </svg>
+    </a>
+    <a href="#experience" class="nav-link">
+      <svg width="130px" height="36px" viewBox="0 0 130 36">
+        <defs>
+          <filter id="nd-2" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+            <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0"/><feFlood flood-color="#888800" y="5%" height="5%" result="s1"/>
+            <feFlood flood-color="#8888FF" y="10%" height="5%" result="s2"/><feFlood flood-color="#888800" y="15%" height="5%" result="s3"/>
+            <feFlood flood-color="#8888FF" y="20%" height="5%" result="s4"/><feFlood flood-color="#888800" y="25%" height="5%" result="s5"/>
+            <feFlood flood-color="#8888FF" y="30%" height="5%" result="s6"/><feFlood flood-color="#888800" y="35%" height="5%" result="s7"/>
+            <feFlood flood-color="#8888FF" y="40%" height="5%" result="s8"/><feFlood flood-color="#888800" y="45%" height="5%" result="s9"/>
+            <feFlood flood-color="#8888FF" y="50%" height="5%" result="s10"/><feFlood flood-color="#888800" y="55%" height="5%" result="s11"/>
+            <feFlood flood-color="#8888FF" y="60%" height="5%" result="s12"/><feFlood flood-color="#888800" y="65%" height="5%" result="s13"/>
+            <feFlood flood-color="#8888FF" y="70%" height="5%" result="s14"/><feFlood flood-color="#888800" y="75%" height="5%" result="s15"/>
+            <feFlood flood-color="#8888FF" y="80%" height="5%" result="s16"/><feFlood flood-color="#888800" y="85%" height="5%" result="s17"/>
+            <feFlood flood-color="#8888FF" y="90%" height="5%" result="s18"/><feFlood flood-color="#888800" y="95%" height="5%" result="s19"/>
+            <feMerge result="bands"><feMergeNode in="s0"/><feMergeNode in="s1"/><feMergeNode in="s2"/><feMergeNode in="s3"/><feMergeNode in="s4"/><feMergeNode in="s5"/><feMergeNode in="s6"/><feMergeNode in="s7"/><feMergeNode in="s8"/><feMergeNode in="s9"/><feMergeNode in="s10"/><feMergeNode in="s11"/><feMergeNode in="s12"/><feMergeNode in="s13"/><feMergeNode in="s14"/><feMergeNode in="s15"/><feMergeNode in="s16"/><feMergeNode in="s17"/><feMergeNode in="s18"/><feMergeNode in="s19"/></feMerge>
+            <feDisplacementMap class="displace" in="SourceGraphic" in2="bands" scale="0" xChannelSelector="B" yChannelSelector="R"/>
+          </filter>
+          <pattern id="sp-2" class="scanline-pattern" patternUnits="userSpaceOnUse" width="4" height="8">
+            <rect class="scanline" x="0" y="0" width="4" height="1" fill="#221314"/><rect x="0" y="1" width="4" height="7" fill="#0f0b0b"/>
+          </pattern>
+        </defs>
+        <rect x="0" y="0" width="100%" height="36" fill="url(#sp-2)"/>
+        <g filter="url(#nd-2)"><text x="6" y="18" class="blue" dominant-baseline="middle">Experience</text><text x="6" y="18" class="red" dominant-baseline="middle">Experience</text></g>
+        <rect x="0" y="0" width="8" height="0" fill="#5accf5" class="fill" filter="url(#nd-2)"/>
+        <rect x="0" y="0" width="8" height="0" fill="#f55a6b" class="fill" filter="url(#nd-2)"/>
+      </svg>
+    </a>
+    <a href="#projects" class="nav-link">
+      <svg width="110px" height="36px" viewBox="0 0 110 36">
+        <defs>
+          <filter id="nd-3" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+            <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0"/><feFlood flood-color="#888800" y="5%" height="5%" result="s1"/>
+            <feFlood flood-color="#8888FF" y="10%" height="5%" result="s2"/><feFlood flood-color="#888800" y="15%" height="5%" result="s3"/>
+            <feFlood flood-color="#8888FF" y="20%" height="5%" result="s4"/><feFlood flood-color="#888800" y="25%" height="5%" result="s5"/>
+            <feFlood flood-color="#8888FF" y="30%" height="5%" result="s6"/><feFlood flood-color="#888800" y="35%" height="5%" result="s7"/>
+            <feFlood flood-color="#8888FF" y="40%" height="5%" result="s8"/><feFlood flood-color="#888800" y="45%" height="5%" result="s9"/>
+            <feFlood flood-color="#8888FF" y="50%" height="5%" result="s10"/><feFlood flood-color="#888800" y="55%" height="5%" result="s11"/>
+            <feFlood flood-color="#8888FF" y="60%" height="5%" result="s12"/><feFlood flood-color="#888800" y="65%" height="5%" result="s13"/>
+            <feFlood flood-color="#8888FF" y="70%" height="5%" result="s14"/><feFlood flood-color="#888800" y="75%" height="5%" result="s15"/>
+            <feFlood flood-color="#8888FF" y="80%" height="5%" result="s16"/><feFlood flood-color="#888800" y="85%" height="5%" result="s17"/>
+            <feFlood flood-color="#8888FF" y="90%" height="5%" result="s18"/><feFlood flood-color="#888800" y="95%" height="5%" result="s19"/>
+            <feMerge result="bands"><feMergeNode in="s0"/><feMergeNode in="s1"/><feMergeNode in="s2"/><feMergeNode in="s3"/><feMergeNode in="s4"/><feMergeNode in="s5"/><feMergeNode in="s6"/><feMergeNode in="s7"/><feMergeNode in="s8"/><feMergeNode in="s9"/><feMergeNode in="s10"/><feMergeNode in="s11"/><feMergeNode in="s12"/><feMergeNode in="s13"/><feMergeNode in="s14"/><feMergeNode in="s15"/><feMergeNode in="s16"/><feMergeNode in="s17"/><feMergeNode in="s18"/><feMergeNode in="s19"/></feMerge>
+            <feDisplacementMap class="displace" in="SourceGraphic" in2="bands" scale="0" xChannelSelector="B" yChannelSelector="R"/>
+          </filter>
+          <pattern id="sp-3" class="scanline-pattern" patternUnits="userSpaceOnUse" width="4" height="8">
+            <rect class="scanline" x="0" y="0" width="4" height="1" fill="#221314"/><rect x="0" y="1" width="4" height="7" fill="#0f0b0b"/>
+          </pattern>
+        </defs>
+        <rect x="0" y="0" width="100%" height="36" fill="url(#sp-3)"/>
+        <g filter="url(#nd-3)"><text x="6" y="18" class="blue" dominant-baseline="middle">Projects</text><text x="6" y="18" class="red" dominant-baseline="middle">Projects</text></g>
+        <rect x="0" y="0" width="8" height="0" fill="#5accf5" class="fill" filter="url(#nd-3)"/>
+        <rect x="0" y="0" width="8" height="0" fill="#f55a6b" class="fill" filter="url(#nd-3)"/>
+      </svg>
+    </a>
+    <a href="#contact" class="nav-link">
+      <svg width="110px" height="36px" viewBox="0 0 110 36">
+        <defs>
+          <filter id="nd-4" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+            <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0"/><feFlood flood-color="#888800" y="5%" height="5%" result="s1"/>
+            <feFlood flood-color="#8888FF" y="10%" height="5%" result="s2"/><feFlood flood-color="#888800" y="15%" height="5%" result="s3"/>
+            <feFlood flood-color="#8888FF" y="20%" height="5%" result="s4"/><feFlood flood-color="#888800" y="25%" height="5%" result="s5"/>
+            <feFlood flood-color="#8888FF" y="30%" height="5%" result="s6"/><feFlood flood-color="#888800" y="35%" height="5%" result="s7"/>
+            <feFlood flood-color="#8888FF" y="40%" height="5%" result="s8"/><feFlood flood-color="#888800" y="45%" height="5%" result="s9"/>
+            <feFlood flood-color="#8888FF" y="50%" height="5%" result="s10"/><feFlood flood-color="#888800" y="55%" height="5%" result="s11"/>
+            <feFlood flood-color="#8888FF" y="60%" height="5%" result="s12"/><feFlood flood-color="#888800" y="65%" height="5%" result="s13"/>
+            <feFlood flood-color="#8888FF" y="70%" height="5%" result="s14"/><feFlood flood-color="#888800" y="75%" height="5%" result="s15"/>
+            <feFlood flood-color="#8888FF" y="80%" height="5%" result="s16"/><feFlood flood-color="#888800" y="85%" height="5%" result="s17"/>
+            <feFlood flood-color="#8888FF" y="90%" height="5%" result="s18"/><feFlood flood-color="#888800" y="95%" height="5%" result="s19"/>
+            <feMerge result="bands"><feMergeNode in="s0"/><feMergeNode in="s1"/><feMergeNode in="s2"/><feMergeNode in="s3"/><feMergeNode in="s4"/><feMergeNode in="s5"/><feMergeNode in="s6"/><feMergeNode in="s7"/><feMergeNode in="s8"/><feMergeNode in="s9"/><feMergeNode in="s10"/><feMergeNode in="s11"/><feMergeNode in="s12"/><feMergeNode in="s13"/><feMergeNode in="s14"/><feMergeNode in="s15"/><feMergeNode in="s16"/><feMergeNode in="s17"/><feMergeNode in="s18"/><feMergeNode in="s19"/></feMerge>
+            <feDisplacementMap class="displace" in="SourceGraphic" in2="bands" scale="0" xChannelSelector="B" yChannelSelector="R"/>
+          </filter>
+          <pattern id="sp-4" class="scanline-pattern" patternUnits="userSpaceOnUse" width="4" height="8">
+            <rect class="scanline" x="0" y="0" width="4" height="1" fill="#221314"/><rect x="0" y="1" width="4" height="7" fill="#0f0b0b"/>
+          </pattern>
+        </defs>
+        <rect x="0" y="0" width="100%" height="36" fill="url(#sp-4)"/>
+        <g filter="url(#nd-4)"><text x="6" y="18" class="blue" dominant-baseline="middle">Contact</text><text x="6" y="18" class="red" dominant-baseline="middle">Contact</text></g>
+        <rect x="0" y="0" width="8" height="0" fill="#5accf5" class="fill" filter="url(#nd-4)"/>
+        <rect x="0" y="0" width="8" height="0" fill="#f55a6b" class="fill" filter="url(#nd-4)"/>
+      </svg>
+    </a>
+  </div>
+</nav>
+<!-- NAV_DONE -->
+<section class="hero" id="home">
+  <h1 class="hero-title"><span class="glitch" data-text="KARL LYNUZ B. RAPADA">KARL LYNUZ B. RAPADA</span></h1>
+  <p class="hero-subtitle">Web Developer &amp; AI Engineer</p>
+  <p class="hero-tagline">Marikina City, Philippines &mdash; Building intelligent, responsive web applications</p>
+  <div class="hero-links">
+    <a href="https://github.com/karlrapada21" target="_blank" class="hero-link pink">GitHub</a>
+    <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" class="hero-link">LinkedIn</a>
+    <a href="mailto:karlrapada@gmail.com" class="hero-link pink">Email</a>
+    <a href="#projects" class="hero-link">View Work</a>
+  </div>
+  <div class="scroll-indicator">
+    <svg width="24" height="36" viewBox="0 0 24 36"><rect x="1" y="1" width="22" height="34" rx="11"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/></svg>
+  </div>
+</section>
 
-  <div class="scanlines-overlay"></div>
-  <div class="noise-overlay"></div>
-  <div class="halftone-overlay"></div>
-  <div class="crt-vignette"></div>
-  <canvas id="bg-canvas"></canvas>
+<section class="section" id="about">
+  <div class="section-header"><h2 class="section-title">ABOUT_ME</h2></div>
+  <div class="about-grid">
+    <div class="about-card">
+      <h3>Education</h3>
+      <p><strong>BS in Information Technology</strong></p>
+      <p>IETI College of Science and Technology, Marikina</p>
+      <p style="color:var(--cyan);font-size:0.78rem;">Graduated June 2026</p>
+      <ul style="margin-top:10px;">
+        <li>Web Development</li><li>Mobile Application Development</li><li>Database Systems</li>
+        <li>Software Engineering</li><li>UI/UX Design</li><li>Machine Learning</li>
+      </ul>
+    </div>
+    <div class="about-card">
+      <h3>Highlights</h3>
+      <ul>
+        <li>Dean's Lister</li>
+        <li>Capstone: Skin Lesion Detection App using AI &amp; CNN</li>
+        <li>CCNA 1&ndash;3 Certified</li>
+        <li>TOPCIT Level 3</li>
+        <li>NCII CSS &amp; ICT</li>
+        <li>Python Essentials 1&ndash;2</li>
+        <li>Comptia A+</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-  <!-- video-game loading screen boot overlay -->
-  <div id="boot-screen" class="boot-screen">
-    <div class="boot-inner">
-      <div class="boot-title glitch-brand" data-text="KLR">KLR</div>
-      <div class="boot-sub">RAPADA.SYS // BOOTING</div>
-      <div class="boot-bar"><div class="boot-bar-fill"></div></div>
-      <div class="boot-status">&gt; <span id="boot-log">INITIALIZING SYSTEM</span><span class="cursor">_</span></div>
-      <div class="boot-pct"><span id="boot-pct">0</span></div>
+<section class="section" id="experience">
+  <div class="section-header"><h2 class="section-title">EXPERIENCE</h2></div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <h3>IT Intern (Web Developer)</h3>
+      <p class="meta">Knowles Training Institute, Singapore | Jan 13 &ndash; Apr 28, 2026</p>
+      <ul>
+        <li>Built and maintained responsive web apps using HTML, CSS, JavaScript, and SQL</li>
+        <li>Applied UI/UX principles to improve internal tools and user workflows</li>
+        <li>Integrated CNN-based image classification into a web prototype for skin lesion analysis</li>
+        <li>Recognized for clean code, deadlines, and positive feedback from IT lead</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <h3>Freelance Web Developer</h3>
+      <p class="meta">Self-Employed | 2024 &ndash; Present</p>
+      <ul>
+        <li>Built custom responsive websites for small businesses and individuals</li>
+        <li>Ensured cross-browser compatibility and mobile responsiveness</li>
+        <li>Maintained post-launch support and updates based on client feedback</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="projects">
+  <div class="section-header"><h2 class="section-title">PROJECTS</h2></div>
+  <div class="projects-grid" id="static-projects">
+    <div class="project-card">
+      <h3>SkinLesionAI</h3>
+      <p class="tech">Flask / PyTorch / SQLite / Bootstrap / OpenCV / Grad-CAM++</p>
+      <p>Medical-grade web app classifying 8 skin lesion types using ResNeXt50 (85% accuracy). Features Grad-CAM++ visual explanations, batch processing, and exportable clinical reports.</p>
+      <div class="links"><a href="https://github.com/karlrapada21/skin-lesion-detection" target="_blank">View on GitHub</a></div>
+    </div>
+    <div class="project-card">
+      <h3>BITSI Dispatch</h3>
+      <p class="tech">Laravel 12 / Livewire 3 / Tailwind CSS / MySQL / Semaphore API</p>
+      <p>Real-time bus dispatch management system with live dispatch board, driver attendance tracking, SMS notifications, and vehicle PMS alerts.</p>
+      <div class="links"><a href="https://github.com/IAmKhirvie/bitsi-dispatch" target="_blank">View on GitHub</a></div>
+    </div>
+    <div class="project-card">
+      <h3>Intern Management System</h3>
+      <p class="tech">React / Vite / Tailwind CSS</p>
+      <p>All-in-one intern tracking platform integrating attendance, task management, and role-based access for interns, team leads, and monitoring staff.</p>
+      <div class="links"><a href="https://github.com/bigbusbeluga/umonics-attendance-reporting-system" target="_blank">View on GitHub</a></div>
     </div>
   </div>
 
-  <!-- mobile sidebar toggle -->
-  <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-    <span class="toggle-bar"></span>
-    <span class="toggle-bar"></span>
-    <span class="toggle-bar"></span>
-  </button>
-  <div id="scrim" class="scrim"></div>
+  <div class="section-header" style="margin-top:40px;"><h2 class="section-title">GITHUB_REPOS</h2></div>
+  <div class="repo-loader" id="repo-loader"><div class="spinner"></div><p>FETCHING REPOSITORIES...</p></div>
+  <div class="projects-grid hidden" id="github-repos"></div>
+  <div style="text-align:center;margin-top:20px;"><button id="load-more-repos" class="hero-link pink hidden" style="cursor:pointer;background:transparent;font-family:inherit;font-size:0.85rem;">Load More Repos</button></div>
+</section>
 
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-title glitch-brand" data-text="KLR">KLR</div>
-      <div class="brand-sub">RAPADA.SYS</div>
-    </div>
-    <nav id="nav-1"></nav>
-    <div class="sidebar-footer">
-      <div class="status-line">
-        <span class="status-dot"></span>
-        <span class="status-text">SYS::ONLINE</span>
-      </div>
-      <div class="sys-bar"><div class="sys-bar-fill"></div></div>
-      <div class="version">v2.0.26 // BUILD_0716</div>
-    </div>
-  </aside>
+<section class="section" id="certificates">
+  <div class="section-header"><h2 class="section-title">CERTIFICATES</h2></div>
+  <div class="certs-grid">
+    <span class="cert-badge">CCNA 1</span><span class="cert-badge">CCNA 2</span><span class="cert-badge">CCNA 3</span>
+    <span class="cert-badge">TOPCIT Level 3</span><span class="cert-badge">NCII CSS</span><span class="cert-badge">NCII ICT</span>
+    <span class="cert-badge">Python Essentials 1</span><span class="cert-badge">Python Essentials 2</span><span class="cert-badge">Comptia A+</span>
+  </div>
+</section>
 
-  <main>
-    <section id="hero">
-      <div class="hero-content">
-        <div class="glitch-title-wrapper">
-          <h1 class="glitch-title" data-text="KARL LYNUZ B. RAPADA">KARL LYNUZ B. RAPADA</h1>
-          <h1 class="glitch-title-layer cyan-layer" aria-hidden="true">KARL LYNUZ B. RAPADA</h1>
-          <h1 class="glitch-title-layer red-layer" aria-hidden="true">KARL LYNUZ B. RAPADA</h1>
-        </div>
-        <div class="typewriter-container">
-          <span class="typewriter"></span><span class="cursor">_</span>
-        </div>
-        <p class="hero-subtitle">&#9612; FULL-STACK WEB DEVELOPER &nbsp;//&nbsp; AI &amp; SYSTEMS ENTHUSIAST</p>
-        <div class="hero-cta">
-          <a href="#contact" class="btn btn-primary glitch-btn" data-text="GET_IN_TOUCH">GET_IN_TOUCH</a>
-          <a href="#projects" class="btn btn-secondary glitch-btn" data-text="VIEW_WORK">VIEW_WORK</a>
-        </div>
-      </div>
-      <div class="scroll-indicator">
-        <span class="arrow"></span>
-        <span class="arrow"></span>
-        <span class="scroll-text">SCROLL</span>
-      </div>
-    </section>
+<section class="section" id="contact">
+  <div class="section-header"><h2 class="section-title">CONTACT</h2></div>
+  <div class="contact-grid">
+    <a href="mailto:karlrapada@gmail.com" class="contact-item"><span class="icon">&#9993;</span><h3>Email</h3><span>karlrapada@gmail.com</span></a>
+    <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" class="contact-item"><span class="icon">&#9654;</span><h3>LinkedIn</h3><span>karl-rapada</span></a>
+    <a href="https://github.com/karlrapada21" target="_blank" class="contact-item"><span class="icon">&#12336;</span><h3>GitHub</h3><span>karlrapada21</span></a>
+    <div class="contact-item"><span class="icon">&#9742;</span><h3>Phone</h3><span>+63 921 746 8502</span></div>
+    <div class="contact-item"><span class="icon">&#9906;</span><h3>Location</h3><span>Marikina City, Philippines</span></div>
+  </div>
+</section>
 
-    <section id="about">
-      <h2 class="section-title">
-        <span class="title-chroma" data-text="[ ABOUT_ME ]">
-          <span class="chroma-cyan">[ ABOUT_ME ]</span>
-          <span class="chroma-red">[ ABOUT_ME ]</span>
-        </span>
-      </h2>
-      <div class="about-grid">
-        <div class="about-text terminal-box">
-          <p class="terminal-line"><span class="prompt">&gt;</span> BSIT graduate from <strong class="highlight">IETI College of Science and Technology</strong> &mdash; Dean's Lister with hands-on experience in web dev, machine learning, and software engineering.</p>
-          <p class="terminal-line"><span class="prompt">&gt;</span> Capstone: <strong class="highlight">Skin Lesions Detection App</strong> &mdash; CNN-based AI classifying skin lesions from images, bridging healthcare and deep learning.</p>
-          <p class="terminal-line"><span class="prompt">&gt;</span> I build at the intersection of <strong class="highlight">clean code</strong>, <strong class="highlight">UI/UX design</strong>, and <strong class="highlight">emerging tech</strong>.</p>
-        </div>
-        <div class="about-stats">
-          <div class="stat-card">
-            <span class="stat-number" data-target="85" data-suffix="%">0</span>
-            <span class="stat-label">Model Accuracy</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-number" data-target="3" data-suffix="+">0</span>
-            <span class="stat-label">Years Coding</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-number" data-target="4" data-suffix="">0</span>
-            <span class="stat-label">Major Projects</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-number" data-target="15" data-suffix="">0</span>
-            <span class="stat-label">Tech Stacks</span>
-          </div>
-        </div>
-      </div>
-      <div class="tech-stack">
-        <h3 class="sub-title">&lt; STACK /&gt;</h3>
-        <div class="tags">
-          <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span>
-          <span class="tag">React</span><span class="tag">Vite</span><span class="tag">Laravel</span>
-          <span class="tag">Livewire</span><span class="tag">Tailwind</span><span class="tag">Flask</span>
-          <span class="tag">PyTorch</span><span class="tag">SQL</span><span class="tag">MySQL</span>
-          <span class="tag">SQLite</span><span class="tag">OpenCV</span><span class="tag">Git</span>
-        </div>
-      </div>
-    </section>
+<footer class="footer"><p>&copy; 2026 Karl Lynuz B. Rapada | Built with cyberpunk vibes</p></footer>
+<!-- BODY_DONE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/EasePack.min.js"></script>
+<script>
+class NavigationEffect {
+  constructor(config) {
+    this.config = config;
+    this.navigation = config.navElement;
+    this.anchors = this.navigation.querySelectorAll("a");
+    this.tlByAnchor = new WeakMap();
+    this.anchors.forEach((anchor) => {
+      this.registerTimelines(anchor);
+      var timelines = this.tlByAnchor.get(anchor);
+      var self = this;
+      anchor.addEventListener("mouseenter", function() { self.playMouseEnterAnimations(timelines); });
+      anchor.addEventListener("mouseleave", function() {
+        if (!anchor.classList.contains("active")) { self.playMouseLeaveAnimations(timelines); }
+      });
+      anchor.addEventListener("click", function() {
+        var current = self.navigation.querySelector(".active");
+        if (current && current !== anchor) {
+          self.playMouseLeaveAnimations(self.tlByAnchor.get(current));
+          current.classList.remove("active");
+        }
+        anchor.classList.add("active");
+        self.playActiveAnimations(timelines);
+      });
+    });
+  }
+  playMouseEnterAnimations(timelines) {
+    timelines.text.timeScale(1).play();
+    timelines.displacement.timeScale(1).play();
+    timelines.scanline.timeScale(1).play();
+    timelines.scanlinePattern.timeScale(1).play();
+  }
+  playMouseLeaveAnimations(timelines) {
+    timelines.text.timeScale(2).reverse();
+    timelines.displacement.timeScale(2).reverse();
+    timelines.displacementActive.pause(0);
+    timelines.scanline.pause(0);
+    timelines.scanlinePattern.pause(0);
+    timelines.active.timeScale(1).reverse();
+  }
+  playActiveAnimations(timelines) {
+    timelines.active.timeScale(1).play();
+    timelines.displacementActive.timeScale(1).play();
+  }
+  registerTimelines(anchor) {
+    var container = anchor.querySelector("svg");
+    var text = anchor.querySelector("text.red");
+    var blueText = anchor.querySelector("text.blue");
+    var displacement = anchor.querySelector(".displace");
+    var scanline = anchor.querySelector(".scanline");
+    var scanlinePattern = anchor.querySelector(".scanline-pattern");
+    var activeElement = anchor.querySelectorAll(".fill");
+    var startX = Number(text.getAttribute("x"));
+    var box = container.getBBox();
+    var textBox = text.getBBox();
+    var centerX = (box.width - textBox.width) / 2 - startX;
+    var cfg = this.config;
+    var tween = { ease: cfg.easeIn, easeReverse: cfg.easeOut, duration: cfg.duration };
+    var tl = function(opts) { return gsap.timeline(Object.assign({ paused: true }, opts || {})); };
+    var timelines = {
+      text: tl(),
+      active: tl(),
+      scanline: tl(),
+      scanlinePattern: tl(),
+      displacement: tl(),
+      displacementActive: tl({ repeat: -1, repeatDelay: 2, repeatRefresh: true })
+    };
+    var self = this;
+    timelines.text.to(text, { x: centerX }, tween);
+    timelines.displacement.to(displacement, { attr: { scale: function() { return self.randomFloat(0.08, 2); } }, ease: cfg.easeIn, duration: cfg.duration })
+      .to(displacement, { attr: { scale: 0 }, ease: cfg.easeIn, duration: 0.3 }, cfg.duration);
+    timelines.displacementActive.to(displacement, { attr: { scale: function() { return self.randomFloat(0.08, 0.4); } }, ease: cfg.easeIn, duration: 0.5 })
+      .to(displacement, { attr: { scale: 0 }, ease: cfg.easeIn, duration: function() { return self.randomFloat(0.05, 0.1); },
+        onRepeat: function() { timelines.displacementActive.getChildren()[1].duration(self.randomFloat(0.05, 0.1)); } });
+    timelines.text.to(blueText, { x: centerX }, "0.1");
+    timelines.active.to(activeElement[1], { attr: { height: 36 } }, tween);
+    timelines.active.to(activeElement[0], { attr: { height: 36 } }, "<0.04");
+    timelines.scanline.to(scanline, { fill: "#521d20" }, 0);
+    timelines.scanline.to(scanline, { opacity: 0.3, ease: cfg.easeIn, duration: 0.1, repeat: -1 }, 0);
+    timelines.scanlinePattern.to(scanlinePattern, { attr: { y: 8 }, duration: 0.65, ease: "none", repeat: -1 });
+    this.tlByAnchor.set(anchor, timelines);
+  }
+  randomFloat(min, max) { return Math.random() * (max - min) + min; }
+}
 
-    <section id="experience">
-      <h2 class="section-title">
-        <span class="title-chroma" data-text="[ EXPERIENCE ]">
-          <span class="chroma-cyan">[ EXPERIENCE ]</span>
-          <span class="chroma-red">[ EXPERIENCE ]</span>
-        </span>
-      </h2>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content terminal-box">
-            <div class="timeline-header">
-              <h3>IT Intern &mdash; Web Developer</h3>
-              <span class="timeline-date">JAN - APR 2026</span>
-            </div>
-            <p class="timeline-place">Knowles Training Institute, Singapore</p>
-            <ul class="timeline-details">
-              <li>Built responsive web apps with HTML, CSS, JavaScript, and SQL databases.</li>
-              <li>Applied UI/UX principles to improve internal tools and workflows.</li>
-              <li>Integrated CNN-based image classification into a skin lesion analysis prototype.</li>
-              <li>Recognized for clean code, deadlines, and positive IT lead feedback.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content terminal-box">
-            <div class="timeline-header">
-              <h3>Freelance Web Developer</h3>
-              <span class="timeline-date">2024 - PRESENT</span>
-            </div>
-            <p class="timeline-place">Self-Employed</p>
-            <ul class="timeline-details">
-              <li>Built custom responsive websites for small businesses on commission.</li>
-              <li>Ensured cross-browser compatibility and mobile responsiveness.</li>
-              <li>Provided post-launch support and iterative updates.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+document.addEventListener("DOMContentLoaded", function() {
+  gsap.registerPlugin(EasePack);
+  new NavigationEffect({
+    navElement: document.getElementById("navbar"),
+    easeIn: RoughEase.ease.config({ strength: 5, points: 10 }),
+    easeOut: "power2.out",
+    duration: 0.3
+  });
 
-    <section id="projects">
-      <h2 class="section-title">
-        <span class="title-chroma" data-text="[ PROJECTS ]">
-          <span class="chroma-cyan">[ PROJECTS ]</span>
-          <span class="chroma-red">[ PROJECTS ]</span>
-        </span>
-      </h2>
-      <div class="projects-grid">
-        <div class="project-card terminal-box">
-          <div class="project-header">
-            <span class="project-icon">&#9632;</span>
-            <h3>SkinLesionAI</h3>
-          </div>
-          <p class="project-desc">Medical-grade web app classifying 8 skin lesion types using ResNeXt50 at 85% accuracy. Grad-CAM++ visualizations, batch processing, exportable clinical reports.</p>
-          <div class="project-tech">
-            <span class="tag">Flask</span><span class="tag">PyTorch</span><span class="tag">SQLite</span><span class="tag">Bootstrap</span><span class="tag">OpenCV</span><span class="tag">Grad-CAM++</span>
-          </div>
-          <a href="https://github.com/karlrapada21/skin-lesion-detection" target="_blank" class="project-link glitch-btn" data-text="&gt; view_repo">&gt; view_repo</a>
-        </div>
-        <div class="project-card terminal-box">
-          <div class="project-header">
-            <span class="project-icon">&#9632;</span>
-            <h3>BITSI Dispatch</h3>
-          </div>
-          <p class="project-desc">Real-time bus dispatch system with live dispatch board, driver attendance tracking, late/absent SMS alerts, and vehicle PMS alerts.</p>
-          <div class="project-tech">
-            <span class="tag">Laravel 12</span><span class="tag">Livewire 3</span><span class="tag">Tailwind CSS</span><span class="tag">MySQL</span><span class="tag">Semaphore API</span>
-          </div>
-          <a href="https://github.com/IAmKhirvie/bitsi-dispatch" target="_blank" class="project-link glitch-btn" data-text="&gt; view_repo">&gt; view_repo</a>
-        </div>
-        <div class="project-card terminal-box">
-          <div class="project-header">
-            <span class="project-icon">&#9632;</span>
-            <h3>Intern Mgmt System</h3>
-          </div>
-          <p class="project-desc">React-based intern tracking platform with attendance, task management, and role-based access for interns, team leads, and monitoring staff.</p>
-          <div class="project-tech">
-            <span class="tag">React</span><span class="tag">Vite</span><span class="tag">Tailwind CSS</span>
-          </div>
-          <a href="https://github.com/bigbusbeluga/umonics-attendance-reporting-system" target="_blank" class="project-link glitch-btn" data-text="&gt; view_repo">&gt; view_repo</a>
-        </div>
-      </div>
-    </section>
+  var GITHUB_USER = "karlrapada21";
+  var GITHUB_API = "https://api.github.com/users/" + GITHUB_USER + "/repos?sort=updated&per_page=6";
+  var currentPage = 1;
+  var perPage = 6;
 
-    <section id="certificates">
-      <h2 class="section-title">
-        <span class="title-chroma" data-text="[ CERTIFICATES ]">
-          <span class="chroma-cyan">[ CERTIFICATES ]</span>
-          <span class="chroma-red">[ CERTIFICATES ]</span>
-        </span>
-      </h2>
-      <div class="certs-grid">
-        <div class="cert-card terminal-box">CCNA 1 &mdash; 3</div>
-        <div class="cert-card terminal-box">TOPCIT Level 3</div>
-        <div class="cert-card terminal-box">NCII CSS &amp; ICT</div>
-        <div class="cert-card terminal-box">Python Essentials 1 &mdash; 2</div>
-        <div class="cert-card terminal-box">Comptia A+</div>
-      </div>
-    </section>
+  function fetchRepos(url) {
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(repos) {
+        document.getElementById("repo-loader").classList.add("hidden");
+        var grid = document.getElementById("github-repos");
+        grid.classList.remove("hidden");
+        repos.forEach(function(repo) {
+          if (repo.fork) return;
+          var card = document.createElement("div");
+          card.className = "project-card";
+          card.innerHTML =
+            '<h3><a href="' + repo.html_url + '" target="_blank" style="color:var(--cyan);text-decoration:none;">' + repo.name + '</a></h3>' +
+            '<p class="tech">' + (repo.language || 'N/A') + '</p>' +
+            '<div class="repo-stats">' +
+              '<span>&#9733; ' + repo.stargazers_count + '</span>' +
+              '<span>&#9283; ' + repo.forks_count + '</span>' +
+            '</div>' +
+            '<p>' + (repo.description || 'No description available.') + '</p>' +
+            '<div class="links">' +
+              '<a href="' + repo.html_url + '" target="_blank">View on GitHub</a>' +
+              (repo.homepage ? '<a href="' + repo.homepage + '" target="_blank">Live Demo</a>' : '') +
+            '</div>';
+          grid.appendChild(card);
+        });
+        if (repos.length === perPage) {
+          var btn = document.getElementById("load-more-repos");
+          btn.classList.remove("hidden");
+          btn.onclick = function() {
+            currentPage++;
+            var nextUrl = "https://api.github.com/users/" + GITHUB_USER + "/repos?sort=updated&per_page=" + perPage + "&page=" + currentPage;
+            fetchRepos(nextUrl);
+          };
+        }
+      })
+      .catch(function(err) {
+        document.getElementById("repo-loader").innerHTML = "<p style='color:var(--pink);'>Failed to load repos. Showing offline data.</p>";
+        console.error("GitHub API error:", err);
+      });
+  }
 
-    <section id="contact">
-      <h2 class="section-title">
-        <span class="title-chroma" data-text="[ CONTACT ]">
-          <span class="chroma-cyan">[ CONTACT ]</span>
-          <span class="chroma-red">[ CONTACT ]</span>
-        </span>
-      </h2>
-      <div class="contact-grid">
-        <div class="contact-info terminal-box">
-          <p><span class="label">EMAIL:</span><span class="label-val">karlrapada@gmail.com</span></p>
-          <p><span class="label">PHONE:</span><span class="label-val">+63 921 746 8502</span></p>
-          <p><span class="label">LOC:</span><span class="label-val">Marikina City, Philippines</span></p>
-          <div class="contact-links">
-            <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" class="btn btn-secondary glitch-btn" data-text="LINKEDIN">LINKEDIN</a>
-            <a href="https://github.com/karlrapada21" target="_blank" class="btn btn-secondary glitch-btn" data-text="GITHUB">GITHUB</a>
-          </div>
-        </div>
-        <form class="contact-form terminal-box" onsubmit="return false;">
-          <div class="input-group">
-            <label for="name">&gt; NAME_</label>
-            <input type="text" id="name" placeholder="enter_name">
-          </div>
-          <div class="input-group">
-            <label for="email">&gt; EMAIL_</label>
-            <input type="email" id="email" placeholder="enter_email">
-          </div>
-          <div class="input-group">
-            <label for="message">&gt; MSG_</label>
-            <textarea id="message" rows="4" placeholder="type_message"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary glitch-btn" data-text="SEND_MESSAGE">SEND_MESSAGE</button>
-        </form>
-      </div>
-    </section>
-  </main>
+  fetchRepos(GITHUB_API);
 
-  <footer>
-    <p>&copy; 2026 <span class="highlight">Karl Lynuz B. Rapada</span> &nbsp;|&nbsp; <span class="footer-glitch">SYS::ONLINE</span> &nbsp;|&nbsp; <span class="footer-glitch-2">READY</span></p>
-  </footer>
+  var navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+  navLinks.forEach(function(link) {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute("href"));
+      if (target) { target.scrollIntoView({ behavior: "smooth" }); }
+    });
+  });
 
+  document.querySelector('.nav-logo[href="#home"]').addEventListener("click", function(e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+</script>
 </body>
 </html>
