@@ -10,14 +10,13 @@
 html { scroll-behavior: smooth; }
 :root {
   --pink: #f55a6b; --cyan: #5accf5; --yellow: #f5e65a; --green: #5af5a6; --purple: #b55af5;
-  --dark: #0f0b0b; --darker: #080505; --scanline: rgba(255,255,255,0.08); --text: #e0d0d0;
+  --dark: #0f0b0b; --darker: #080505; --scanline: rgba(255,255,255,0.03); --text: #e0d0d0;
   --glow-pink: 0 0 10px #f55a6b, 0 0 30px #f55a6b44, 0 0 60px #f55a6b22;
   --glow-cyan: 0 0 10px #5accf5, 0 0 30px #5accf544, 0 0 60px #5accf522;
 }
 body { background-color: var(--dark); color: var(--text); font-family: "Kode Mono", "Share Tech Mono", monospace; min-height: 100vh; overflow-x: hidden; line-height: 1.6; }
-body::after { content: ""; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 9999; animation: flicker 0.15s infinite; }
-body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%); pointer-events: none; z-index: 9998; }
-@keyframes flicker { 0% { opacity: 0.9; } 5% { opacity: 0.7; } 10% { opacity: 1; } 50% { opacity: 1; } 55% { opacity: 0.6; } 60% { opacity: 0.95; } 95% { opacity: 1; } 100% { opacity: 0.85; } }
+body::after { content: ""; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, var(--scanline) 2px, var(--scanline) 4px); pointer-events: none; z-index: 9999; }
+body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.6) 100%); pointer-events: none; z-index: 9998; }
 @keyframes glitch1 { 0%,100% { transform: translate(0); } 20% { transform: translate(-2px,1px); } 40% { transform: translate(2px,-1px); } 60% { transform: translate(-1px,2px); } 80% { transform: translate(1px,-2px); } }
 @keyframes glitch2 { 0%,100% { transform: translate(0); } 20% { transform: translate(2px,-1px); } 40% { transform: translate(-2px,1px); } 60% { transform: translate(1px,-2px); } 80% { transform: translate(-1px,2px); } }
 .glitch { position: relative; display: inline-block; }
