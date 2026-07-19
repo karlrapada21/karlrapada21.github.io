@@ -35,7 +35,7 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
 .nav-link text.blue { fill: var(--cyan); }
 .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 100px 20px 40px; position: relative; }
 .hero-content { background: rgba(8,5,5,0.65); padding: 40px 30px; border: 1px solid rgba(245,90,107,0.3); box-shadow: 0 0 60px rgba(0,0,0,0.5); max-width: 700px; }
-.hero-title { font-size: clamp(2rem, 6vw, 4.5rem); font-family: "Kode Mono", monospace; color: var(--pink); text-shadow: var(--glow-pink); margin-bottom: 8px; letter-spacing: 2px; }
+.hero-title { font-size: clamp(1.5rem, 5vw, 3.8rem); font-family: "Kode Mono", monospace; color: var(--pink); text-shadow: var(--glow-pink); margin-bottom: 8px; letter-spacing: 1px; white-space: nowrap; }
 .hero-subtitle { font-size: clamp(1rem, 3vw, 1.8rem); color: var(--cyan); text-shadow: var(--glow-cyan); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
 .hero-tagline { color: var(--text); font-size: 0.9rem; max-width: 600px; margin: 0 auto 30px; }
 .hero-links { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
@@ -594,7 +594,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function bindBgPanel() {
     var presets = window.bgPresets;
     var params = window.bgParams;
-    if (!presets || !params) { setTimeout(bindBgPanel, 100); return; }
+    if (!presets || !params) { setTimeout(bindBgPanel, 50); return; }
 
     var presetDiv = document.getElementById("bg-presets");
     Object.keys(presets).forEach(function(name) {
@@ -616,8 +616,6 @@ document.addEventListener("DOMContentLoaded", function() {
         var key = inp.getAttribute("data-key");
         if (inp.type === "color") {
           inp.value = params[key];
-          var valEl = inp.parentElement.querySelector(".val");
-          if (valEl) valEl.textContent = "";
         } else {
           inp.value = params[key];
           var valEl = inp.parentElement.querySelector(".val");
@@ -631,22 +629,24 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     inputs.forEach(function(inp) {
-      inp.addEventListener("input", function() {
-        var key = this.getAttribute("data-key");
-        var val = this.type === "color" ? this.value : parseFloat(this.value);
-        params[key] = val;
+      function handleChange() {
+        var key = inp.getAttribute("data-key");
+        params[key] = inp.type === "color" ? inp.value : parseFloat(inp.value);
         params.palette = "custom";
         presetDiv.querySelectorAll("button").forEach(function(b) { b.classList.remove("active"); });
-        var valEl = this.parentElement.querySelector(".val");
-        if (valEl && this.type !== "color") valEl.textContent = val.toFixed(2);
+        var valEl = inp.parentElement.querySelector(".val");
+        if (valEl && inp.type !== "color") valEl.textContent = parseFloat(params[key]).toFixed(2);
         if (key === "renderScale" && window.bgResize) window.bgResize();
-      });
+      }
+      inp.addEventListener("input", handleChange);
+      inp.addEventListener("change", handleChange);
     });
 
     syncPanelFromParams();
     window.syncPanelFromParams = syncPanelFromParams;
   }
 
+  window.addEventListener("load", function() { setTimeout(bindBgPanel, 200); });
   bindBgPanel();
 });
 </script>
