@@ -47,8 +47,8 @@ body {
 }
 .noise-overlay {
   position: fixed; top:0; left:0; width:100%; height:100%;
-  pointer-events: none; z-index: 998; opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 998; opacity: 0.025;
+  background-image: repeating-conic-gradient(#000 0% 0.002%, transparent 0.002% 0.004%);
 }
 .halftone-overlay {
   position: fixed; top:0; left:0; width:100%; height:100%;
@@ -108,6 +108,11 @@ body {
   height: 100%; width: 0%;
   background: linear-gradient(90deg, var(--cyan), var(--red));
   box-shadow: 0 0 12px rgba(90,204,245,0.55);
+  animation: boot-progress 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes boot-progress {
+  from { width: 0%; }
+  to { width: 100%; }
 }
 .boot-status {
   font-family: var(--font-mono);
@@ -121,6 +126,9 @@ body {
   font-size: 1.1rem;
   color: var(--cyan);
   letter-spacing: 0.1em;
+}
+.boot-pct::after {
+  content: "%";
 }
 
 /* ==================== MOBILE NAV TOGGLE ==================== */
@@ -412,6 +420,8 @@ section {
   position: relative;
   display: inline-block;
   text-align: center;
+  color: var(--cyan);
+  text-shadow: 0 0 8px rgba(90,204,245,0.6);
 }
 .chroma-red {
   position: absolute;
@@ -419,12 +429,6 @@ section {
   width: 100%;
   text-align: center;
   pointer-events: none;
-}
-.chroma-cyan {
-  color: var(--cyan);
-  text-shadow: 0 0 8px rgba(90,204,245,0.6);
-}
-.chroma-red {
   color: var(--red);
   text-shadow: 0 0 8px rgba(245,90,107,0.6);
 }

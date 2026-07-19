@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  gsap.registerPlugin(ScrollTrigger, EasePack);
+  gsap.registerPlugin(EasePack);
 
   // Pre-hide hero elements so they don't flash before the loading screen lifts.
   const title = document.querySelector(".glitch-title");
@@ -41,6 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Reveal hero intro only once the loading screen lifts.
   Promise.all([navReady, bootDone]).then(() => initHeroIntro());
+
+  // Safety fallback: force-lift boot screen after 8s
+  setTimeout(() => {
+    const screen = document.getElementById("boot-screen");
+    if (screen && !screen.classList.contains("is-done")) {
+      screen.classList.add("is-done");
+    }
+  }, 8000);
 });
 
 /* ==================== NAV BUTTON DEFINITIONS ==================== */
@@ -122,25 +130,26 @@ const BOOT_LINES = [
 function runBootSequence() {
   return new Promise((resolve) => {
     const screen = document.getElementById("boot-screen");
-    const bar = document.querySelector(".boot-bar-fill");
     const pctEl = document.getElementById("boot-pct");
     const logEl = document.getElementById("boot-log");
-    if (!screen || !bar || !pctEl || !logEl) { resolve(); return; }
+    if (!screen || !pctEl || !logEl) { resolve(); return; }
 
-    const duration = 2.6;
-    const tl = gsap.timeline({
-      onComplete: () => {
+    const steps = 50;
+    const interval = 30;
+
+    let current = 0;
+    const tick = setInterval(() => {
+      current++;
+      const pct = Math.min(Math.round((current / steps) * 100), 100);
+      pctEl.textContent = pct;
+      const logIdx = Math.min(Math.floor((current / steps) * BOOT_LINES.length), BOOT_LINES.length - 1);
+      logEl.textContent = BOOT_LINES[logIdx];
+      if (current >= steps) {
+        clearInterval(tick);
         screen.classList.add("is-done");
         resolve();
       }
-    });
-
-    tl.to(bar, { width: "100%", duration, ease: "power1.inOut" }, 0)
-      .to(pctEl, { duration, textContent: 100, snap: { textContent: 1 }, ease: "power1.inOut" }, 0);
-
-    BOOT_LINES.forEach((line, i) => {
-      tl.call(() => { logEl.textContent = line; }, [], (duration / (BOOT_LINES.length)) * i);
-    });
+    }, interval);
   });
 }
 
@@ -485,6 +494,8 @@ function initParticles() {
 
   for (let i = 0; i < MAX; i++) particles.push(new Particle());
 
+  let rafId;
+
   function animate() {
     ctx.clearRect(0, 0, w, h);
     particles.forEach(p => { p.update(); p.draw(); });
@@ -499,9 +510,17 @@ function initParticles() {
       ctx.fillRect(x, y, Math.random() * 80 + 10, 1);
     }
     ctx.globalAlpha = 1;
-    requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(animate);
   }
   animate();
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      cancelAnimationFrame(rafId);
+    } else {
+      animate();
+    }
+  });
 }
 
 /* ==================== COUNTERS ==================== */
@@ -571,7 +590,7 @@ function initRandomGlitches() {
     setTimeout(triggerGlitch, Math.random() * 5000 + 1500);
   }
 
-  setTimeout(triggerGlitch, 3000);
+  setTimeout(triggerGlitch, 8000);
 }
 
 /* ==================== FORM GLITCH SUBMIT ==================== */
