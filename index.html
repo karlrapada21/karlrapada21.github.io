@@ -10,13 +10,14 @@
 html { scroll-behavior: smooth; }
 :root {
   --pink: #f55a6b; --cyan: #5accf5; --yellow: #f5e65a; --green: #5af5a6; --purple: #b55af5;
-  --dark: #0f0b0b; --darker: #080505; --scanline: rgba(255,255,255,0.03); --text: #e0d0d0;
+  --dark: #0f0b0b; --darker: #080505; --scanline: rgba(255,255,255,0.08); --text: #e0d0d0;
   --glow-pink: 0 0 10px #f55a6b, 0 0 30px #f55a6b44, 0 0 60px #f55a6b22;
   --glow-cyan: 0 0 10px #5accf5, 0 0 30px #5accf544, 0 0 60px #5accf522;
 }
 body { background-color: var(--dark); color: var(--text); font-family: "Kode Mono", "Share Tech Mono", monospace; min-height: 100vh; overflow-x: hidden; line-height: 1.6; }
-body::after { content: ""; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, var(--scanline) 2px, var(--scanline) 4px); pointer-events: none; z-index: 9999; }
-body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.6) 100%); pointer-events: none; z-index: 9998; }
+body::after { content: ""; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 9999; animation: flicker 0.15s infinite; }
+body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%); pointer-events: none; z-index: 9998; }
+@keyframes flicker { 0% { opacity: 0.9; } 5% { opacity: 0.7; } 10% { opacity: 1; } 50% { opacity: 1; } 55% { opacity: 0.6; } 60% { opacity: 0.95; } 95% { opacity: 1; } 100% { opacity: 0.85; } }
 @keyframes glitch1 { 0%,100% { transform: translate(0); } 20% { transform: translate(-2px,1px); } 40% { transform: translate(2px,-1px); } 60% { transform: translate(-1px,2px); } 80% { transform: translate(1px,-2px); } }
 @keyframes glitch2 { 0%,100% { transform: translate(0); } 20% { transform: translate(2px,-1px); } 40% { transform: translate(-2px,1px); } 60% { transform: translate(1px,-2px); } 80% { transform: translate(-1px,2px); } }
 .glitch { position: relative; display: inline-block; }
@@ -323,10 +324,9 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
     </div>
   </div>
 
-  <div class="section-header" style="margin-top:40px;"><h2 class="section-title">GITHUB_REPOS</h2></div>
+  <div class="section-header" style="margin-top:40px;"><h2 class="section-title">FEATURED_REPOS</h2></div>
   <div class="repo-loader" id="repo-loader"><div class="spinner"></div><p>FETCHING REPOSITORIES...</p></div>
   <div class="projects-grid hidden" id="github-repos"></div>
-  <div style="text-align:center;margin-top:20px;"><button id="load-more-repos" class="hero-link pink hidden" style="cursor:pointer;background:transparent;font-family:inherit;font-size:0.85rem;">Load More Repos</button></div>
 </section>
 
 <section class="section" id="certificates">
@@ -448,9 +448,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   var GITHUB_USER = "karlrapada21";
-  var GITHUB_API = "https://api.github.com/users/" + GITHUB_USER + "/repos?sort=updated&per_page=6";
-  var currentPage = 1;
-  var perPage = 6;
+  var GITHUB_API = "https://api.github.com/users/" + GITHUB_USER + "/repos?sort=stars&direction=desc&per_page=10";
 
   function fetchRepos(url) {
     fetch(url)
@@ -459,8 +457,11 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("repo-loader").classList.add("hidden");
         var grid = document.getElementById("github-repos");
         grid.classList.remove("hidden");
+        var shown = 0;
         repos.forEach(function(repo) {
           if (repo.fork) return;
+          if (shown >= 4) return;
+          shown++;
           var card = document.createElement("div");
           card.className = "project-card";
           card.innerHTML =
@@ -477,18 +478,9 @@ document.addEventListener("DOMContentLoaded", function() {
             '</div>';
           grid.appendChild(card);
         });
-        if (repos.length === perPage) {
-          var btn = document.getElementById("load-more-repos");
-          btn.classList.remove("hidden");
-          btn.onclick = function() {
-            currentPage++;
-            var nextUrl = "https://api.github.com/users/" + GITHUB_USER + "/repos?sort=updated&per_page=" + perPage + "&page=" + currentPage;
-            fetchRepos(nextUrl);
-          };
-        }
       })
       .catch(function(err) {
-        document.getElementById("repo-loader").innerHTML = "<p style='color:var(--pink);'>Failed to load repos. Showing offline data.</p>";
+        document.getElementById("repo-loader").innerHTML = "<p style='color:var(--pink);'>Failed to load repos.</p>";
         console.error("GitHub API error:", err);
       });
   }
