@@ -4,56 +4,55 @@
     return;
   }
 
-  gsap.registerPlugin(EasePack);
-
-  // Pre-hide hero elements so they don't flash before the loading screen lifts.
-  const title = document.querySelector(".glitch-title");
-  const titleLayers = document.querySelectorAll(".glitch-title-layer");
-  const typewriter = document.querySelector(".typewriter-container");
-  const subtitle = document.querySelector(".hero-subtitle");
-  const cta = document.querySelector(".hero-cta");
-  const scrollInd = document.querySelector(".scroll-indicator");
-  if (title) gsap.set([title, ...titleLayers, typewriter, subtitle, cta, scrollInd].filter(Boolean), { opacity: 0 });
-
-  initTypewriter();
-  initParticles();
-  initCounters();
-  initGlitchReveal();
-  initRandomGlitches();
-  initFormGlitch();
-
-  initNavToggle();
-
-  const navReady = Promise.race([
-    document.fonts.ready,
-    new Promise(r => setTimeout(r, 1500))
-  ]).then(() => {
-    buildNavButtons();
-    requestAnimationFrame(() => {
-      // Glitch-folder reference configuration (see ./glitch/script.js)
-      const config = {
-        navElement: document.getElementById("nav-1"),
-        easeIn: RoughEase.ease.config({ strength: 5, points: 10 }),
-        easeOut: "power2.out",
-        duration: 0.3
-      };
-      new NavigationEffect(config);
-      initNavScroll();
-    });
-  });
-
   const bootDone = runBootSequence();
 
-  // Reveal hero intro only once the loading screen lifts.
-  Promise.all([navReady, bootDone]).then(() => initHeroIntro());
-
-  // Safety fallback: force-lift boot screen after 8s
   setTimeout(() => {
     const screen = document.getElementById("boot-screen");
     if (screen && !screen.classList.contains("is-done")) {
       screen.classList.add("is-done");
     }
   }, 8000);
+
+  requestAnimationFrame(() => {
+    gsap.registerPlugin(EasePack);
+
+    const title = document.querySelector(".glitch-title");
+    const titleLayers = document.querySelectorAll(".glitch-title-layer");
+    const typewriter = document.querySelector(".typewriter-container");
+    const subtitle = document.querySelector(".hero-subtitle");
+    const cta = document.querySelector(".hero-cta");
+    const scrollInd = document.querySelector(".scroll-indicator");
+    if (title) gsap.set([title, ...titleLayers, typewriter, subtitle, cta, scrollInd].filter(Boolean), { opacity: 0 });
+
+    initTypewriter();
+    initParticles();
+    initCounters();
+    initGlitchReveal();
+    initRandomGlitches();
+    initFormGlitch();
+
+    initNavToggle();
+
+    const navReady = Promise.race([
+      document.fonts.ready,
+      new Promise(r => setTimeout(r, 1500))
+    ]).then(() => {
+      buildNavButtons();
+      requestAnimationFrame(() => {
+        const config = {
+          navElement: document.getElementById("nav-1"),
+          easeIn: RoughEase.ease.config({ strength: 5, points: 10 }),
+          easeOut: "power2.out",
+          duration: 0.3
+        };
+        new NavigationEffect(config);
+        initNavScroll();
+      });
+    });
+
+    // Reveal hero intro only once the loading screen lifts.
+    Promise.all([navReady, bootDone]).then(() => initHeroIntro());
+  });
 })();
 
 /* ==================== NAV BUTTON DEFINITIONS ==================== */
