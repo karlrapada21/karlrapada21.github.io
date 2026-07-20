@@ -14,7 +14,7 @@ html { scroll-behavior: smooth; }
   --glow-pink: 0 0 12px #f55a6b, 0 0 40px #f55a6b55, 0 0 80px #f55a6b33;
   --glow-cyan: 0 0 12px #5accf5, 0 0 40px #5accf555, 0 0 80px #5accf533;
 }
-body { background-color: var(--dark); color: var(--text); font-family: "Kode Mono", "Share Tech Mono", monospace; min-height: 100vh; overflow-x: hidden; line-height: 1.6; position: relative; }
+body { background-color: var(--dark); color: var(--text); font-family: "Kode Mono", "Share Tech Mono", monospace; height: 100vh; overflow: hidden; line-height: 1.6; position: relative; }
 body::after { content: ""; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, var(--scanline) 3px, var(--scanline) 6px); pointer-events: none; z-index: 9999; }
 body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%); pointer-events: none; z-index: 9998; }
 #bg-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
@@ -33,7 +33,7 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
 .nav-link { text-decoration: none; cursor: pointer; display: block; }
 .nav-link text { fill: var(--pink); font-family: "Kode Mono", monospace; font-size: 14px; }
 .nav-link text.blue { fill: var(--cyan); }
-.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 100px 20px 40px; position: relative; }
+.hero { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px 20px 40px; position: relative; }
 .hero-content { background: rgba(8,5,5,0.65); padding: 44px 36px; border: 1px solid rgba(245,90,107,0.3); box-shadow: 0 0 60px rgba(0,0,0,0.5); max-width: 750px; overflow: visible; }
 .hero-title { font-size: clamp(1.5rem, 5vw, 3.8rem); font-family: "Kode Mono", monospace; color: var(--pink); text-shadow: var(--glow-pink); margin-bottom: 8px; letter-spacing: 1px; white-space: nowrap; line-height: 1.4; }
 .hero-subtitle { font-size: clamp(1rem, 3vw, 1.8rem); color: var(--cyan); text-shadow: var(--glow-cyan); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
@@ -44,7 +44,7 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
 .hero-link.pink { color: var(--pink); border-color: var(--pink); }
 .hero-link.pink:hover { background: var(--pink); color: var(--darker); box-shadow: var(--glow-pink); }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); animation: bounce 2s infinite; }
+.scroll-indicator { display: none; }
 .scroll-indicator svg { stroke: var(--pink); fill: none; stroke-width: 2; }
 @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
 .section { padding: 40px 24px; max-width: 1000px; margin: 20px auto; }
@@ -431,6 +431,14 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
 
 <footer class="footer"><p>&copy; 2026 Karl Lynuz B. Rapada | Built with cyberpunk vibes</p></footer>
 <!-- BODY_DONE -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/EasePack.min.js"></script>
 <script>
@@ -567,20 +575,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
   fetchRepos(GITHUB_API);
 
-  var navLinks = document.querySelectorAll('.nav-link[href^="#"]');
-  navLinks.forEach(function(link) {
-    link.addEventListener("click", function(e) {
-      e.preventDefault();
-      var target = document.querySelector(this.getAttribute("href"));
-      if (target) { target.scrollIntoView({ behavior: "smooth" }); }
-    });
-  });
-
-  document.querySelector('.nav-logo[href="#home"]').addEventListener("click", function(e) {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
   // === BG CONTROL PANEL ===
   var toggle = document.getElementById("bg-panel-toggle");
   var panel = document.getElementById("bg-panel");
@@ -650,6 +644,7 @@ document.addEventListener("DOMContentLoaded", function() {
   bindBgPanel();
 });
 </script>
+<script type="module" src="./three-scene.js"></script>
 <script type="module" src="./shaders.js"></script>
 <script type="module" src="./bg-canvas.js"></script>
 </body>
