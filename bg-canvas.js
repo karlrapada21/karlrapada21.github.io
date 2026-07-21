@@ -68,8 +68,8 @@ const PRESETS = {
 };
 
 const params = {
-  palette: "Cyber",
-  ...PRESETS.Cyber,
+  palette: "Metropolis",
+  ...PRESETS.Metropolis,
   renderScale: 0.5,
   paused: false
 };
@@ -81,9 +81,9 @@ function applyPreset(name) {
   params.palette = name;
 }
 
-const hexToRgb = (hex) => {
+const hexToRgb = (hex, opacity = 1) => {
   const n = parseInt(hex.slice(1), 16);
-  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+  return [((n >> 16) & 255) / 255 * opacity, ((n >> 8) & 255) / 255 * opacity, (n & 255) / 255 * opacity];
 };
 
 const DRIFT_DIR = [Math.SQRT1_2, Math.SQRT1_2];
@@ -216,11 +216,11 @@ function initCanvas() {
     gl.uniform1f(su.uGapF, params.gap);
     gl.uniform1f(su.uRadF, params.cornerRadius);
     gl.uniform1f(su.uHMax, hMax);
-    gl.uniform3fv(su.uColBase, hexToRgb(params.colBase));
-    gl.uniform3fv(su.uColMid, hexToRgb(params.colMid));
-    gl.uniform3fv(su.uColHi, hexToRgb(params.colHi));
-    gl.uniform3fv(su.uColGlow, hexToRgb(params.colGlow));
-    gl.uniform3fv(su.uColBg, hexToRgb(params.colBg));
+    gl.uniform3fv(su.uColBase, hexToRgb(params.colBase, params.colBaseOpacity));
+    gl.uniform3fv(su.uColMid, hexToRgb(params.colMid, params.colMidOpacity));
+    gl.uniform3fv(su.uColHi, hexToRgb(params.colHi, params.colHiOpacity));
+    gl.uniform3fv(su.uColGlow, hexToRgb(params.colGlow, params.colGlowOpacity));
+    gl.uniform3fv(su.uColBg, hexToRgb(params.colBg, params.colBgOpacity));
     gl.uniform1f(su.uFogDen, params.fogDensity);
     gl.uniform1f(su.uFogFall, params.fogFalloff);
     gl.uniform1f(su.uGlow, params.glow);

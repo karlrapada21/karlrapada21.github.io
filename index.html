@@ -15,6 +15,8 @@ html { scroll-behavior: smooth; }
   --glow-cyan: 0 0 12px #5accf5, 0 0 40px #5accf555, 0 0 80px #5accf533;
 }
 body { background-color: var(--dark); color: var(--text); font-family: "Kode Mono", "Share Tech Mono", monospace; height: 100vh; overflow: hidden; line-height: 1.6; position: relative; }
+.hero, .section, .footer { opacity: 0; visibility: hidden; }
+body.scene-ready .hero, body.scene-ready .section, body.scene-ready .footer { opacity: 1; visibility: visible; transition: opacity 0.4s ease; }
 body::after { content: ""; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, var(--scanline) 3px, var(--scanline) 6px); pointer-events: none; z-index: 9999; }
 body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%); pointer-events: none; z-index: 9998; }
 #bg-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
@@ -31,11 +33,11 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
 .nav-logo text.blue { fill: var(--cyan); } .nav-logo text.red { fill: var(--pink); }
 .nav-links { display: flex; gap: 4px; align-items: center; }
 .nav-link { text-decoration: none; cursor: pointer; display: block; }
-.nav-link text { fill: var(--pink); font-family: "Kode Mono", monospace; font-size: 14px; }
+.nav-link text { fill: var(--pink); font-family: "Kode Mono", monospace; font-size: 18px; }
 .nav-link text.blue { fill: var(--cyan); }
 .hero { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px 20px 40px; position: relative; }
-.hero-content { background: rgba(8,5,5,0.65); padding: 44px 36px; border: 1px solid rgba(245,90,107,0.3); box-shadow: 0 0 60px rgba(0,0,0,0.5); max-width: 750px; overflow: visible; }
-.hero-title { font-size: clamp(1.5rem, 5vw, 3.8rem); font-family: "Kode Mono", monospace; color: var(--pink); text-shadow: var(--glow-pink); margin-bottom: 8px; letter-spacing: 1px; white-space: nowrap; line-height: 1.4; }
+.hero-content { background: rgba(8,5,5,0.65); padding: 44px 36px; border: 1px solid rgba(245,90,107,0.3); box-shadow: 0 0 60px rgba(0,0,0,0.5); max-width: 750px; overflow: visible; margin: 0 auto; text-align: center; }
+.hero-title { font-size: clamp(1.1rem, 3.2vw, 2.4rem); font-family: "Kode Mono", monospace; color: var(--pink); text-shadow: var(--glow-pink); margin-bottom: 8px; letter-spacing: 1px; line-height: 1.4; white-space: nowrap; }
 .hero-subtitle { font-size: clamp(1rem, 3vw, 1.8rem); color: var(--cyan); text-shadow: var(--glow-cyan); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
 .hero-tagline { color: var(--text); font-size: 0.9rem; max-width: 600px; margin: 0 auto 30px; }
 .hero-links { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
@@ -51,6 +53,8 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
 .section-header { text-align: center; margin-bottom: 30px; background: rgba(8,5,5,0.7); border: 1px solid rgba(245,90,107,0.3); padding: 12px 28px; display: block; max-width: 400px; margin-left: auto; margin-right: auto; box-shadow: 0 0 25px rgba(0,0,0,0.4); }
 .section-title { font-family: "Kode Mono", monospace; font-size: clamp(1.5rem, 4vw, 2.5rem); color: var(--pink); text-shadow: var(--glow-pink); margin-bottom: 8px; position: relative; display: inline-block; }
 .section-title::after { content: ""; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2px; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+.subsection-title { font-family: "Kode Mono", monospace; font-size: 1.1rem; color: var(--cyan); text-shadow: 0 0 8px rgba(90,204,245,0.5); margin: 36px 0 18px; text-align: center; letter-spacing: 1px; }
+.subsection-title::before, .subsection-title::after { content: "//"; color: var(--pink); margin: 0 8px; opacity: 0.7; }
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
 @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; } }
 .about-card { background: rgba(15,11,11,0.55); border: 1px solid var(--cyan); padding: 24px; position: relative; box-shadow: 0 0 15px rgba(90,204,245,0.1); }
@@ -79,41 +83,56 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
 .certs-grid { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
 .cert-badge { background: rgba(15,11,11,0.55); border: 1px solid var(--yellow); padding: 10px 18px; color: var(--yellow); font-size: 0.82rem; text-shadow: 0 0 8px rgba(245,230,90,0.4); position: relative; }
 .cert-badge::after { content: ""; position: absolute; inset: 2px; border: 1px dashed var(--yellow); opacity: 0.3; }
-.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: center; }
-.contact-item { background: rgba(15,11,11,0.55); border: 1px solid var(--cyan); padding: 20px; transition: all 0.3s; text-decoration: none; color: var(--text); display: block; }
+.contact-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; text-align: center; }
+.contact-item { background: rgba(15,11,11,0.55); border: 1px solid var(--cyan); padding: 18px 12px; transition: all 0.3s; text-decoration: none; color: var(--text); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 130px; overflow: hidden; }
 .contact-item:hover { border-color: var(--pink); box-shadow: 0 0 20px rgba(245,90,107,0.3); }
-.contact-item .icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
-.contact-item h3 { color: var(--cyan); font-size: 0.85rem; font-family: "Kode Mono", monospace; margin-bottom: 4px; }
-.contact-item span { font-size: 0.75rem; opacity: 0.7; }
+.contact-item .icon { font-size: 1.6rem; margin-bottom: 8px; display: block; }
+.contact-item h3 { color: var(--cyan); font-size: 0.8rem; font-family: "Kode Mono", monospace; margin-bottom: 4px; }
+.contact-item .val { font-size: 0.72rem; opacity: 0.75; display: block; word-break: break-word; line-height: 1.3; }
+@media (max-width: 900px) { .contact-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px) { .contact-grid { grid-template-columns: repeat(2, 1fr); } }
 .footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--pink); opacity: 0.5; font-size: 0.75rem; }
 .repo-loader { text-align: center; padding: 40px; color: var(--cyan); font-family: "Kode Mono", monospace; }
 .repo-loader .spinner { display: inline-block; width: 30px; height: 30px; border: 2px solid var(--pink); border-top-color: var(--cyan); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .hidden { display: none !important; }
-@media (max-width: 600px) { .navbar { padding: 6px 8px; gap: 2px; } .nav-logo { margin-right: 0; } .nav-links { gap: 1px; } .nav-link svg { width: 100px !important; height: 32px !important; } .nav-link text { font-size: 10px; } }
+@media (max-width: 600px) { .navbar { padding: 6px 8px; gap: 2px; } .nav-logo { margin-right: 0; } .nav-links { gap: 1px; } .nav-link svg { width: 100px !important; height: 32px !important; } .nav-link text { font-size: 13px; } }
 
 /* ===== BG CONTROL PANEL ===== */
-.bg-panel-toggle { position: fixed; top: 62px; right: 10px; z-index: 10001; background: rgba(8,5,5,0.85); border: 1px solid var(--pink); color: var(--pink); padding: 6px 12px; cursor: pointer; font-family: "Kode Mono", monospace; font-size: 12px; transition: all 0.2s; }
+.bg-panel-toggle { position: fixed; top: 8px; right: 16px; z-index: 10002; margin: 0; background: rgba(8,5,5,0.95); border: 1px solid var(--pink); color: var(--pink); padding: 6px 12px; cursor: pointer; font-family: "Kode Mono", monospace; font-size: 13px; transition: all 0.2s; }
 .bg-panel-toggle:hover { background: var(--pink); color: var(--darker); box-shadow: var(--glow-pink); }
-.bg-panel { position: fixed; top: 56px; right: 0; z-index: 10000; width: 300px; height: calc(100vh - 56px); overflow-y: auto; background: rgba(5,3,3,0.94); border-left: 1px solid var(--pink); font-family: "Kode Mono", monospace; font-size: 11px; color: var(--text); padding: 12px; transform: translateX(100%); transition: transform 0.3s; }
+.bg-panel { position: fixed; top: 60px; right: 0; z-index: 10000; width: 300px; max-height: calc(100vh - 60px); overflow-y: auto; background: rgba(5,3,3,0.94); border-left: 1px solid var(--pink); font-family: "Kode Mono", monospace; font-size: 11px; color: var(--text); padding: 12px; transform: translateX(100%); transition: transform 0.3s; }
 .bg-panel.open { transform: translateX(0); }
 .bg-panel::-webkit-scrollbar { width: 3px; }
 .bg-panel::-webkit-scrollbar-thumb { background: var(--pink); }
 .bg-panel-group { margin-bottom: 14px; }
 .bg-panel-label { color: var(--cyan); font-size: 10px; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 1px; border-bottom: 1px solid rgba(90,204,245,0.3); padding-bottom: 3px; }
-.bg-panel-row { display: flex; align-items: center; justify-content: space-between; margin: 3px 0; }
-.bg-panel-row span { color: var(--text); font-size: 10px; width: 60px; flex-shrink: 0; }
-.bg-panel-row input[type=range] { flex: 1; height: 4px; -webkit-appearance: none; background: rgba(245,90,107,0.3); outline: none; cursor: pointer; margin: 0 4px; }
-.bg-panel-row input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; background: var(--pink); cursor: pointer; }
-.bg-panel-row input[type=color] { width: 28px; height: 18px; border: 1px solid var(--pink); background: transparent; cursor: pointer; padding: 0; margin-left: 4px; flex-shrink: 0; }
-.bg-panel-row .val { font-size: 9px; color: var(--cyan); width: 28px; text-align: right; flex-shrink: 0; }
+.bg-panel-row { display: flex; align-items: center; justify-content: space-between; margin: 4px 0; }
+.bg-panel-row span { color: var(--text); font-size: 10px; width: 56px; flex-shrink: 0; }
+.bg-panel-row input[type=range] { flex: 1; height: 6px; -webkit-appearance: none; appearance: none; background: linear-gradient(90deg, rgba(245,90,107,0.15), rgba(90,204,245,0.15)); border: 1px solid rgba(245,90,107,0.25); border-radius: 3px; outline: none; cursor: pointer; margin: 0 6px; }
+.bg-panel-row input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--pink); cursor: pointer; box-shadow: 0 0 6px var(--pink), 0 0 12px rgba(245,90,107,0.4); border: 1px solid rgba(255,255,255,0.2); transition: box-shadow 0.15s; }
+.bg-panel-row input[type=range]::-webkit-slider-thumb:hover { box-shadow: 0 0 10px var(--pink), 0 0 20px rgba(245,90,107,0.6); }
+.bg-panel-row input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--pink); cursor: pointer; box-shadow: 0 0 6px var(--pink); border: 1px solid rgba(255,255,255,0.2); }
+.bg-panel-row .val { font-size: 9px; color: var(--cyan); width: 32px; text-align: right; flex-shrink: 0; font-family: "Share Tech Mono", monospace; }
+.bg-color-swatch { width: 24px; height: 16px; border: 1px solid rgba(245,90,107,0.5); cursor: pointer; flex-shrink: 0; margin-left: auto; margin-right: 6px; border-radius: 2px; transition: all 0.15s; position: relative; }
+.bg-color-swatch:hover { border-color: var(--cyan); box-shadow: 0 0 6px rgba(90,204,245,0.4); transform: scale(1.08); }
+.bg-color-swatch.open { border-color: var(--cyan); box-shadow: 0 0 8px rgba(90,204,245,0.5); }
+.bg-color-hex { font-size: 9px; color: var(--text); font-family: "Share Tech Mono", monospace; width: 52px; text-align: right; flex-shrink: 0; opacity: 0.6; text-transform: uppercase; }
+.bg-color-expand { display: none; padding: 8px 0 10px 0; }
+.bg-color-expand.open { display: block; }
+.bg-sv-square { width: 100%; height: 120px; position: relative; cursor: crosshair; border: 1px solid rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; }
+.bg-sv-cursor { position: absolute; width: 12px; height: 12px; border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; box-shadow: 0 0 0 1px rgba(0,0,0,0.6), 0 0 4px rgba(0,0,0,0.5); }
+.bg-hue-track { height: 14px; border-radius: 7px; background: linear-gradient(90deg, #f00 0%, #ff0 16.6%, #0f0 33.3%, #0ff 50%, #00f 66.6%, #f0f 83.3%, #f00 100%); position: relative; cursor: pointer; margin: 8px 0; border: 1px solid rgba(255,255,255,0.15); }
+.bg-hue-handle { position: absolute; width: 6px; height: 18px; background: #fff; border: 1px solid rgba(0,0,0,0.6); border-radius: 2px; top: -2px; transform: translateX(-50%); pointer-events: none; box-shadow: 0 0 4px rgba(0,0,0,0.4); }
+.bg-opacity-track { height: 14px; border-radius: 7px; position: relative; cursor: pointer; margin: 8px 0; border: 1px solid rgba(255,255,255,0.15); background-color: #444; background-image: linear-gradient(45deg, #777 25%, transparent 25%), linear-gradient(-45deg, #777 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #777 75%), linear-gradient(-45deg, transparent 75%, #777 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0; }
+.bg-opacity-overlay { position: absolute; inset: 0; border-radius: 7px; pointer-events: none; }
+.bg-opacity-handle { position: absolute; width: 6px; height: 18px; background: #fff; border: 1px solid rgba(0,0,0,0.6); border-radius: 2px; top: -2px; transform: translateX(-50%); pointer-events: none; box-shadow: 0 0 4px rgba(0,0,0,0.4); }
 .bg-presets { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
 .bg-preset-btn { background: rgba(15,11,11,0.7); border: 1px solid var(--cyan); color: var(--cyan); padding: 3px 8px; cursor: pointer; font-family: "Kode Mono", monospace; font-size: 10px; transition: all 0.15s; }
 .bg-preset-btn:hover, .bg-preset-btn.active { background: var(--cyan); color: var(--darker); }
 </style>
 </head>
 <body>
-<button class="bg-panel-toggle" id="bg-panel-toggle" title="Background Controls">&#9881; BG</button>
 <div class="bg-panel" id="bg-panel">
   <div class="bg-panel-group">
     <div class="bg-panel-label">Presets</div>
@@ -121,11 +140,16 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
   </div>
   <div class="bg-panel-group">
     <div class="bg-panel-label">Colors</div>
-    <div class="bg-panel-row"><span>Shadow</span><input type="color" data-key="colBase"><span class="val"></span></div>
-    <div class="bg-panel-row"><span>Lit</span><input type="color" data-key="colMid"><span class="val"></span></div>
-    <div class="bg-panel-row"><span>Sun</span><input type="color" data-key="colHi"><span class="val"></span></div>
-    <div class="bg-panel-row"><span>Glow</span><input type="color" data-key="colGlow"><span class="val"></span></div>
-    <div class="bg-panel-row"><span>Sky</span><input type="color" data-key="colBg"><span class="val"></span></div>
+    <div class="bg-panel-row"><span>Shadow</span><div class="bg-color-swatch" data-key="colBase"></div><span class="bg-color-hex"></span></div>
+    <div class="bg-color-expand" data-key="colBase"></div>
+    <div class="bg-panel-row"><span>Lit</span><div class="bg-color-swatch" data-key="colMid"></div><span class="bg-color-hex"></span></div>
+    <div class="bg-color-expand" data-key="colMid"></div>
+    <div class="bg-panel-row"><span>Sun</span><div class="bg-color-swatch" data-key="colHi"></div><span class="bg-color-hex"></span></div>
+    <div class="bg-color-expand" data-key="colHi"></div>
+    <div class="bg-panel-row"><span>Glow</span><div class="bg-color-swatch" data-key="colGlow"></div><span class="bg-color-hex"></span></div>
+    <div class="bg-color-expand" data-key="colGlow"></div>
+    <div class="bg-panel-row"><span>Sky</span><div class="bg-color-swatch" data-key="colBg"></div><span class="bg-color-hex"></span></div>
+    <div class="bg-color-expand" data-key="colBg"></div>
   </div>
   <div class="bg-panel-group">
     <div class="bg-panel-label">Blocks</div>
@@ -201,7 +225,7 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
   </a>
   <div class="nav-links" id="nav-links">
     <a href="#about" class="nav-link">
-      <svg width="100px" height="36px" viewBox="0 0 100 36">
+      <svg width="130px" height="40px" viewBox="0 0 130 40">
         <defs>
           <filter id="nd-1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
             <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0"/><feFlood flood-color="#888800" y="5%" height="5%" result="s1"/>
@@ -221,14 +245,14 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
             <rect class="scanline" x="0" y="0" width="4" height="1" fill="#221314"/><rect x="0" y="1" width="4" height="7" fill="#0f0b0b"/>
           </pattern>
         </defs>
-        <rect x="0" y="0" width="100%" height="36" fill="url(#sp-1)"/>
-        <g filter="url(#nd-1)"><text x="6" y="18" class="blue" dominant-baseline="middle">About</text><text x="6" y="18" class="red" dominant-baseline="middle">About</text></g>
+        <rect x="0" y="0" width="100%" height="40" fill="url(#sp-1)"/>
+        <g filter="url(#nd-1)"><text x="8" y="20" class="blue" dominant-baseline="middle">About</text><text x="8" y="20" class="red" dominant-baseline="middle">About</text></g>
         <rect x="0" y="0" width="8" height="0" fill="#5accf5" class="fill" filter="url(#nd-1)"/>
         <rect x="0" y="0" width="8" height="0" fill="#f55a6b" class="fill" filter="url(#nd-1)"/>
       </svg>
     </a>
     <a href="#experience" class="nav-link">
-      <svg width="130px" height="36px" viewBox="0 0 130 36">
+      <svg width="170px" height="40px" viewBox="0 0 170 40">
         <defs>
           <filter id="nd-2" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
             <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0"/><feFlood flood-color="#888800" y="5%" height="5%" result="s1"/>
@@ -248,14 +272,14 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
             <rect class="scanline" x="0" y="0" width="4" height="1" fill="#221314"/><rect x="0" y="1" width="4" height="7" fill="#0f0b0b"/>
           </pattern>
         </defs>
-        <rect x="0" y="0" width="100%" height="36" fill="url(#sp-2)"/>
-        <g filter="url(#nd-2)"><text x="6" y="18" class="blue" dominant-baseline="middle">Experience</text><text x="6" y="18" class="red" dominant-baseline="middle">Experience</text></g>
+        <rect x="0" y="0" width="100%" height="40" fill="url(#sp-2)"/>
+        <g filter="url(#nd-2)"><text x="8" y="20" class="blue" dominant-baseline="middle">Experience</text><text x="8" y="20" class="red" dominant-baseline="middle">Experience</text></g>
         <rect x="0" y="0" width="8" height="0" fill="#5accf5" class="fill" filter="url(#nd-2)"/>
         <rect x="0" y="0" width="8" height="0" fill="#f55a6b" class="fill" filter="url(#nd-2)"/>
       </svg>
     </a>
     <a href="#projects" class="nav-link">
-      <svg width="110px" height="36px" viewBox="0 0 110 36">
+      <svg width="145px" height="40px" viewBox="0 0 145 40">
         <defs>
           <filter id="nd-3" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
             <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0"/><feFlood flood-color="#888800" y="5%" height="5%" result="s1"/>
@@ -275,14 +299,14 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
             <rect class="scanline" x="0" y="0" width="4" height="1" fill="#221314"/><rect x="0" y="1" width="4" height="7" fill="#0f0b0b"/>
           </pattern>
         </defs>
-        <rect x="0" y="0" width="100%" height="36" fill="url(#sp-3)"/>
-        <g filter="url(#nd-3)"><text x="6" y="18" class="blue" dominant-baseline="middle">Projects</text><text x="6" y="18" class="red" dominant-baseline="middle">Projects</text></g>
+        <rect x="0" y="0" width="100%" height="40" fill="url(#sp-3)"/>
+        <g filter="url(#nd-3)"><text x="8" y="20" class="blue" dominant-baseline="middle">Projects</text><text x="8" y="20" class="red" dominant-baseline="middle">Projects</text></g>
         <rect x="0" y="0" width="8" height="0" fill="#5accf5" class="fill" filter="url(#nd-3)"/>
         <rect x="0" y="0" width="8" height="0" fill="#f55a6b" class="fill" filter="url(#nd-3)"/>
       </svg>
     </a>
     <a href="#contact" class="nav-link">
-      <svg width="110px" height="36px" viewBox="0 0 110 36">
+      <svg width="145px" height="40px" viewBox="0 0 145 40">
         <defs>
           <filter id="nd-4" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
             <feFlood flood-color="#8888FF" y="0%" height="5%" result="s0"/><feFlood flood-color="#888800" y="5%" height="5%" result="s1"/>
@@ -302,14 +326,15 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
             <rect class="scanline" x="0" y="0" width="4" height="1" fill="#221314"/><rect x="0" y="1" width="4" height="7" fill="#0f0b0b"/>
           </pattern>
         </defs>
-        <rect x="0" y="0" width="100%" height="36" fill="url(#sp-4)"/>
-        <g filter="url(#nd-4)"><text x="6" y="18" class="blue" dominant-baseline="middle">Contact</text><text x="6" y="18" class="red" dominant-baseline="middle">Contact</text></g>
+        <rect x="0" y="0" width="100%" height="40" fill="url(#sp-4)"/>
+        <g filter="url(#nd-4)"><text x="8" y="20" class="blue" dominant-baseline="middle">Contact</text><text x="8" y="20" class="red" dominant-baseline="middle">Contact</text></g>
         <rect x="0" y="0" width="8" height="0" fill="#5accf5" class="fill" filter="url(#nd-4)"/>
         <rect x="0" y="0" width="8" height="0" fill="#f55a6b" class="fill" filter="url(#nd-4)"/>
       </svg>
     </a>
-  </div>
+   </div>
 </nav>
+<button class="bg-panel-toggle" id="bg-panel-toggle" title="Background Controls">&#9881; BG</button>
 <!-- NAV_DONE -->
 <section class="hero" id="home">
   <div class="hero-content">
@@ -383,28 +408,6 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
 
 <section class="section" id="projects">
   <div class="section-header"><h2 class="section-title">PROJECTS</h2></div>
-  <div class="projects-grid" id="static-projects">
-    <div class="project-card">
-      <h3>SkinLesionAI</h3>
-      <p class="tech">Flask / PyTorch / SQLite / Bootstrap / OpenCV / Grad-CAM++</p>
-      <p>Medical-grade web app classifying 8 skin lesion types using ResNeXt50 (85% accuracy). Features Grad-CAM++ visual explanations, batch processing, and exportable clinical reports.</p>
-      <div class="links"><a href="https://github.com/karlrapada21/skin-lesion-detection" target="_blank">View on GitHub</a></div>
-    </div>
-    <div class="project-card">
-      <h3>BITSI Dispatch</h3>
-      <p class="tech">Laravel 12 / Livewire 3 / Tailwind CSS / MySQL / Semaphore API</p>
-      <p>Real-time bus dispatch management system with live dispatch board, driver attendance tracking, SMS notifications, and vehicle PMS alerts.</p>
-      <div class="links"><a href="https://github.com/IAmKhirvie/bitsi-dispatch" target="_blank">View on GitHub</a></div>
-    </div>
-    <div class="project-card">
-      <h3>Intern Management System</h3>
-      <p class="tech">React / Vite / Tailwind CSS</p>
-      <p>All-in-one intern tracking platform integrating attendance, task management, and role-based access for interns, team leads, and monitoring staff.</p>
-      <div class="links"><a href="https://github.com/bigbusbeluga/umonics-attendance-reporting-system" target="_blank">View on GitHub</a></div>
-    </div>
-  </div>
-
-  <div class="section-header" style="margin-top:40px;"><h2 class="section-title">FEATURED_REPOS</h2></div>
   <div class="repo-loader" id="repo-loader"><div class="spinner"></div><p>FETCHING REPOSITORIES...</p></div>
   <div class="projects-grid hidden" id="github-repos"></div>
 </section>
@@ -421,11 +424,11 @@ body::before { content: ""; position: fixed; inset: 0; background: radial-gradie
 <section class="section" id="contact">
   <div class="section-header"><h2 class="section-title">CONTACT</h2></div>
   <div class="contact-grid">
-    <a href="mailto:karlrapada@gmail.com" class="contact-item"><span class="icon">&#9993;</span><h3>Email</h3><span>karlrapada@gmail.com</span></a>
-    <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" class="contact-item"><span class="icon">&#9654;</span><h3>LinkedIn</h3><span>karl-rapada</span></a>
-    <a href="https://github.com/karlrapada21" target="_blank" class="contact-item"><span class="icon">&#12336;</span><h3>GitHub</h3><span>karlrapada21</span></a>
-    <div class="contact-item"><span class="icon">&#9742;</span><h3>Phone</h3><span>+63 921 746 8502</span></div>
-    <div class="contact-item"><span class="icon">&#9906;</span><h3>Location</h3><span>Marikina City, Philippines</span></div>
+    <a href="mailto:karlrapada@gmail.com" class="contact-item"><span class="icon">&#9993;</span><h3>Email</h3><span class="val">karlrapada@gmail.com</span></a>
+    <a href="https://www.linkedin.com/in/karl-rapada-88310316a/" target="_blank" class="contact-item"><span class="icon">&#9654;</span><h3>LinkedIn</h3><span class="val">karl-rapada</span></a>
+    <a href="https://github.com/karlrapada21" target="_blank" class="contact-item"><span class="icon">&#12336;</span><h3>GitHub</h3><span class="val">karlrapada21</span></a>
+    <div class="contact-item"><span class="icon">&#9742;</span><h3>Phone</h3><span class="val">+63 921 746 8502</span></div>
+    <div class="contact-item"><span class="icon">&#9906;</span><h3>Location</h3><span class="val">Marikina City, Philippines</span></div>
   </div>
 </section>
 
@@ -536,22 +539,66 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   var GITHUB_USER = "karlrapada21";
-  var GITHUB_API = "https://api.github.com/users/" + GITHUB_USER + "/repos?sort=stars&direction=desc&per_page=10";
+  var GITHUB_API = "https://api.github.com/users/" + GITHUB_USER + "/repos?sort=stars&direction=desc&per_page=100";
+
+  function stripMarkdown(text) {
+    return text
+      .replace(/```[\s\S]*?```/g, "")
+      .replace(/`([^`]+)`/g, "$1")
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+      .replace(/[*_~#>|-]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function extractSynopsis(md) {
+    var lines = md.split("\n");
+    var paragraph = [];
+    var inCodeBlock = false;
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      if (line.trim().indexOf("```") === 0) { inCodeBlock = !inCodeBlock; continue; }
+      if (inCodeBlock) continue;
+      var trimmed = line.trim();
+      if (!trimmed) { if (paragraph.length) break; continue; }
+      if (trimmed[0] === "#") continue;
+      if (/img\.shields\.io|badge|\.png\)|\.svg\)|\.gif\)|<img|<div|<p>|<a /i.test(trimmed)) continue;
+      if (/^\s*[-*+]\s/.test(trimmed) && paragraph.length === 0) continue;
+      paragraph.push(trimmed);
+    }
+    var text = stripMarkdown(paragraph.join(" "));
+    if (text.length > 220) text = text.slice(0, 220).trim() + "...";
+    return text;
+  }
+
+  function fetchReadme(repo, cb) {
+    fetch("https://api.github.com/repos/" + repo.full_name + "/readme", {
+      headers: { "Accept": "application/vnd.github.raw" }
+    })
+      .then(function(r) { if (!r.ok) throw new Error("no readme"); return r.text(); })
+      .then(function(md) { cb(extractSynopsis(md)); })
+      .catch(function() { cb(null); });
+  }
 
   function fetchRepos(url) {
-    fetch(url)
+    fetch(url, { headers: { "Accept": "application/vnd.github.mercy-preview+json" } })
       .then(function(r) { return r.json(); })
       .then(function(repos) {
+        var featured = repos.filter(function(repo) {
+          return !repo.fork && repo.topics && repo.topics.indexOf("featured") !== -1;
+        });
         document.getElementById("repo-loader").classList.add("hidden");
         var grid = document.getElementById("github-repos");
         grid.classList.remove("hidden");
-        var shown = 0;
-        repos.forEach(function(repo) {
-          if (repo.fork) return;
-          if (shown >= 4) return;
-          shown++;
+        if (featured.length === 0) {
+          grid.innerHTML = "<p style='color:var(--cyan);text-align:center;grid-column:1/-1;'>No featured repositories found. Tag repos with the 'featured' topic on GitHub.</p>";
+          return;
+        }
+        featured.forEach(function(repo) {
           var card = document.createElement("div");
           card.className = "project-card";
+          var synId = "syn-" + repo.name.replace(/[^a-z0-9]/gi, "-");
           card.innerHTML =
             '<h3><a href="' + repo.html_url + '" target="_blank" style="color:var(--cyan);text-decoration:none;">' + repo.name + '</a></h3>' +
             '<p class="tech">' + (repo.language || 'N/A') + '</p>' +
@@ -559,12 +606,18 @@ document.addEventListener("DOMContentLoaded", function() {
               '<span>&#9733; ' + repo.stargazers_count + '</span>' +
               '<span>&#9283; ' + repo.forks_count + '</span>' +
             '</div>' +
-            '<p>' + (repo.description || 'No description available.') + '</p>' +
+            '<p id="' + synId + '">' + (repo.description || 'No description available.') + '</p>' +
             '<div class="links">' +
               '<a href="' + repo.html_url + '" target="_blank">View on GitHub</a>' +
               (repo.homepage ? '<a href="' + repo.homepage + '" target="_blank">Live Demo</a>' : '') +
             '</div>';
           grid.appendChild(card);
+          fetchReadme(repo, function(synopsis) {
+            if (synopsis) {
+              var el = document.getElementById(synId);
+              if (el) el.textContent = synopsis;
+            }
+          });
         });
       })
       .catch(function(err) {
@@ -591,6 +644,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!presets || !params) { setTimeout(bindBgPanel, 50); return; }
 
     var presetDiv = document.getElementById("bg-presets");
+    presetDiv.innerHTML = "";
     Object.keys(presets).forEach(function(name) {
       var btn = document.createElement("button");
       btn.className = "bg-preset-btn" + (params.palette === name ? " active" : "");
@@ -604,43 +658,175 @@ document.addEventListener("DOMContentLoaded", function() {
       presetDiv.appendChild(btn);
     });
 
-    var inputs = panel.querySelectorAll("input[data-key]");
-    function syncPanelFromParams() {
-      inputs.forEach(function(inp) {
-        var key = inp.getAttribute("data-key");
-        if (inp.type === "color") {
-          inp.value = params[key];
-        } else {
-          inp.value = params[key];
-          var valEl = inp.parentElement.querySelector(".val");
-          if (valEl) valEl.textContent = parseFloat(params[key]).toFixed(2);
-        }
+    var sliders = panel.querySelectorAll("input[type=range][data-key]");
+
+    // === Custom color pickers (art-tool style: SV square + hue + opacity) ===
+    function hexToHsv(hex) {
+      var r = parseInt(hex.slice(1, 3), 16) / 255;
+      var g = parseInt(hex.slice(3, 5), 16) / 255;
+      var b = parseInt(hex.slice(5, 7), 16) / 255;
+      var max = Math.max(r, g, b), min = Math.min(r, g, b);
+      var d = max - min, h = 0;
+      if (d !== 0) {
+        if (max === r) h = ((g - b) / d) % 6;
+        else if (max === g) h = (b - r) / d + 2;
+        else h = (r - g) / d + 4;
+        h *= 60; if (h < 0) h += 360;
+      }
+      return [h, max === 0 ? 0 : d / max, max];
+    }
+    function hsvToHex(h, s, v) {
+      h = ((h % 360) + 360) % 360;
+      var c = v * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = v - c;
+      var r, g, b;
+      if (h < 60) { r = c; g = x; b = 0; } else if (h < 120) { r = x; g = c; b = 0; }
+      else if (h < 180) { r = 0; g = c; b = x; } else if (h < 240) { r = 0; g = x; b = c; }
+      else if (h < 300) { r = x; g = 0; b = c; } else { r = c; g = 0; b = x; }
+      var toHex = function(val) { var hx = Math.round((val + m) * 255).toString(16); return hx.length === 1 ? '0' + hx : hx; };
+      return '#' + toHex(r) + toHex(g) + toHex(b);
+    }
+    function pureHexFromHex(hex, opacity) {
+      var op = opacity !== undefined ? opacity : 1;
+      if (op <= 0.001) return '#000000';
+      var r = parseInt(hex.slice(1, 3), 16) / 255 / op;
+      var g = parseInt(hex.slice(3, 5), 16) / 255 / op;
+      var b = parseInt(hex.slice(5, 7), 16) / 255 / op;
+      r = Math.max(0, Math.min(1, r)); g = Math.max(0, Math.min(1, g)); b = Math.max(0, Math.min(1, b));
+      var toHex = function(v) { var hx = Math.round(v * 255).toString(16); return hx.length === 1 ? '0' + hx : hx; };
+      return '#' + toHex(r) + toHex(g) + toHex(b);
+    }
+
+    var swatches = panel.querySelectorAll(".bg-color-swatch");
+    var expands = panel.querySelectorAll(".bg-color-expand");
+    var opacityKeys = { colBase: "colBaseOpacity", colMid: "colMidOpacity", colHi: "colHiOpacity", colGlow: "colGlowOpacity", colBg: "colBgOpacity" };
+
+    swatches.forEach(function(sw) {
+      var key = sw.getAttribute("data-key");
+      var opKey = opacityKeys[key];
+      var expand = panel.querySelector(".bg-color-expand[data-key='" + key + "']");
+      var hexEl = sw.parentElement.querySelector(".bg-color-hex");
+
+      var svSquare = document.createElement("div"); svSquare.className = "bg-sv-square";
+      var svCursor = document.createElement("div"); svCursor.className = "bg-sv-cursor";
+      svSquare.appendChild(svCursor);
+      var hueTrack = document.createElement("div"); hueTrack.className = "bg-hue-track";
+      var hueHandle = document.createElement("div"); hueHandle.className = "bg-hue-handle";
+      hueTrack.appendChild(hueHandle);
+      var opTrack = document.createElement("div"); opTrack.className = "bg-opacity-track";
+      var opOverlay = document.createElement("div"); opOverlay.className = "bg-opacity-overlay";
+      var opHandle = document.createElement("div"); opHandle.className = "bg-opacity-handle";
+      opTrack.appendChild(opOverlay); opTrack.appendChild(opHandle);
+
+      expand.appendChild(svSquare);
+      expand.appendChild(hueTrack);
+      expand.appendChild(opTrack);
+
+      var hsv = [0, 1, 1];
+      var opacity = 1;
+
+      function syncFromParams() {
+        var rawHex = params[key];
+        opacity = params[opKey] !== undefined ? params[opKey] : 1;
+        var pureHex = pureHexFromHex(rawHex, opacity);
+        hsv = hexToHsv(pureHex);
+        renderPicker();
+      }
+
+      function renderPicker() {
+        var pureHex = hsvToHex(hsv[0], hsv[1], hsv[2]);
+        svSquare.style.background = "linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, hsl(" + hsv[0] + ", 100%, 50%))";
+        svCursor.style.left = (hsv[1] * 100) + "%";
+        svCursor.style.top = ((1 - hsv[2]) * 100) + "%";
+        svCursor.style.background = pureHex;
+        hueHandle.style.left = (hsv[0] / 360 * 100) + "%";
+        opOverlay.style.background = "linear-gradient(90deg, transparent, " + pureHex + ")";
+        opHandle.style.left = (opacity * 100) + "%";
+        sw.style.background = params[key];
+        if (hexEl) hexEl.textContent = params[key].toUpperCase();
+      }
+
+      function applyColor() {
+        var pureHex = hsvToHex(hsv[0], hsv[1], hsv[2]);
+        var r = parseInt(pureHex.slice(1, 3), 16) * opacity;
+        var g = parseInt(pureHex.slice(3, 5), 16) * opacity;
+        var b = parseInt(pureHex.slice(5, 7), 16) * opacity;
+        var toHex = function(v) { v = Math.round(Math.max(0, Math.min(255, v))); var hx = v.toString(16); return hx.length === 1 ? '0' + hx : hx; };
+        params[key] = '#' + toHex(r) + toHex(g) + toHex(b);
+        params[opKey] = opacity;
+        params.palette = "custom";
+        presetDiv.querySelectorAll("button").forEach(function(b) { b.classList.remove("active"); });
+        renderPicker();
+      }
+
+      function bindTrack(el, handler) {
+        el.addEventListener("pointerdown", function(e) {
+          e.preventDefault(); el.setPointerCapture(e.pointerId);
+          handler(e);
+          var moveH = function(ev) { handler(ev); };
+          var upH = function() { el.removeEventListener("pointermove", moveH); el.removeEventListener("pointerup", upH); };
+          el.addEventListener("pointermove", moveH);
+          el.addEventListener("pointerup", upH);
+        });
+      }
+
+      bindTrack(svSquare, function(e) {
+        var rect = svSquare.getBoundingClientRect();
+        hsv[1] = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        hsv[2] = 1 - Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+        applyColor();
       });
+      bindTrack(hueTrack, function(e) {
+        var rect = hueTrack.getBoundingClientRect();
+        hsv[0] = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * 360;
+        applyColor();
+      });
+      bindTrack(opTrack, function(e) {
+        var rect = opTrack.getBoundingClientRect();
+        opacity = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        applyColor();
+      });
+
+      sw.addEventListener("click", function() {
+        var isOpen = expand.classList.contains("open");
+        expands.forEach(function(e) { e.classList.remove("open"); });
+        swatches.forEach(function(s) { s.classList.remove("open"); });
+        if (!isOpen) { expand.classList.add("open"); sw.classList.add("open"); syncFromParams(); }
+      });
+
+      sw._syncFromParams = syncFromParams;
+    });
+
+    function syncPanelFromParams() {
+      sliders.forEach(function(inp) {
+        var key = inp.getAttribute("data-key");
+        inp.value = params[key];
+        var valEl = inp.parentElement.querySelector(".val");
+        if (valEl) valEl.textContent = parseFloat(params[key]).toFixed(2);
+      });
+      swatches.forEach(function(sw) { if (sw._syncFromParams) sw._syncFromParams(); });
       var activeName = params.palette;
       presetDiv.querySelectorAll("button").forEach(function(b) {
         b.classList.toggle("active", b.textContent === activeName);
       });
     }
 
-    inputs.forEach(function(inp) {
+    sliders.forEach(function(inp) {
       function handleChange() {
         var key = inp.getAttribute("data-key");
-        params[key] = inp.type === "color" ? inp.value : parseFloat(inp.value);
+        params[key] = parseFloat(inp.value);
         params.palette = "custom";
         presetDiv.querySelectorAll("button").forEach(function(b) { b.classList.remove("active"); });
         var valEl = inp.parentElement.querySelector(".val");
-        if (valEl && inp.type !== "color") valEl.textContent = parseFloat(params[key]).toFixed(2);
+        if (valEl) valEl.textContent = parseFloat(params[key]).toFixed(2);
         if (key === "renderScale" && window.bgResize) window.bgResize();
       }
       inp.addEventListener("input", handleChange);
-      inp.addEventListener("change", handleChange);
     });
 
     syncPanelFromParams();
     window.syncPanelFromParams = syncPanelFromParams;
   }
 
-  window.addEventListener("load", function() { setTimeout(bindBgPanel, 200); });
   bindBgPanel();
 });
 </script>
