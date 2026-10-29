@@ -1,4 +1,4 @@
-/**
+﻿/**
  * The floating island: meadow top, stratified cliff wall, tapered rock underside.
  *
  * `heightAt(x, z)` is the single source of truth for ground level, so every prop
@@ -27,7 +27,7 @@ export const POND = { x: 4.3, z: 5.1, r: 2.65 };
 
 const rnd = mulberry32(20260419);
 
-/* ───────────────────────────── shape functions ───────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ shape functions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 /** Irregular coastline: three harmonics, so no visible tiling. */
 export function edgeRadius(theta) {
@@ -53,7 +53,7 @@ export function heightAt(x, z) {
   h += 0.15 * Math.sin(x * 0.547 - 0.4) * Math.sin(z * 0.486 + 1.7);
   h += 0.05 * Math.sin(x * 1.13 + 2.2) * Math.sin(z * 0.97 - 1.1);
 
-  // grassy berm just inside the edge — the classic floating-island silhouette
+  // grassy berm just inside the edge â€” the classic floating-island silhouette
   h += Math.exp(-Math.pow((t - 0.858) / 0.062, 2)) * 0.34;
 
   // roll off toward the rim, then a soft lip
@@ -68,7 +68,7 @@ export function heightAt(x, z) {
   return h;
 }
 
-/** Surface normal by central difference — used to tilt grass and props. */
+/** Surface normal by central difference â€” used to tilt grass and props. */
 export function normalAt(x, z, out = new Vector3()) {
   const e = 0.35;
   const hL = heightAt(x - e, z);
@@ -78,7 +78,7 @@ export function normalAt(x, z, out = new Vector3()) {
   return out.set(hL - hR, 2 * e, hD - hU).normalize();
 }
 
-/* ───────────────────────────── colour helpers ───────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ colour helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 const GRASS = ['#a9cf6b', '#8fba55', '#7aab4a', '#659a42', '#55873b'];
 const GRASS_RIM = '#4a7a36';
@@ -111,7 +111,7 @@ function grassColorAt(x, z, t, out) {
   return out.copy(_c);
 }
 
-/* ────────────────────────────── top surface ─────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ top surface â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 const SEGMENTS = 84;
 const RINGS = 22;
@@ -181,14 +181,14 @@ function buildTopSurface() {
 
   const g = new BufferGeometry();
   g.setAttribute('position', new BufferAttribute(pos, 3));
-  g.setAttribute('color', new BufferAttribute(col, 3));
+  g.setAttribute('aColor', new BufferAttribute(col, 3));
   g.setIndex(idx);
   g.computeVertexNormals();
   g.computeBoundingSphere();
   return g;
 }
 
-/* ─────────────────────────────── cliff wall ─────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ cliff wall â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 /** (radiusFactor, yOffset, colour, wobbleStrength) */
 const WALL_PROFILE = [
@@ -293,13 +293,13 @@ function buildWall() {
 
   const g = new BufferGeometry();
   g.setAttribute('position', new BufferAttribute(new Float32Array(positions), 3));
-  g.setAttribute('color', new BufferAttribute(new Float32Array(colors), 3));
+  g.setAttribute('aColor', new BufferAttribute(new Float32Array(colors), 3));
   g.computeVertexNormals();
   g.computeBoundingSphere();
   return g;
 }
 
-/* ─────────────────────────── dangling rock spikes ───────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ dangling rock spikes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function buildRoots() {
   const b = new GeoBuilder(4242);
@@ -322,7 +322,7 @@ function buildRoots() {
   return b.build();
 }
 
-/* ─────────────────────────────── assembly ───────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ assembly â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export function createIsland() {
   const group = new Group();

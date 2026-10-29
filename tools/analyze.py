@@ -140,6 +140,7 @@ def main(path, cols=56):
 
     counts = Counter()
     sums = {}
+    locs = {}
     for y in range(0, H, 3):
         for x in range(0, W, 3):
             r, g, b = px[x, y]
@@ -150,13 +151,20 @@ def main(path, cols=56):
             s[1] += g
             s[2] += b
             s[3] += 1
+            loc = locs.setdefault(k, [W, H, 0, 0])
+            loc[0] = min(loc[0], x)
+            loc[1] = min(loc[1], y)
+            loc[2] = max(loc[2], x)
+            loc[3] = max(loc[3], y)
 
     total = sum(counts.values())
     print('\nclass breakdown:')
     for k, n in counts.most_common():
         s = sums[k]
+        loc = locs[k]
         print(
             f'  {k}  {n*100/total:5.1f}%  mean #{int(s[0]/s[3]):02x}{int(s[1]/s[3]):02x}{int(s[2]/s[3]):02x}'
+            f'  bbox x{loc[0]/W:.2f}-{loc[2]/W:.2f} y{loc[1]/H:.2f}-{loc[3]/H:.2f}'
         )
 
     # average of the green pixels tells us whether the meadow reads as lit grass
@@ -166,6 +174,16 @@ def main(path, cols=56):
     ls = sums.get('l')
     if ls and ls[3]:
         print(f'yellow-green mean   = #{int(ls[0]/ls[3]):02x}{int(ls[1]/ls[3]):02x}{int(ls[2]/ls[3]):02x}')
+
+    # ---- centre column profile: what is vertically stacked in the frame ----
+    print('\ncentre column (y% : colour : class):')
+    step_y = max(1, H // 24)
+    row = []
+    for y in range(0, H, step_y):
+        r, g, b = px[W // 2, y]
+        row.append(f'{100*y/H:3.0f}% #{r:02x}{g:02x}{b:02x}{cls_for(r, g, b)}')
+    for i in range(0, len(row), 4):
+        print('   ' + ' | '.join(row[i:i + 4]))
 
 
 if __name__ == '__main__':

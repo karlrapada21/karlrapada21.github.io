@@ -68,7 +68,6 @@ export function createMenu({ sections, onHover, onOpen }) {
     }
 
     if (!silent) onHover?.(next);
-    else onHover?.(next);
   }
 
   return {

@@ -143,7 +143,7 @@ async function main() {
   const portrait = () => window.innerHeight > window.innerWidth;
 
   const panels = createPanels({
-    onClose: () => {
+    onClose: (id) => {
       sectionId = null;
       world.grove.setMode('orbit');
       world.grove.setActive(-1);
@@ -151,6 +151,12 @@ async function main() {
       rig.setShot(shotFor('menu', { narrow: narrow(), portrait: portrait() }));
       audio.close();
       document.body.dataset.view = 'menu';
+
+      // hand focus back to the menu item that opened the panel
+      const idx = Math.max(0, sections.findIndex((s) => s.id === id));
+      menuIndex = idx;
+      menu.setActive(idx, { silent: true });
+      window.setTimeout(() => menu.focus(idx), 40);
     },
     onSelectProject: (i) => {
       world.grove.setActive(i);
@@ -242,7 +248,9 @@ async function main() {
     tap: (p) => {
       audio.unlock();
       ndc.set(p.nx, p.ny);
-      updateShardHover(true);
+      const hit = updateShardHover(true);
+      // clicking the island while a panel is open means "put it away"
+      if (hit < 0 && sectionId) panels.close();
     },
     leave: () => {
       pointerInside = false;
@@ -280,20 +288,34 @@ async function main() {
       audio.select();
       if (sectionId === 'projects') {
         panels.selectProject(i);
+        world.grove.setActive(i);
       } else {
         panels.selectProject(i, { silent: true });
         openSection('projects');
         panels.selectProject(i);
+        world.grove.setActive(i);
       }
     }
+
+    return i;
   }
 
   /* ── hud buttons ── */
   dom.btnAudio?.addEventListener('click', () => {
+    audio.unlock();
     audio.setEnabled(!audio.enabled);
     dom.btnAudio.setAttribute('aria-pressed', String(audio.enabled));
   });
   dom.btnAudio?.setAttribute('aria-pressed', String(audio.enabled));
+
+  // Browsers only allow audio to start from a gesture — wait for the first one.
+  const unlockOnce = () => {
+    audio.unlock();
+    window.removeEventListener('pointerdown', unlockOnce);
+    window.removeEventListener('keydown', unlockOnce);
+  };
+  window.addEventListener('pointerdown', unlockOnce, { passive: true });
+  window.addEventListener('keydown', unlockOnce);
 
   function paintTimeUI() {
     const cur = currentTime();
@@ -342,7 +364,8 @@ async function main() {
       // inside a panel, arrows only cycle projects
       if (sectionId === 'projects' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
         const dir = e.key === 'ArrowRight' ? 1 : -1;
-        const next = (panels.activeProject + dir + 4) % 4;
+        const total = panels.projectCount;
+        const next = (panels.activeProject + dir + total) % total;
         panels.selectProject(next);
         world.grove.setActive(next);
         world.grove.setHover(-1);
@@ -355,11 +378,9 @@ async function main() {
     const key = e.key;
     if (key === 'ArrowDown' || key === 'ArrowRight' || key === 's') {
       menu.move(1);
-      audio.hover();
       e.preventDefault();
     } else if (key === 'ArrowUp' || key === 'ArrowLeft' || key === 'w') {
       menu.move(-1);
-      audio.hover();
       e.preventDefault();
     } else if (key === 'Enter' || key === ' ') {
       openSection(sections[menu.active].id);
@@ -486,6 +507,11 @@ async function main() {
     dom.boot.classList.add('is-done');
     document.body.classList.remove('is-booting');
     document.body.dataset.view = 'menu';
+    // take the overlay out of the hit-test tree for good
+    window.setTimeout(() => {
+      dom.boot.hidden = true;
+      dom.boot.style.display = 'none';
+    }, 900);
     window.setTimeout(() => {
       document.body.classList.add('has-entered');
     }, 120);

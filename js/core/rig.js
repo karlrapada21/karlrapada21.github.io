@@ -50,10 +50,12 @@ export function createCameraRig(aspect = 1.6) {
     camera.lookAt(cur.focus);
 
     // Screen-space pan: positive panX pushes the subject right, positive panY up.
+    // Implemented with an off-axis frustum so the camera never physically moves —
+    // the framing changes without the viewing angle changing.
     if (cur.panX || cur.panY) {
-      const worldPerPx = (2 * cur.dist * Math.tan((fov * DEG) / 2)) / vh;
-      camera.translateX(-cur.panX * vw * worldPerPx);
-      camera.translateY(cur.panY * vh * worldPerPx);
+      camera.setViewOffset(vw, vh, -cur.panX * vw, cur.panY * vh, vw, vh);
+    } else if (camera.view && camera.view.enabled) {
+      camera.clearViewOffset();
     }
 
     // parallax nudges the whole rig, never the aim

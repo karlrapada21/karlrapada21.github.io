@@ -288,17 +288,10 @@ export function createPanels({ onClose, onSelectProject, onHoverProject, onCopy 
     openId = null;
     layer.classList.remove('is-open');
     document.body.dataset.view = 'menu';
-
-    if (lastFocused && typeof lastFocused.focus === 'function') {
-      setTimeout(() => lastFocused.focus({ preventScroll: true }), 60);
-    }
     onClose?.(was);
   }
 
   closeBtn.addEventListener('click', () => {
-    close();
-  });
-  scrim.addEventListener('click', () => {
     close();
   });
 
@@ -332,6 +325,9 @@ export function createPanels({ onClose, onSelectProject, onHoverProject, onCopy 
     },
     get activeProject() {
       return activeProject;
+    },
+    get projectCount() {
+      return projects.length;
     },
     selectProject,
     showCopyNote() {

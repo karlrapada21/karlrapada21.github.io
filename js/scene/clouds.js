@@ -99,7 +99,7 @@ export function createClouds(quality = 'high') {
     { count: quality === 'low' ? 2 : 3, radius: [44, 74], y: [7, 17], size: [5.5, 12], spin: 0.0085, alpha: 1 },
     // sea of clouds below the island — this is what stops the underside reading
     // as an empty coloured void
-    { count: quality === 'low' ? 6 : 10, radius: [26, 120], y: [-34, -11], size: [20, 46], spin: -0.0026, alpha: 0.85, below: true },
+    { count: quality === 'low' ? 8 : 15, radius: [22, 135], y: [-42, -12], size: [7, 17], spin: -0.0026, alpha: 0.8, below: true },
   ];
 
   const groups = [];

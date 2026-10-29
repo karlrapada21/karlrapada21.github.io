@@ -8,6 +8,7 @@ const KEY = 'karl-isle-sound';
 export function createAudio() {
   let ctx = null;
   let master = null;
+  let unlocked = false;
 
   let enabled = true;
   try {
@@ -18,6 +19,7 @@ export function createAudio() {
   }
 
   function ensure() {
+    if (!unlocked) return null;
     if (ctx) {
       if (ctx.state === 'suspended') ctx.resume();
       return ctx;
@@ -84,6 +86,7 @@ export function createAudio() {
 
     /** first user gesture unlocks the context on iOS/Safari */
     unlock() {
+      unlocked = true;
       const c = ensure();
       if (c && c.state === 'suspended') c.resume();
     },
