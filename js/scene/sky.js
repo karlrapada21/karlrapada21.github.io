@@ -64,9 +64,11 @@ const fragment = /* glsl */ `
     float haze = exp(-max(h, 0.0) * 9.0) * uHorizonStrength * (0.3 + 0.7 * pow(toward, 1.6));
     col = mix(col, uHorizon, clamp(haze, 0.0, 0.68));
 
-    // below the horizon: a cooler, hazier void so the island reads as floating
-    float below = smoothstep(0.02, -0.62, h);
-    col = mix(col, mix(uBottom, uMid, 0.5) * 0.66, below);
+    // below the horizon: warm haze fading into a cooler, deeper void, so the
+    // island reads as floating above something instead of against a flat wall
+    float belowT = 1.0 - smoothstep(-0.85, 0.0, h);
+    vec3 deep = mix(uBottom * 0.88, uMid * 0.60, belowT);
+    col = mix(col, deep, 1.0 - smoothstep(-0.52, 0.04, h));
 
     // sun: a disc plus a tight bloom — a wide falloff greys out the whole sky
     float sd = dot(dir, uSunDir);

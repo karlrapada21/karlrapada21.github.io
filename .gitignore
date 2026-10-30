@@ -1,0 +1,7 @@
+﻿# local QA artefacts
+tools/shots/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Boot, interaction and the render loop.
  *
  * The shape of the app: one WebGL canvas that is always the background, a menu
@@ -30,7 +30,7 @@ const dom = {
   themeMeta: document.querySelector('meta[name="theme-color"]'),
 };
 
-/* ───────────────────────────── quality ladder ───────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ quality ladder â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function pickQuality() {
   const dpr = window.devicePixelRatio || 1;
@@ -52,7 +52,7 @@ function webglAvailable() {
   }
 }
 
-/* ────────────────────────────────── boot ────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ boot â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function setProgress(pct, label) {
   const p = clamp(pct, 0, 100);
@@ -69,18 +69,17 @@ function fallback(reason) {
   document.body.style.overflow = 'auto';
   const noscript = document.querySelector('.noscript');
   if (noscript) noscript.style.display = 'block';
-  document.getElementById('app-fallback')?.remove();
   console.warn('[island]', reason);
 }
 
-/* ─────────────────────────────────── app ────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ app â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 async function main() {
   const reducedMotion = prefersReducedMotion();
   const quality = pickQuality();
 
   if (!webglAvailable()) {
-    fallback('This island needs WebGL — here it is as plain text instead.');
+    fallback('This island needs WebGL â€” here it is as plain text instead.');
     return;
   }
 
@@ -97,7 +96,7 @@ async function main() {
       preserveDrawingBuffer: false,
     });
   } catch (err) {
-    fallback('Could not start WebGL — showing the text version.');
+    fallback('Could not start WebGL â€” showing the text version.');
     return;
   }
 
@@ -135,9 +134,7 @@ async function main() {
   let menuIndex = 0;
   const raycaster = new Raycaster();
   const ndc = new Vector2();
-  let pointerInside = false;
   let hoveredShard = -1;
-  let dragged = false;
 
   const narrow = () => window.innerWidth <= 860;
   const portrait = () => window.innerHeight > window.innerWidth;
@@ -148,7 +145,7 @@ async function main() {
       world.grove.setMode('orbit');
       world.grove.setActive(-1);
       world.grove.setHover(-1);
-      rig.setShot(shotFor('menu', { narrow: narrow(), portrait: portrait() }));
+      rig.setShot(homeShot());
       audio.close();
       document.body.dataset.view = 'menu';
 
@@ -186,6 +183,27 @@ async function main() {
   });
 
   /**
+   * Where the subject should sit horizontally, derived from the UI on screen:
+   * to the right of the menu column, or to the left of the panel card.
+   * Expressed as a fraction of the viewport, which is what the rig's pan wants.
+   */
+  function panForOpenPanel() {
+    if (narrow()) return 0;
+    const panelEl = document.getElementById('panel');
+    if (!panelEl) return 0;
+    const left = panelEl.getBoundingClientRect().left;
+    return clamp(left / (2 * window.innerWidth) - 0.5, -0.34, -0.02);
+  }
+
+  function panForMenu() {
+    if (narrow()) return 0;
+    const menuEl = document.querySelector('.menu-wrap');
+    const right = menuEl ? menuEl.getBoundingClientRect().right : 0;
+    const vw = window.innerWidth;
+    return clamp((right + vw) / (2 * vw) - 0.5, 0.02, 0.26);
+  }
+
+  /**
    * While browsing the menu the camera leans toward whichever landmark is
    * highlighted, staying wide enough to keep the whole island readable.
    */
@@ -198,9 +216,16 @@ async function main() {
       azim: target.azim,
       elev: target.elev,
       dist: narrow() ? target.dist : (target.dist + home.dist) / 2,
-      panX: narrow() ? 0 : clamp(target.panX * 0.85, -0.22, 0.22),
+      panX: panForMenu(),
       panY: target.panY + (narrow() ? 0.02 : 0),
     });
+  }
+
+  /** Shot for a section, with the subject pushed clear of the open panel. */
+  function sectionShot(id) {
+    const shot = shotFor(id, { narrow: narrow(), portrait: portrait() });
+    shot.panX = panForOpenPanel();
+    return shot;
   }
 
   function openSection(id) {
@@ -218,29 +243,25 @@ async function main() {
       world.grove.setMode('orbit');
     }
 
-    rig.setShot(shotFor(id, { narrow: narrow(), portrait: portrait() }));
+    rig.setShot(sectionShot(id));
     panels.open(id, section);
     audio.open();
     menu.flash();
   }
 
-  /* ── pointer ── */
+  /* â”€â”€ pointer â”€â”€ */
   createPointer(dom.canvas, {
     down: () => {
       audio.unlock();
-      dragged = false;
       hideHint();
     },
     drag: (dx, dy) => {
-      if (sectionId) return;
-      dragged = true;
       rig.drag(dx, dy);
     },
     up: () => {
       rig.endDrag();
     },
     hover: (p) => {
-      pointerInside = true;
       ndc.set(p.nx, p.ny);
       if (!reducedMotion) rig.parallax(p.nx, p.ny, narrow() ? 0.4 : 1);
       updateShardHover();
@@ -253,7 +274,6 @@ async function main() {
       if (hit < 0 && sectionId) panels.close();
     },
     leave: () => {
-      pointerInside = false;
       world.grove.setHover(-1);
       hoveredShard = -1;
       if (!reducedMotion) rig.parallax(0, 0, 0);
@@ -300,7 +320,7 @@ async function main() {
     return i;
   }
 
-  /* ── hud buttons ── */
+  /* â”€â”€ hud buttons â”€â”€ */
   dom.btnAudio?.addEventListener('click', () => {
     audio.unlock();
     audio.setEnabled(!audio.enabled);
@@ -308,7 +328,7 @@ async function main() {
   });
   dom.btnAudio?.setAttribute('aria-pressed', String(audio.enabled));
 
-  // Browsers only allow audio to start from a gesture — wait for the first one.
+  // Browsers only allow audio to start from a gesture â€” wait for the first one.
   const unlockOnce = () => {
     audio.unlock();
     window.removeEventListener('pointerdown', unlockOnce);
@@ -348,7 +368,7 @@ async function main() {
     paintTimeUI();
   }
 
-  /* ── keyboard ── */
+  /* â”€â”€ keyboard â”€â”€ */
   window.addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
 
@@ -401,15 +421,14 @@ async function main() {
     }
   });
 
-  /* ── hints ── */
-  let hintTimer = 0;
+  /* â”€â”€ hints â”€â”€ */
   function hideHint() {
     dom.hintBar?.classList.add('is-hidden');
     dom.hintBar && (dom.hintBar.style.opacity = '0');
   }
-  hintTimer = window.setTimeout(hideHint, 14000);
+  window.setTimeout(hideHint, 14000);
 
-  /* ── resize ── */
+  /* â”€â”€ resize â”€â”€ */
   let resizeRaf = 0;
   function onResize() {
     cancelAnimationFrame(resizeRaf);
@@ -419,14 +438,18 @@ async function main() {
       renderer.setPixelRatio(dpr);
       renderer.setSize(w, h, false);
       rig.resize(w, h);
-      rig.setShot(shotFor(sectionId || 'menu', { narrow: narrow(), portrait: portrait() }));
+      rig.setShot(sectionId ? sectionShot(sectionId) : homeShot());
     });
   }
   window.addEventListener('resize', onResize, { passive: true });
   window.addEventListener('orientationchange', onResize, { passive: true });
 
-  /* ── intro shot ── */
-  const homeShot = () => shotFor('menu', { narrow: narrow(), portrait: portrait() });
+  /* â”€â”€ intro shot â”€â”€ */
+  function homeShot() {
+    const s = shotFor('menu', { narrow: narrow(), portrait: portrait() });
+    s.panX = panForMenu();
+    return s;
+  }
   rig.setShot(homeShot(), true);
   // pull back to a wide establishing shot, then settle into the menu framing
   rig.setShot(
@@ -444,7 +467,7 @@ async function main() {
     rig.setShot(homeShot());
   });
 
-  /* ── render loop ── */
+  /* â”€â”€ render loop â”€â”€ */
   let last = performance.now();
   let acc = 0;
   let frames = 0;

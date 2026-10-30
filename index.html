@@ -3,21 +3,62 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Karl Rapada — Portfolio Isle</title>
-<meta name="description" content="Karl Lynuz B. Rapada — Software Developer from Marikina City, Philippines. A small floating island you can wander while you browse the projects: Laravel dispatch systems, PyTorch computer-vision tooling, and React web apps.">
+<title>Karl Rapada — Software Developer | Portfolio Isle</title>
+<meta name="description" content="Karl Lynuz B. Rapada, software developer in Marikina City. Laravel, React and Python projects on an interactive 3D island — come wander it.">
 <meta name="author" content="Karl Lynuz B. Rapada">
 <meta name="theme-color" content="#9ed3e6">
+<link rel="canonical" href="https://karlrapada21.github.io/">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Karl Rapada — Portfolio Isle">
+<meta property="og:url" content="https://karlrapada21.github.io/">
 <meta property="og:title" content="Karl Rapada — Portfolio Isle">
 <meta property="og:description" content="Software developer in Marikina City, Philippines. Laravel, React, Python and computer vision. Come wander the island.">
-<meta property="og:image" content="assets/og.png">
+<meta property="og:image" content="https://karlrapada21.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A small floating island with a cottage, trees and project shards, at golden hour.">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Karl Rapada — Portfolio Isle">
+<meta name="twitter:description" content="An interactive 3D portfolio: a floating island you can wander while you browse the projects.">
+<meta name="twitter:image" content="https://karlrapada21.github.io/assets/og.png">
 <link rel="icon" href="assets/leaf.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/leaf.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="preload" href="vendor/three.module.min.js" as="script" crossorigin="anonymous">
+<!-- Fonts are loaded without blocking first paint; the boot screen shows a
+     system-font stack and swaps in Baloo 2 / Nunito when they arrive. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap"></noscript>
 <link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Karl Lynuz B. Rapada",
+  "alternateName": "Karl Rapada",
+  "jobTitle": "Software Developer",
+  "email": "mailto:karlrapada@gmail.com",
+  "telephone": "+63 921 746 8502",
+  "url": "https://karlrapada21.github.io/",
+  "image": "https://karlrapada21.github.io/assets/og.png",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Marikina City",
+    "addressCountry": "PH"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "IETI College of Science and Technology"
+  },
+  "knowsAbout": ["Web development", "Laravel", "React", "Python", "Computer vision", "Databases"],
+  "sameAs": [
+    "https://github.com/karlrapada21",
+    "https://www.linkedin.com/in/karl-rapada-88310316a/"
+  ]
+}
+</script>
 <script type="importmap">
 {
   "imports": {
@@ -133,7 +174,7 @@
 
 <noscript>
   <div class="noscript">
-    <h1>Karl Lynuz B. Rapada</h1>
+    <p class="noscript-name">Karl Lynuz B. Rapada</p>
     <p>Software Developer · Marikina City, Philippines</p>
     <p>
       <a href="mailto:karlrapada@gmail.com">karlrapada@gmail.com</a> ·

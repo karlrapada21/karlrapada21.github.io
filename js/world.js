@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Assembles the island and owns the camera shots for each menu section.
  * Building happens in stages so the boot screen can actually paint in between.
  */
@@ -20,7 +20,7 @@ import { yieldFrame } from './core/util.js';
 
 /* Camera shots, tuned by eye. panX/panY are fractions of the viewport. */
 const SHOTS = {
-  menu: { focus: [0.6, -1.0, -0.8], azim: 0.07, elev: 0.175, dist: 46, panX: 0.14, panY: 0.03 },
+  menu: { focus: [0.6, -1.0, -0.8], azim: 0.07, elev: 0.175, dist: 43, panX: 0.14, panY: 0.03 },
   projects: { focus: [0.3, 6.3, -1.4], azim: 0.05, elev: 0.085, dist: 15.5, panX: -0.19, panY: 0.0 },
   about: { focus: [-4.6, 2.4, -4.0], azim: -0.3, elev: 0.15, dist: 23, panX: 0.13, panY: 0.0 },
   skills: { focus: [6.2, 3.6, -4.8], azim: 0.31, elev: 0.13, dist: 22, panX: 0.1, panY: 0.0 },
@@ -36,7 +36,7 @@ export function shotFor(id, { narrow = false, portrait = false } = {}) {
     // On phones the menu sits at the bottom, so lift the subject and pull back.
     shot.dist = base.dist * (portrait ? 1.4 : 1.26);
     shot.panX = 0;
-    shot.panY = portrait ? 0.22 : 0.12;
+    shot.panY = portrait ? 0.16 : 0.11;
     shot.elev = base.elev * 1.18;
   }
 

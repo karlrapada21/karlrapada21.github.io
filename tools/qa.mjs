@@ -185,6 +185,19 @@ async function main() {
         }
         return res.result.value;
       },
+      /** Poll the page until `expr` is truthy. */
+      async waitFor(expr, timeout = 60000) {
+        const t0 = Date.now();
+        while (Date.now() - t0 < timeout) {
+          try {
+            if (await this.eval(expr)) return true;
+          } catch {
+            /* page may be busy */
+          }
+          await sleep(250);
+        }
+        throw new Error(`waitFor timed out: ${expr}`);
+      },
       async shot(name) {
         const res = await page.send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false });
         const file = resolve(outDir, `${name}.png`);

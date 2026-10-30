@@ -16,11 +16,9 @@ export function createPanels({ onClose, onSelectProject, onHoverProject, onCopy 
   const subEl = el('panel-sub');
   const badgeEl = el('panel-badge');
   const closeBtn = el('panel-close');
-  const scrim = el('panel-scrim');
 
   let openId = null;
   let activeProject = 0;
-  let lastFocused = null;
 
   const chip = (t, cls = '') => `<span class="chip ${cls}">${t}</span>`;
   const chips = (arr, cls = '') => `<div class="chips">${arr.map((t) => chip(t, cls)).join('')}</div>`;
@@ -263,7 +261,6 @@ export function createPanels({ onClose, onSelectProject, onHoverProject, onCopy 
     const r = RENDERERS[sectionId];
     if (!r) return;
 
-    lastFocused = document.activeElement;
     openId = sectionId;
 
     titleEl.textContent = section.title;
