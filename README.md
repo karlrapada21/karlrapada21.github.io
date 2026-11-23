@@ -1,11 +1,13 @@
 # Rapada Isle
 
-A cozy, hand-painted island portfolio for **Karl Lynuz B. Rapada** — inspired by *Animal Crossing* and
-the films of Studio Ghibli. There's a cottage on a hill, a river with a little arched bridge, and six
-exhibit podiums across the water. Walk up to one and press **E** to read a section of the resume.
+A cozy, low-poly **3D island portfolio** for **Karl Lynuz B. Rapada** — inspired by *Animal Crossing* and
+the films of Studio Ghibli. There's a cottage on a hill, a river with an arched wooden bridge, and six
+exhibit podiums around a stone plaza across the water. Walk up to one and press **E** to read a section
+of the resume.
 
-Everything is drawn at runtime on a single `<canvas>` with the Canvas 2D API — no game engine, no
-sprite sheets, no build step.
+Everything is rendered in real time with **three.js** on a single `<canvas>`: procedural low-poly models,
+a heightfield island, animated water shaders, and a third-person camera. No build step, no sprite sheets,
+and only one dependency (three.js, vendored locally).
 
 ---
 
@@ -41,26 +43,31 @@ You can also jump straight to a section with a deep link: `?exhibit=projects`
 
 ## The island
 
-- **Ocean** — layered gradient with drifting wave lines, painted colour blooms, and sun glitter.
-- **Terrain** — pre-rendered once to an offscreen canvas: sand, shore foam, grass with mottling and
-  thousands of blades, wildflowers, winding paths with pebbles, and a tiled stone plaza.
-- **River** — a cubic-bezier centreline with a varying half-width, a wobbling bank, animated flow
-  bands, sparkles, lily pads, reeds, pebbles, and foam that pulses along both edges.
-- **Bridge** — arched wooden deck with cross planks, railings, lanterns at each end, petals falling
-  across it, and a soft reflection in the water.
-- **Props** — all drawn procedurally: the cottage (roof shingles, smoking chimney, flower boxes,
-  climbing vines), the windmill with turning sails, layered-tree canopies, sakura, pines, benches,
-  lamps, a turnip patch, a campsite tent, a mailbox, and signposts.
-- **Life** — a wandering cat, butterflies over the flowerbeds, birds circling the meadow, drifting
-  petals, fireflies, footprints that fade as you walk, and water ripples.
+- **Terrain** — a 236×164 heightfield with a shoreline slope, rolling hills, a graded plaza, and a
+  river channel carved through the middle. The ground is painted once into a 2048×1420 canvas
+  (grass mottling, 5k grass blades, wildflowers, paths with pebbles, the stone plaza) and mapped over
+  the mesh, so the detail costs nothing per frame.
+- **Ocean** — a 2400-unit plane with a vertex wave shader and a banded shimmer in the fragment stage,
+  kept centred on the camera so the sea always reaches the horizon.
+- **River** — a ribbon built from the river centreline with an animated flow/ripple/foam shader. The
+  waterline sits below the grass so the banks read as banks.
+- **Bridge** — an arched plank deck with segmented railings, balusters, support posts, four glowing
+  lanterns, and instanced petals drifting over it.
+- **Props** — every model is procedural low-poly, assembled from primitives and baked into two merged
+  vertex-coloured meshes (one static, one foliage). Foliage uses a wind shader so the whole forest sways
+  in a single draw call. The cottage has a shingled roof, smoking chimney, flower boxes, and climbing
+  vines; the windmill's sails turn; podiums float rotating emblems and glowing halos.
+- **Light** — hemisphere + shadow-casting sun + bounce fill, ACES tone mapping, soft PCF shadows, and
+  distance fog.
 - **Sound** — a small generative Web Audio soundscape (wind + water bed, a slow pad, a wandering
   pentatonic melody) plus UI blips. No audio files; synthesised on the fly.
 
-## Customising your villager
+## The villager
 
-The title screen has a character editor: skin tone, hair colour, hairstyle, shirt, trousers, and a hat.
-The preview is drawn with the exact same renderer used in the world, so what you pick is what you get.
-The villager has four facing directions, a walk cycle with squash/bounce, blinking, and idle breathing.
+There is **no character customiser** — the villager has one fixed, hand-tuned look: straw hat, scarf,
+satchel, and chibi proportions. The rig is built from jointed groups (hips, torso, shoulders, head), so
+he has a proper walk cycle with arm/leg swing and body bounce, idle breathing, a head that looks around,
+and turns smoothly toward the direction of travel.
 
 ---
 
@@ -70,19 +77,27 @@ The villager has four facing directions, a walk cycle with squash/bounce, blinki
 index.html            page shell
 css/style.css         all styling (title screen, HUD, exhibits)
 js/main.js            entry point
-js/core.js            maths, colour, canvas helpers
+js/core.js            maths, colour, and canvas helpers
 js/resume-data.js     ← all resume content lives here
 js/layout.js          world geometry: island, river, bridge, plaza, prop placement, collisions
-js/world.js           ocean + baked terrain + prop culling
-js/river.js           animated water, bridge, reflection
-js/props.js           every drawn object (tree, house, podium, …)
-js/villager.js        the player character, cat, portrait renderer
-js/ui.js              title screen, customiser, HUD, resume exhibits
+js/geo.js             geometry builder: merged vertex-coloured meshes, materials
+js/terrain.js         heightfield, painted ground texture, ocean, sky, river, lights
+js/props3d.js         every prop model + the wind shader
+js/bridge3d.js        the arched bridge, lanterns, and instanced petals
+js/villager3d.js      the player character, the cat, and the 2D exhibit portrait
+js/ui.js              title screen, HUD, resume exhibits
 js/audio.js           generative audio
 js/game.js            loop, camera, input, movement, interactions
+js/vendor/            three.js (vendored, so the site works offline)
 assets/               Karl-Rapada-Resume.pdf
 tools/                dev-only inspection scripts (not needed by the site)
 ```
+
+### Coordinates
+
+World units are the old 2D pixel space (`WORLD` is 2600×1900). One three.js unit is `WU = 27` world
+units, so `toX(wx)` / `toZ(wy)` convert. Collision (`isWalkable`) still runs on the original 2D polygons,
+which is why movement stays cheap.
 
 ### Updating the resume
 
@@ -94,8 +109,8 @@ Almost everything is data-driven. Edit `js/resume-data.js` — `PROFILE`, `SKILL
 
 `js/layout.js` holds the island silhouette, the river control points, the bridge position, the plaza
 circle, the podium ring, all path splines, and every prop's position and collider. The walkable area is
-the grass polygon minus the river polygon (plus the bridge deck), which is why `isWalkable()` is just a
-couple of point-in-polygon tests.
+the grass polygon minus the river polygon (plus the bridge deck), so `isWalkable()` is just a couple of
+point-in-polygon tests.
 
 ## Running it
 
@@ -111,24 +126,26 @@ Opening `index.html` directly from disk will not work because ES modules are blo
 ## Deploying
 
 The repo is `karlrapada21.github.io`, so pushing to `main` publishes it at
-<https://karlrapada21.github.io/> via GitHub Pages. No build step, no dependencies.
+<https://karlrapada21.github.io/> via GitHub Pages. No build step, no dependencies to install —
+three.js is committed under `js/vendor/`.
 
 ## Dev tools (optional)
 
-`tools/` contains the scripts used while building this, all headless-Chrome based:
+`tools/` contains the headless-Chrome scripts used while building this. They need Chrome installed and a
+static server on port 8099.
 
 | Script | Purpose |
 | --- | --- |
-| `shot.mjs` | screenshot the page (`SHOT_VIEW=x,y,zoom` to park the camera) |
-| `eval.mjs` | run an expression inside the running page and print the result |
+| `shot3d.mjs` | screenshot the scene (`play`, `start`, or `orbit:x,y,yaw,pitch,dist`) |
+| `describe.mjs` / `png.mjs` | decode a PNG and describe it as colour bands, palette, and a class map |
+| `probe.mjs` | run an expression inside the running game and print the result |
+| `inspect3d.mjs` | project every object to screen space and report sizes |
+| `smoke3d.mjs` | boot, open all six exhibits, walk, and assert no console errors |
+| `layout.mjs` | check the title screen fits at a given viewport |
 | `reach.mjs` | flood-fill the walkable area and assert every landmark is reachable |
 | `walktest.mjs` | autopilot the villager along a route and report where it sticks |
-| `sprite.mjs` | render the villager alone and print colour profiles per band |
-| `inspect.py` / `probe.py` | describe a screenshot as an ASCII colour map / sample pixels |
 | `lint.mjs` | report unused imports and duplicate declarations |
-
-They need Chrome installed and a static server running on port 8099.
 
 ---
 
-Made with a lot of bezier curves. ☁️
+Made with a lot of low-poly triangles and one very good straw hat. ☁️

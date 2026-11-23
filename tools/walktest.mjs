@@ -13,16 +13,21 @@ const url = process.argv[2] || 'http://127.0.0.1:8099/';
 const profile = mkdtempSync(join(tmpdir(), 'isle-walk-'));
 const port = 9700 + Math.floor(Math.random() * 200);
 
-const chrome = spawn(CHROME, [
-  '--headless=new',
-  `--remote-debugging-port=${port}`,
-  `--user-data-dir=${profile}`,
-  '--window-size=1440,900',
-  '--disable-gpu',
-  '--no-first-run',
-  'about:blank',
-]);
-chrome.stderr.on('data', () => {});
+const chrome = spawn(
+  CHROME,
+  [
+    '--headless=new',
+    `--remote-debugging-port=${port}`,
+    `--user-data-dir=${profile}`,
+    '--window-size=1440,900',
+    '--use-gl=angle',
+    '--use-angle=swiftshader',
+    '--enable-unsafe-swiftshader',
+    '--no-first-run',
+    'about:blank',
+  ],
+  { stdio: 'ignore' }
+);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function wsUrl() {

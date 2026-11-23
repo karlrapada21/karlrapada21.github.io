@@ -29,7 +29,7 @@ function makeIsland(cx, cy, rx, ry, seed, scale = 1, n = 160) {
   return pts;
 }
 
-const CENTER = { x: 1300, y: 930 };
+export const CENTER = { x: 1300, y: 930 };
 export const SAND = makeIsland(CENTER.x, CENTER.y, 1180, 815, 31);
 export const GRASS = makeIsland(CENTER.x, CENTER.y, 1112, 768, 77);
 export const FOAM = makeIsland(CENTER.x, CENTER.y, 1214, 843, 31);
@@ -123,17 +123,21 @@ export function riverSampleAtX(x) {
 }
 
 /* ---------------- the bridge ---------------- */
+/* World units are the old 2D pixel space; a pixel is 1/27 of a three.js
+   unit, so anything that should be a sensible physical size is sized in
+   world units here and divided down by WU_SPAN. */
 const bridgeSample = riverSampleAtX(830);
-const BRIDGE_W = 78 * 2;
+const BRIDGE_SPAN = 132; // deck width in world units (~4.9 three.js units)
 const BRIDGE_Y0 = bridgeSample.y - bridgeSample.hw - 62;
 const BRIDGE_Y1 = bridgeSample.y + bridgeSample.hw + 62;
 export const BRIDGE = {
   cx: 830,
   cy: bridgeSample.y,
-  halfW: 78,
+  /** half deck width, in world units */
+  halfW: BRIDGE_SPAN / 2,
   y0: BRIDGE_Y0,
   y1: BRIDGE_Y1,
-  w: BRIDGE_W,
+  w: BRIDGE_SPAN,
   h: BRIDGE_Y1 - BRIDGE_Y0,
 };
 
@@ -401,6 +405,16 @@ export function onBridge(x, y) {
 
 const RIVER_SAFE = RIVER_POLY;
 
+/** The deck itself — narrower than the collision box so railings block you. */
+export function onBridgeDeck(x, y) {
+  return (
+    x > BRIDGE.cx - BRIDGE.halfW * 0.82 + PLAYER_HALF &&
+    x < BRIDGE.cx + BRIDGE.halfW * 0.82 - PLAYER_HALF &&
+    y > BRIDGE.y0 - 14 &&
+    y < BRIDGE.y1 + 14
+  );
+}
+
 export function blockedByProp(x, y, pad = 0) {
   for (let i = 0; i < COLLIDERS.length; i++) {
     const c = COLLIDERS[i];
@@ -417,14 +431,16 @@ export function blockedByProp(x, y, pad = 0) {
   return false;
 }
 
+/** half-width of the player's footprint, in world units */
+export const PLAYER_HALF = 14;
+
 /** true when the villager can stand here (feet position) */
 export function isWalkable(x, y) {
   if (x < 20 || y < 20 || x > WORLD.w - 20 || y > WORLD.h - 20) return false;
-  const bridge = onBridge(x, y);
-  if (!bridge) {
-    if (!pointInPolygon(x, y, WALK)) return false;
-    if (pointInPolygon(x, y, RIVER_SAFE)) return false;
-  }
+  const bridge = onBridgeDeck(x, y);
+  if (bridge) return true;
+  if (!pointInPolygon(x, y, WALK)) return false;
+  if (pointInPolygon(x, y, RIVER_SAFE)) return false;
   if (blockedByProp(x, y, 0)) return false;
   return true;
 }

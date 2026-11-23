@@ -1,6 +1,7 @@
 /* ============================================================
-   UI — title screen, villager customiser, HUD, and the six
-   resume exhibits that open when you press E.
+   UI — title screen, HUD, and the six resume exhibits that open
+   when you press E. There is no character customiser any more:
+   the villager has one fixed look.
    ============================================================ */
 
 import {
@@ -11,7 +12,7 @@ import {
   PROJECTS,
   CERTIFICATES,
 } from './resume-data.js';
-import { PALETTES, HAIRSTYLES, HATS, DEFAULT_LOOK, drawPortrait } from './villager.js';
+import { drawPortrait } from './villager3d.js';
 import { Audio } from './audio.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -235,10 +236,8 @@ export class UI {
     this.root = root;
     this.overlayOpen = false;
     this.onStart = null;
-    this.onCustomize = null;
     this.onOverlayOpen = null;
     this.onOverlayClose = null;
-    this.look = { ...DEFAULT_LOOK };
     this._buildStart();
     this._buildHud();
     this._buildOverlay();
@@ -251,79 +250,14 @@ export class UI {
     wrap.innerHTML = `
       <div class="start-sky"></div>
       <div class="start-card">
-        <p class="start-kicker">A tiny portfolio island</p>
-        <h1>Rapada <span>Isle</span></h1>
-        <p class="start-sub">Wander the island. Cross the river. Press <b>E</b> at the exhibits
-        to read Karl&rsquo;s resume.</p>
-
-        <div class="start-customizer">
-          <div class="customizer-preview">
-            <canvas id="lookPreview" width="240" height="300"></canvas>
-            <div class="preview-shadow"></div>
-          </div>
-          <div class="customizer-controls">
-            <div class="look-row">
-              <label>Skin</label>
-              <div class="swatches" data-group="skin">
-                ${PALETTES.skin
-                  .map(
-                    (s, i) =>
-                      `<button class="swatch" data-i="${i}" style="--c:${s.base}" title="${s.id}"></button>`
-                  )
-                  .join('')}
-              </div>
-            </div>
-            <div class="look-row">
-              <label>Hair</label>
-              <div class="swatches" data-group="hair">
-                ${PALETTES.hair
-                  .map(
-                    (s, i) =>
-                      `<button class="swatch" data-i="${i}" style="--c:${s.base}" title="${s.id}"></button>`
-                  )
-                  .join('')}
-              </div>
-            </div>
-            <div class="look-row">
-              <label>Style</label>
-              <div class="swatches" data-group="hairStyle">
-                ${HAIRSTYLES.map(
-                  (s, i) =>
-                    `<button class="pill" data-i="${i}">${s}</button>`
-                ).join('')}
-              </div>
-            </div>
-            <div class="look-row">
-              <label>Shirt</label>
-              <div class="swatches" data-group="shirt">
-                ${PALETTES.shirt
-                  .map(
-                    (s, i) =>
-                      `<button class="swatch" data-i="${i}" style="--c:${s.base}" title="${s.id}"></button>`
-                  )
-                  .join('')}
-              </div>
-            </div>
-            <div class="look-row">
-              <label>Trousers</label>
-              <div class="swatches" data-group="pants">
-                ${PALETTES.pants
-                  .map(
-                    (s, i) =>
-                      `<button class="swatch" data-i="${i}" style="--c:${s.base}" title="${s.id}"></button>`
-                  )
-                  .join('')}
-              </div>
-            </div>
-            <div class="look-row">
-              <label>Hat</label>
-              <div class="swatches" data-group="hat">
-                ${HATS.map((s, i) => `<button class="pill" data-i="${i}">${s}</button>`).join('')}
-              </div>
-            </div>
-          </div>
+        <div class="start-preview">
+          <canvas id="lookPreview" width="240" height="300"></canvas>
+          <div class="preview-shadow"></div>
         </div>
-
+        <p class="start-kicker">A tiny 3D portfolio island</p>
+        <h1>Rapada <span>Isle</span></h1>
+        <p class="start-sub">Wander the island in three dimensions. Cross the river. Press
+        <b>E</b> at the exhibits to read Karl&rsquo;s resume.</p>
         <button class="start-btn" id="startBtn">
           <span>Set foot on the island</span>
           <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M8 5l8 7-8 7z"/></svg>
@@ -337,46 +271,28 @@ export class UI {
     this.previewCtx = preview.getContext('2d');
     this.previewCanvas = preview;
 
-    wrap.querySelectorAll('.swatches').forEach((group) => {
-      const key = group.dataset.group;
-      group.querySelectorAll('button').forEach((b) => {
-        b.addEventListener('click', () => {
-          this.look[key] = Number(b.dataset.i);
-          this._syncSwatches();
-          this.drawPreview();
-          this.onCustomize?.(this.look);
-          Audio.sfx('tick');
-        });
-      });
-    });
-
     $('#startBtn', wrap).addEventListener('click', () => {
       Audio.unlock();
       Audio.sfx('chime');
       wrap.classList.add('leaving');
       setTimeout(() => wrap.remove(), 700);
-      this.onStart?.(this.look);
+      this.onStart?.();
     });
 
-    this._syncSwatches();
     requestAnimationFrame(() => this.drawPreview());
-    this._previewT = setInterval(() => this.drawPreview(), 90);
-  }
-
-  _syncSwatches() {
-    if (!this.startScreen) return;
-    this.startScreen.querySelectorAll('.swatches').forEach((group) => {
-      const key = group.dataset.group;
-      group.querySelectorAll('button').forEach((b) => {
-        b.classList.toggle('active', Number(b.dataset.i) === this.look[key]);
-      });
-    });
+    this._previewLoop = setInterval(() => {
+      if (!this.previewCtx || !document.body.contains(this.previewCanvas)) {
+        clearInterval(this._previewLoop);
+        return;
+      }
+      this.drawPreview();
+    }, 90);
   }
 
   drawPreview() {
     if (!this.previewCtx) return;
     const t = performance.now() / 1000;
-    drawPortrait(this.previewCtx, this.look, this.previewCanvas.width, this.previewCanvas.height, t);
+    drawPortrait(this.previewCtx, this.previewCanvas.width, this.previewCanvas.height, t);
   }
 
   /* ---------- HUD ---------- */
@@ -555,7 +471,6 @@ export class UI {
     };
     this.ovBadge.textContent = iconMap[id] ?? '✦';
 
-    /* nav to other exhibits */
     const order = ['who', 'skills', 'experience', 'projects', 'education', 'contact'];
     this.ovNav.innerHTML = order
       .map(
@@ -578,11 +493,7 @@ export class UI {
 
     if (id === 'who') {
       const c = $('#exAvatar', this.ovBody);
-      if (c) {
-        const ctx = c.getContext('2d');
-        const t = performance.now() / 1000;
-        drawPortrait(ctx, this.look, c.width, c.height, t);
-      }
+      if (c) drawPortrait(c.getContext('2d'), c.width, c.height, 0);
     }
 
     this.onOverlayOpen?.();
